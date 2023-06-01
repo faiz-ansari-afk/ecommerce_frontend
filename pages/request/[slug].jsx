@@ -19,12 +19,15 @@ import { getUser } from '@/utils/controller/auth';
 export const getStaticPaths = async () => {
   const requests = await getRequest({ filterBy: { all: true } });
 
-  if (!requests) return [];
+  if (!requests)  return {
+    paths:[],
+    fallback: "blocking",
+  };
   const slugLink = requests.map((req) => slugify(req.attributes.name));
   const paths = slugLink.map((p) => ({ params: { slug: p.toString() } }));
   return {
     paths,
-    fallback: false,
+    fallback: "blocking",
   };
 };
 

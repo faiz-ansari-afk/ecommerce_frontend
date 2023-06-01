@@ -1,0 +1,21 @@
+@keyframes border-animation {
+  0% {
+    border-color: red;
+  }
+  25% {
+    border-color: blue;
+  }
+  50% {
+    border-color: green;
+  }
+  75% {
+    border-color: rgb(110, 204, 245);
+  }
+  100% {
+    border-color: yellow;
+  }
+}
+
+.borderAnimation {
+  animation: border-animation 3s linear infinite;
+}

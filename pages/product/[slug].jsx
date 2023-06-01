@@ -14,10 +14,9 @@ import {
   ChevronUp,
   ChevronDown,
 } from '@/components/Icon';
-// import { Slider } from '@/components/Slider';
+import styles from './product.module.css'
 
 import {
-  getSlugText,
   getAllProducts as getData,
   getCoverImageUrl,
   mapToSliderImages,
@@ -30,31 +29,41 @@ import Variants from '@/components/product/Variants';
 import VideoHero from '@/components/product/VideoHero';
 import ShopView from '@/components/product/ShopView';
 import ToastMessage from '@/components/Toast';
+import slugify from 'slugify';
 
 export const getStaticPaths = async () => {
-  ////////////console.log("here static oaths")
   const products = await getData();
+  // const slugLink = getSlugText(products);
 
-  const slugLink = getSlugText(products);
-
-  if (!products) return [];
-  const paths = slugLink.map((p) => ({ params: { slug: p.toString() } }));
+  console.log('Running Get static Path');
+  // const paths = [...slugLink].map((p) => ({ params: { slug: p.toString() } }));
+  // console.log("products",products)
+  const paths = products.map((p) => ({
+    params: { slug: slugify(p.attributes.name.toString()) },
+  }));
   return {
     paths,
-    fallback: false,
+    fallback: 'blocking',
   };
 };
 
 export const getStaticProps = async ({ params }) => {
-  // let products = null;
-  // getData().then(data => products = data).catch(err => products = null)
   const products = await getData();
-  ////////////console.log("here in products getStaticProps",products.length)
-  const sluugg = products.map((product) => getSlugText([product]));
 
-  const product =
-    products &&
-    products.find((product) => getSlugText([product]) === params.slug);
+  // Cannot be fixed nextjs ki taraf se
+  // const results = await getFilteredProducts({
+  //   collectionName: 'products',
+  //   attributeNames: ['name'],
+  //   attributeValues: [params.slug],
+  //   operator: '$containsi',
+  // });
+  // const originalValue = params.slug.replace(/-/g, " ");
+  // console.log('.................❤️❤️❤️.........slugs', params, results);
+  // console.log("Running Get static props")
+
+  const product = products.find(
+    (product) => slugify(product.attributes.name.toString()) === params.slug
+  );
 
   return {
     props: {
@@ -65,7 +74,6 @@ export const getStaticProps = async ({ params }) => {
 };
 
 const Product = ({ product }) => {
-  ////console.log(product);
   const theme = product.attributes.theme;
   const [showMore, setShowMore] = useState(false);
   const productHero = useMemo(() => product.attributes?.product_hero);
@@ -110,22 +118,23 @@ const Product = ({ product }) => {
       dispatch({ type: 'RELOAD_CART' });
       let nameString = product.attributes.name;
       if (nameString.length > 50) {
-        nameString = nameString.substring(0, 50) + "...";
+        nameString = nameString.substring(0, 50) + '...';
       }
       // alert(`${product.attributes.name} added to cart`);
-      ToastMessage({ type: "success", message: `${nameString} added to cart` });
+      ToastMessage({ type: 'success', message: `${nameString} added to cart` });
       setSelectedColorID(null);
       setSelectedSizeID(null);
     } catch (error) {
-      ToastMessage({ type: "error", message: `Failed to add to cart` });
-
+      ToastMessage({ type: 'error', message: `Failed to add to cart` });
     }
     setLoading(false);
   }
 
   // ? ______ product share link ______
   const handleShare = async () => {
-    const shareableLink = `/product/${getSlugText([product])}`;
+    const shareableLink = `/product/${slugify(
+      product.attributes.name.toString()
+    )}`;
     if (navigator.share) {
       try {
         await navigator.share({
@@ -156,7 +165,7 @@ const Product = ({ product }) => {
       <Head>
         <title>{product.attributes.name}</title>
       </Head>
-      <div className="fixed bottom-4 right-1/2  w-11/12 translate-x-1/2 transform items-center  rounded-lg bg-white py-4 px-2 shadow-lg md:right-4 md:w-[500px] md:translate-x-0   border z-[100] ">
+      <div className={`fixed bottom-4 right-1/2  w-11/12 translate-x-1/2 transform items-center  rounded-lg bg-white py-4 px-2 shadow-lg md:right-4 md:w-[500px] md:translate-x-0   border border-black z-[100] ${styles.borderAnimation}`}>
         <div className="flex gap-2 mb-3">
           <div className="relative rounded-lg h-24 w-24 flex-shrink-0  lg:h-28 lg:w-28">
             {selectedVariantImage && (
@@ -338,45 +347,51 @@ const Product = ({ product }) => {
                 </button>
               </div>
               <div className="mt-4 flex gap-4 overflow-x-auto ">
-                <div className="mb-5 cursor-pointer rounded-full px-6 py-4 font-light text-gray-800 shadow hover:shadow-lg">
+                {/* <div className="mb-5 cursor-pointer rounded-full px-6 py-4 font-light text-gray-800 shadow hover:shadow-lg">
                   <div className="flex items-center justify-center ">
                     <span className="h-4 w-4">
                       <Bullet />
                     </span>
                     Dimension
                   </div>
-                </div>
+                </div> */}
 
-                <div className="mb-5 cursor-pointer rounded-full px-6 py-4 font-light text-gray-800 shadow hover:shadow-lg">
+                {/* <div className="mb-5 cursor-pointer rounded-full px-6 py-4 font-light text-gray-800 shadow hover:shadow-lg">
                   <div className="flex items-center justify-center ">
                     <span className="inline-block h-4 w-4">
                       <Bullet />
                     </span>
                     Specs
                   </div>
-                </div>
+                </div> */}
 
-                <div className="mb-5 cursor-pointer rounded-full px-6 py-4 font-light text-gray-800 shadow hover:shadow-lg">
+                {/* <div className="mb-5 cursor-pointer rounded-full px-6 py-4 font-light text-gray-800 shadow hover:shadow-lg">
                   <button className="flex h-6 w-6 items-center justify-center">
                     <Download />
                   </button>
-                </div>
+                </div> */}
 
-                <div className="mb-5 cursor-pointer rounded-full px-6 py-4 font-light text-gray-800 shadow hover:shadow-lg">
+                <div className="mx-1 mb-5 cursor-pointer rounded-full px-6 py-4 font-light text-gray-800 shadow hover:shadow-lg">
                   <button
-                    className="flex h-6 w-6 items-center justify-center"
+                    className="flex gap-3 items-center justify-center"
                     onClick={handleShare}
                   >
-                    <Share />
-                    {/* <ShareButton product={product} /> */}
+                    <span className="h-6 w-6">
+                      <Share /> 
+                    </span>
+                    <span className="uppercase text-gray-500">Share
+                    </span>
+                    
+
                   </button>
+                  
                 </div>
 
-                <div className="mb-5 cursor-pointer rounded-full px-6 py-4 font-light text-gray-800 shadow hover:shadow-lg">
+                {/* <div className="mb-5 cursor-pointer rounded-full px-6 py-4 font-light text-gray-800 shadow hover:shadow-lg">
                   <button className="flex h-6 w-6 items-center justify-center">
                     <Wishlist />
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
 

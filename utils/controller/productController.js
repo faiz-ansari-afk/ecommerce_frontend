@@ -121,7 +121,7 @@ export const getProductByCategory = ({ categoryName = 'All Categories' }) => {};
 
 export const getFilteredProducts = async ({
   categoryIncluded = 'All Categories',
-  collectionName,
+  collectionName, // it must be products or any collection name to search a product
   subCategory = false, //sub category must be false or string
   attributeNames,
   attributeValues,
