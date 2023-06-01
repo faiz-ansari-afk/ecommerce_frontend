@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* For IE, Edge and Firefox */
+body {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+details[open] summary ~ * {
+  animation: sweep 0.5s ease-in-out;
+}
+
+@keyframes sweep {
+  0% {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@layer components {
+  .button {
+    @apply bg-white text-gray-800 flex cursor-pointer items-center justify-center gap-2 rounded-full px-6 py-3 font-light shadow hover:shadow-lg;
+  }
+  .active-button {
+    @apply bg-white text-gray-800 flex  items-center justify-center  rounded-full   font-light shadow-lg;
+  }
+  .button-transition {
+    @apply bg-white text-gray-800 flex transform cursor-pointer items-center justify-center gap-2 rounded-full px-6 py-3 font-light shadow transition delay-150 ease-in-out hover:shadow-lg w-full;
+  }
+  /* .truncate-2-lines {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  } */
+}
+
+@tailwind utilities;

@@ -1,0 +1,3 @@
+shop.subscriber = {
+    users:[email]
+}
