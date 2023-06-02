@@ -40,7 +40,7 @@ export const getAllShops = async () => {
 // };
 
 export async function updateFollowListOfShop({ action, id, email }) {
-  const jwt = await getAuthJWT();
+  const jwt = getAuthJWT();
 
   const shopURL = `${process.env.NEXT_PUBLIC_WEBSITE}/api/shops/${id}`;
   let allFollowers = [];

@@ -1,12 +1,10 @@
 import { useState, useEffect, useContext } from 'react';
 import {
-  getSlugText,
+  getFilteredProducts,
   getAllProducts,
 } from '@/utils/controller/productController';
-import { searchProducts } from '@/utils/controller/searchController';
 import useSpeechRecognition from '@/utils/hooks/voiceController';
 import { DataContext } from '@/store/globalstate';
-// import { searchProductsFromAI } from '@/utils/controller/openai';
 
 const SearchBar = ({
   setSearchedProducts,
@@ -14,22 +12,7 @@ const SearchBar = ({
   setQueryParam,
   setIsKeyboardOpen,
 }) => {
-  const [products, setProducts] = useState(null);
   const [searchKeyword, setSearchKeyword] = useState('');
-  const { dispatch, state } = useContext(DataContext);
-  useEffect(() => {
-    // async function fetchProducts(){
-    //   const results
-    // }
-    getAllProducts()
-      .then((data) => {
-        // ////////console.log("searched products",data)
-        setProducts(data);
-      })
-      .catch((err) => {
-        ////////console.log(err);
-      });
-  }, []);
 
   //____________________handle product search when user enter search keyword by keyboard_____________________
   const handleSearchBarText = (e) => {
@@ -44,13 +27,18 @@ const SearchBar = ({
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = searchProducts(searchKeyword, products);
-      setSearchedProducts(data);
+      const results = await getFilteredProducts({
+        collectionName: 'products',
+        attributeNames: ['name', 'description', 'search_text'],
+        attributeValues: [searchKeyword],
+        operator: '$containsi',
+      });
+      setSearchedProducts(results);
     };
     //debouncing req for 1 sec
     const getData = setTimeout(() => {
       if (searchKeyword.length > 0) fetchData();
-    }, 1000);
+    }, 500);
 
     return () => clearTimeout(getData);
   }, [searchKeyword]);
@@ -74,13 +62,17 @@ const SearchBar = ({
           clearTimeout(timeoutId);
         }
 
-        timeoutId = setTimeout(() => {
+        timeoutId = setTimeout(async () => {
           if (!listening) {
-            const data = searchProducts(searchKeyword, products);
-            ////console.log('fetching data to search', data);
-            setSearchedProducts(data);
+            const results = await getFilteredProducts({
+              collectionName: 'products',
+              attributeNames: ['name', 'description', 'search_text'],
+              attributeValues: [searchKeyword],
+              operator: '$containsi',
+            });
+            setSearchedProducts(results);
           }
-        }, 1000);
+        }, 500);
       }
       stopListening();
       debounceSearch();
@@ -91,7 +83,6 @@ const SearchBar = ({
     }
     return () => stopListening();
   }, [transcript]);
-  // //console.log('listening', listening);
   return (
     <form className="flex items-center pt-2 px-1 ">
       <label htmlFor="voice-search" className="sr-only">

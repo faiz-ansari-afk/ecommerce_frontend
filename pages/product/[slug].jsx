@@ -69,6 +69,7 @@ export const getStaticProps = async ({ params }) => {
     props: {
       product,
       key: params.slug,
+      revalidate: 0,
     },
   };
 };

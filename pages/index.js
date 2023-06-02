@@ -1,33 +1,10 @@
-'use-client';
-import Video from '@/components/Video';
-import Image from 'next/image';
-import { getAuthJWT } from '@/utils/controller/sessionController';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
-import { AutoPlaySlider } from '@/components/Slider';
+import { mapToModelViewCategory } from '@/utils/controller/categoryController';
 import BrowseCategories from '@/components/BrowseCategories';
-import { parseCookies } from 'nookies';
 import { getHomepageData } from '@/utils/controller/homepageController';
 import { ClassifyHero } from '@/components/Homepage';
 
-export default function Home({ homepage }) {
-  // const [homepage, setHomepage] = useState(null);
-  // // ////console.log("homepage",homepage)
-  // const [authJWT, setAuthJWT] = useState(null);
-
-  // // making homepage client side
-  useEffect(() => {
-    let kill = parseCookies(null).kill;
-    const fetchData = async () => {
-      // const homepageResult = await getHomepageData();
-      if (!kill) {
-        kill = await getAuthJWT();
-      }
-      // setHomepage(homepageResult);
-    };
-    fetchData();
-  }, []);
-  ////console.log(homepage)
+export default function Home({ homepage, categories }) {
   return (
     <>
       <Head>
@@ -40,14 +17,22 @@ export default function Home({ homepage }) {
         <meta name="microphone" content="true" />
       </Head>
       <main className="">
-        {homepage.attributes.FIRST_HERO && <ClassifyHero hero={homepage.attributes.FIRST_HERO} />}
+        {homepage.attributes.FIRST_HERO && (
+          <ClassifyHero hero={homepage.attributes.FIRST_HERO} />
+        )}
 
-        {homepage.attributes.SECOND_HERO && <ClassifyHero hero={homepage.attributes.SECOND_HERO} />}
-        <section className=" py-20 lg:py-24 ">
-          <BrowseCategories />
-        </section>
+        {homepage.attributes.SECOND_HERO && (
+          <ClassifyHero hero={homepage.attributes.SECOND_HERO} />
+        )}
+        {categories && (
+          <section className=" py-20 lg:py-24 ">
+            <BrowseCategories categories={categories} />
+          </section>
+        )}
 
-        {homepage.attributes.THIRD_HERO && <ClassifyHero hero={homepage.attributes.THIRD_HERO} />}
+        {homepage.attributes.THIRD_HERO && (
+          <ClassifyHero hero={homepage.attributes.THIRD_HERO} />
+        )}
       </main>
     </>
   );
@@ -55,7 +40,7 @@ export default function Home({ homepage }) {
 
 export async function getServerSideProps(ctx) {
   const homepage = await getHomepageData();
+  const categoriesDetails = await mapToModelViewCategory();
 
-
-  return { props: { homepage } };
+  return { props: { homepage, categories: categoriesDetails } };
 }

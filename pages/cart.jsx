@@ -1,4 +1,3 @@
-'use-client';
 import Image from 'next/image';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -22,11 +21,18 @@ import BrowseCollection from '@/components/BrowseCollection';
 import CartSkeleton from '@/components/CartSkeleton';
 import ToastMessage from '@/components/Toast';
 
-const Cart = () => {
+export async function getServerSideProps(ctx) {
+  const cartData = await getMyCart(ctx);
+
+  return { props: { cart:cartData } };
+}
+
+const Cart = ({cart}) => {
+  console.log("cart from server",cart)
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const { dispatch, state } = useContext(DataContext);
   const [cartDetails, setCartDetails] = useState(null);
-  const [myCart, setMyCart] = useState(null);
+  const [myCart, setMyCart] = useState(cart);
   const [loading, setLoading] = useState(false);
   useEffect(
     () => async () => {

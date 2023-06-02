@@ -6,7 +6,7 @@ import { getUser } from '@/utils/controller/auth';
 export async function createOrder({ data, ctx }) {
   const strapiUrl = process.env.NEXT_PUBLIC_WEBSITE;
   const url = `${strapiUrl}/api/orders`;
-  const jwt = await getAuthJWT(ctx);
+  const jwt = getAuthJWT(ctx);
   
   const config = {
     method: 'post',
@@ -36,7 +36,7 @@ export async function getAllOrder(ctx) {
 
   //fetching only that orders that belong to logged in user
   const url = `${strapiUrl}/api/orders?populate=*&sort[0]=createdAt%3Adesc&filters[$and][1][users_permissions_user][email][$in]=${user.email}`;
-  const jwt = await getAuthJWT(ctx);
+  const jwt = getAuthJWT(ctx);
   
   const config = {
     method: 'get',
@@ -56,7 +56,7 @@ export async function getAllOrder(ctx) {
   }
 }
 export async function updateOrderStatus({ status, orderID }) {
-  const jwt = await getAuthJWT();
+  const jwt = getAuthJWT();
 
   const orderData = JSON.stringify({
     data: {

@@ -8,7 +8,7 @@ import axios from 'axios';
 import nookies from 'nookies';
 
 export async function updateCartStatus({ cart_status, cartID }) {
-  const jwt = await getAuthJWT();
+  const jwt = getAuthJWT();
 
   const cartData = JSON.stringify({
     data: {
@@ -43,7 +43,7 @@ export async function updateCartStatus({ cart_status, cartID }) {
   }
 }
 export const getCarts = async () => {
-  const jwt = await getAuthJWT();
+  const jwt = getAuthJWT();
   try {
     const config = {
       method: 'get',
@@ -106,7 +106,7 @@ export async function getMyCart(ctx) {
 }
 
 export const addToCart = async (variantOfProduct) => {
-  const jwt = await getAuthJWT();
+  const jwt = getAuthJWT();
   const productDetail = {
     ...variantOfProduct,
     quantity: 1,
@@ -154,7 +154,7 @@ export async function updateCart({ variantOfProduct, quantity }) {
   if (quantity) {
     ////console.log('update quantity', variantOfProduct);
   }
-  const jwt = await getAuthJWT();
+  const jwt = getAuthJWT();
 
   const myCart = await getMyCart();
   ////console.log('update myCart', myCart);
@@ -250,7 +250,7 @@ export async function updateCart({ variantOfProduct, quantity }) {
 }
 
 export async function deleteCartItem(productToBeDeleted) {
-  const jwt = await getAuthJWT();
+  const jwt = getAuthJWT();
 
   const myCart = await getMyCart();
   const cartID = myCart.id;

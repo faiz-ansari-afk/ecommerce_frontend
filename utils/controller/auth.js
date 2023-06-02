@@ -32,7 +32,7 @@ export async function signIn({ email, password }) {
 
 export async function signUp({ email, password, username }) {
   const url = `${strapiUrl}/api/users`;
-  const jwt = await getAuthJWT();
+  const jwt = getAuthJWT();
 
   const data = JSON.stringify({
     username,
@@ -74,7 +74,7 @@ export async function signUp({ email, password, username }) {
 export async function searchUserInDatabase({email}) {
   const url = `${strapiUrl}/api/users?poplate=*&filters[$and][0][email][$eq]=${email}`;
   try {
-    const jwt = await getAuthJWT();
+    const jwt = getAuthJWT();
     const response = await axios({
       method: 'get',
       maxBodyLength: Infinity,
@@ -91,7 +91,7 @@ export async function searchUserInDatabase({email}) {
 }
 
 export async function getUser(id, ctx) {
-  const jwt = await getAuthJWT(ctx);
+  const jwt = getAuthJWT(ctx);
 
   const jwtUser = parseCookies(ctx).jwt;
   const userInfo = decodeJWT(jwtUser);
@@ -124,7 +124,7 @@ export async function getUser(id, ctx) {
 }
 
 export async function updateUserData({ id, ctx, data }) {
-  const jwt = await getAuthJWT(ctx);
+  const jwt = getAuthJWT(ctx);
   const url = `${strapiUrl}/api/users/${id}?populate=*`;
   try {
     const response = await axios({

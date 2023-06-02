@@ -17,7 +17,7 @@ export async function uploadImage({
   files.forEach((file, index) => {
     formData.append('files', file);
   });
-  const jwt = await getAuthJWT(ctx);
+  const jwt = getAuthJWT(ctx);
   try {
     //   //console.log("running image upload",file)
     const response = await axios.post(`${strapiUrl}/api/upload`, formData, {
@@ -38,7 +38,7 @@ export async function deleteImage({ id, ctx = null }) {
   // /api/upload/files/:id
   try {
     const strapiUrl = process.env.NEXT_PUBLIC_WEBSITE;
-    const jwt = await getAuthJWT(ctx);
+    const jwt = getAuthJWT(ctx);
     const config = {
       method: 'delete',
       maxBodyLength: Infinity,

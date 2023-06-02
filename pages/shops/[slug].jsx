@@ -24,21 +24,23 @@ import ImageSlider from '@/components/product/ImageSlider';
 import { getUser } from '@/utils/controller/auth';
 
 export const getStaticPaths = async () => {
-  const shops = await getAllShops();
+  // const shops = await getAllShops();
 
-  const slugLink = getSlugText(shops);
+  // const slugLink = getSlugText(shops);
 
-  if (!shops) return [];
-  const paths = slugLink.map((p) => ({ params: { slug: p.toString() } }));
+  // if (!shops) return {
+  //   paths:[],
+  //   fallback: 'blocking',
+  // };
+  // const paths = shops.map((p) => ({ params: { slug: p.attributes.name.toString() } }));
   return {
-    paths,
-    fallback: false,
+    paths:[],
+    fallback: 'blocking'
   };
 };
 
 export const getStaticProps = async ({ params }) => {
   const shops = await getAllShops();
-  const sluugg = shops.map((shop) => getSlugText([shop]));
 
   const shop =
     shops && shops.find((shop) => getSlugText([shop]) === params.slug);
@@ -47,6 +49,7 @@ export const getStaticProps = async ({ params }) => {
     props: {
       shop,
       key: params.slug,
+      revalidate:0
     },
   };
 };

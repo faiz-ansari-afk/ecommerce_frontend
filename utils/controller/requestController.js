@@ -9,7 +9,7 @@ export async function createRequest({ data, ctx, method = 'post' }) {
   if (method === 'post') {
     url = `${strapiUrl}/api/requests`;
   }
-  const jwt = await getAuthJWT(ctx);
+  const jwt = getAuthJWT(ctx);
 
   let config = {
     method,
@@ -67,7 +67,7 @@ export async function getRequest({
     url = `${strapiUrl}/api/requests?populate[requested_by][populate]=*&populate[images][populate]=*&populate[comments][populate]=*&filters[$or][0][requested_by][email][$containsi]=${filterBy.requested_by}&sort[0]=createdAt%3Adesc`;
   }
   
-  const jwt = await getAuthJWT(ctx);
+  const jwt = getAuthJWT(ctx);
 
   let config = {
     method,
@@ -108,7 +108,7 @@ export async function updateRequest({ data, ctx, id }) {
   const strapiUrl = process.env.NEXT_PUBLIC_WEBSITE;
   let url = `${strapiUrl}/api/requests/${id}?populate[requested_by][populate]=*&populate[images][populate]=*&populate[comments][populate]=*&filters[$or][0][status][$eq]=completed&filters[$or][1][status][$eq]=approved&sort[0]=createdAt%3Adesc`;
   
-  const jwt = await getAuthJWT(ctx);
+  const jwt = getAuthJWT(ctx);
 
   let config = {
     method:'put',
@@ -136,7 +136,7 @@ export async function deleteRequest({ id }) {
   const strapiUrl = process.env.NEXT_PUBLIC_WEBSITE;
   let url = `${strapiUrl}/api/requests/${id}?populate[requested_by][populate]=*&populate[images][populate]=*&populate[comments][populate]=*&filters[$or][0][status][$eq]=completed&filters[$or][1][status][$eq]=approved&sort[0]=createdAt%3Adesc`;
   
-  const jwt = await getAuthJWT(ctx);
+  const jwt = getAuthJWT(ctx);
 
   let config = {
     method:'delete',
@@ -166,7 +166,7 @@ export async function getSingleRequest({ id,ctx = null }) {
   const strapiUrl = process.env.NEXT_PUBLIC_WEBSITE;
   let url = `${strapiUrl}/api/requests/${id}?populate[requested_by][populate]=*&populate[images][populate]=*&populate[comments][populate]=*&filters[$or][0][status][$eq]=completed&filters[$or][1][status][$eq]=approved&sort[0]=createdAt%3Adesc`;
   
-  const jwt = await getAuthJWT(ctx);
+  const jwt = getAuthJWT(ctx);
 
   let config = {
     method:'get',
