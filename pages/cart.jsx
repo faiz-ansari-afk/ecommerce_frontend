@@ -24,30 +24,67 @@ import ToastMessage from '@/components/Toast';
 export async function getServerSideProps(ctx) {
   const cartData = await getMyCart(ctx);
 
-  return { props: { cart:cartData } };
+  return { props: { cart: cartData } };
 }
 
-const Cart = ({cart}) => {
-  console.log("cart from server",cart)
+const Cart = ({ cart }) => {
+  console.log('cart from server', cart);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const { dispatch, state } = useContext(DataContext);
   const [cartDetails, setCartDetails] = useState(null);
   const [myCart, setMyCart] = useState(cart);
   const [loading, setLoading] = useState(false);
-  useEffect(
-    () => async () => {
-      setLoading(true);
-      const cartData = await getMyCart(null);
-      setMyCart(cartData);
-      setTotalAmount(getTotalPrice(cartData));
-      setCartDetails(cartData?.attributes?.cart_data?.products);
-      setLoading(false);
-    },
-    [state.cartReload]
-  );
+  // useEffect(
+  //   () => async () => {
+  //     setLoading(true);
+  //     const cartData = await getMyCart(null);
+  //     setMyCart(cartData);
+  //     setTotalAmount(getTotalPrice(cartData));
+  //     setCartDetails(cartData?.attributes?.cart_data?.products);
+  //     setLoading(false);
+  //   },
+  //   [state.cartReload]
+  // );
+  // useEffect(
+  //   () => async () => {
+  //     setLoading(true);
+  //     const cartData = await getMyCart(null);
+  //     setMyCart(cartData);
+  //     setTotalAmount(getTotalPrice(cartData));
+  //     setCartDetails(cartData?.attributes?.cart_data?.products);
+  //     setLoading(false);
+  //   },
+  //   [state.cartReload]
+  // );
+  useEffect(() => {
+    setLoading(true);
+    getMyCart(null)
+      .then((cartData) => {
+        setMyCart(cartData);
+        setTotalAmount(getTotalPrice(cartData));
+        setCartDetails(cartData?.attributes?.cart_data?.products);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Error fetching cart data:', error);
+        setLoading(false);
+      });
+  }, [state.cartReload]);
+  // useEffect(
+  //   () => async () => {
+  //     setLoading(true);
+  //     const cartData = await getMyCart(null);
+  //     setMyCart(cartData);
+  //     setTotalAmount(getTotalPrice(cartData));
+  //     setCartDetails(cartData?.attributes?.cart_data?.products);
+  //     setLoading(false);
+  //   },
+  //   []
+  // );
   const [updating, setUpdating] = useState(false);
 
-  const count = state.cartItemCount;
+  // const count = state.cartItemCount;
+  const [count, setCount] = useState(state.cartItemCount);
   const [totalAmount, setTotalAmount] = useState(getTotalPrice(myCart));
 
   const router = useRouter();

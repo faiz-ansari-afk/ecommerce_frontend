@@ -30,11 +30,9 @@ const VideoHero = ({ hero }) => {
   // ////console.log('Video Hero', firstTitleStyles);
   return (
     <div>
-      <Video
-        src={`${hero.video.data.attributes.url}`}
-      >
-        <div className="my-6">
-          <p className="text-sm">
+      <Video src={`${hero.video.data.attributes.url}`}>
+        <div className="">
+          <p className="">
             <span
               className="inline-block "
               style={{
@@ -47,7 +45,7 @@ const VideoHero = ({ hero }) => {
           </p>
         </div>
         {second_title && (
-          <div className="mb-4 text-5xl md:text-6xl text-black ">
+          <div className="">
             <h1 className={` `}>
               <span style={second_title.reactCSSstyle}>
                 {second_title.title}
@@ -55,7 +53,7 @@ const VideoHero = ({ hero }) => {
             </h1>
           </div>
         )}
-        <div className="mb-4  text-black ">
+        <div className=" ">
           <p>
             <span style={description.reactCSSstyle}> {description.title}</span>
           </p>
