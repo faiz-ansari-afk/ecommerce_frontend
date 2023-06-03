@@ -43,7 +43,7 @@ const Video = ({ src, children }) => {
     <section className="relative h-screen overflow-hidden">
       <video
         ref={ref}
-        loop=""
+        loop
         playsInline=""
         className="absolute inset-0 z-10 h-full w-full object-cover"
         muted={true}

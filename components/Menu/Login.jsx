@@ -5,8 +5,9 @@ import { Arrow } from '@/components/Icon';
 import { DataContext } from '../../store/globalstate';
 import ToastMessage from '@/components/Toast';
 import InputField from '../FormComponent/InputField';
-
+import { useRouter } from 'next/router';
 const Login = ({ setIsLoginFormOpen, setIsOpen, ...rest }) => {
+  const router = useRouter();
   const { dispatch, state } = useContext(DataContext);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
@@ -61,6 +62,7 @@ const Login = ({ setIsLoginFormOpen, setIsOpen, ...rest }) => {
         setIsOpen(false);
         setLoading(false);
         dispatch({ type: 'FALSE_OPEN_LOGIN' });
+        router.reload();
         return;
       }
       if (userData.error) {
@@ -112,6 +114,7 @@ const Login = ({ setIsLoginFormOpen, setIsOpen, ...rest }) => {
           setIsOpen(false);
           dispatch({ type: 'FALSE_OPEN_LOGIN' });
           setLoading(false);
+          router.reload();
           return;
         }
         if (registerUser?.error) {

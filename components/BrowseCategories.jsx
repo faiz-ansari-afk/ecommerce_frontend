@@ -4,7 +4,7 @@ import slugify from 'slugify';
 
 const BrowseCategories = ({ categories }) => {
   return (
-    <div className="my-12 mx-2 h-screen">
+    <div className=" mx-2 h-screen flex flex-col justify-center">
       <h3 className="tracking-wider text-xl text-center uppercase font-[SangblueSans] my-3">
         Browse our categories
       </h3>

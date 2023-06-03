@@ -39,7 +39,7 @@ const CoverImageHero = ({ hero }) => {
       {glassmorphism_div?.id && (
         <div style={glassmorphism_div.reactCSSstyle}></div>
       )}
-      <div className="grid h-screen grid-cols-1 md:grid-cols-2 gap-1 md:gap-4 mx-2 md:mx-12 justify-center items-center my-12 mb-32 md:mb-12">
+      <div className="grid h-screen grid-cols-1 md:grid-cols-2 gap-1 md:gap-4 mx-2 md:mx-12 justify-center items-center ">
         <div className="">
           <div className="relative bg-transparent aspect-[4/3.5]  rounded-lg   ">
             <Image

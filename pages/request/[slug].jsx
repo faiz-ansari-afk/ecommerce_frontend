@@ -39,8 +39,7 @@ export const getStaticProps = async (ctx) => {
   return {
     props: {
       request,
-      key: ctx.params.slug,
-      revalidate: 0,
+      key: ctx.params.slug
     },
   };
 };
