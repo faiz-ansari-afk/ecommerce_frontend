@@ -1,8 +1,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useState, useContext, useEffect, useMemo } from 'react';
-import { DataContext } from '@/store/globalstate';
+import { useState, useEffect } from 'react';
 import { Avatar, Time, Share } from '@/components/Icon';
 import SubscribeRequest from '@/components/Request/SubscribeRequest';
 import CommentRequestCard from '@/components/Request/CommentRequestCard';
@@ -11,7 +10,6 @@ import BrowseCollection from '@/components/BrowseCollection';
 import ImageSlider from '@/components/product/ImageSlider';
 import styles from '@/components/Request/RequestCard.module.css';
 import Link from 'next/link';
-import ToastMessage from '@/components/Toast';
 import { getRequest } from '@/utils/controller/requestController';
 import slugify from 'slugify';
 import { getUser } from '@/utils/controller/auth';
@@ -26,8 +24,8 @@ export const getStaticPaths = async () => {
   // const slugLink = requests.map((req) => slugify(req.attributes.name));
   // const paths = slugLink.map((p) => ({ params: { slug: p.toString() } }));
   return {
-    paths:[],
-    fallback: "blocking",
+    paths: [],
+    fallback: 'blocking',
   };
 };
 
@@ -42,13 +40,13 @@ export const getStaticProps = async (ctx) => {
     props: {
       request,
       key: ctx.params.slug,
+      revalidate: 0,
     },
   };
 };
 
 const RequestSlug = ({ request }) => {
   const [selectedImage, setSelectedImage] = useState(0);
-
   const [user, setUser] = useState(null);
   useEffect(() => {
     async function fetchUser() {
@@ -59,12 +57,7 @@ const RequestSlug = ({ request }) => {
     }
     fetchUser();
   }, []);
-  // function checkSubscribe(REQ, USER) {
-  //   return REQ.attributes.subscribers && USER
-  //     ? REQ.attributes.subscribers.users.includes(USER.id.toString())
-  //     : false;
-  // }
-  // const isSubs = user ? checkSubscribe(request, user) : false;
+  
   const router = useRouter();
 
   const mappedImages = mapToSliderImages(request.attributes.images.data);
@@ -75,7 +68,7 @@ const RequestSlug = ({ request }) => {
       try {
         await navigator.share({
           title: request.attributes.name,
-          text: 'Check out this product!',
+          text: 'Check out this Request!',
           url: shareableLink,
         });
       } catch (error) {
@@ -90,7 +83,7 @@ const RequestSlug = ({ request }) => {
   const copyToClipboard = async (text) => {
     try {
       await navigator.clipboard.writeText(text);
-      alert('Product URL copied to clipboard. You can share it manually.');
+      alert('Request URL copied to clipboard. You can share it manually.');
     } catch (error) {
       console.error('Error copying to clipboard:', error);
     }
@@ -119,7 +112,7 @@ const RequestSlug = ({ request }) => {
       };
     }
   }
-  const { bg, text, bg_div } = getColor(request.attributes.status);
+  const { bg, text } = getColor(request.attributes.status);
   const currentDate = new Date();
   const formattedDate = Date.parse(currentDate.toISOString().split('T')[0]);
   const availableDate = request.attributes.estimated

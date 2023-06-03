@@ -34,28 +34,7 @@ const Cart = ({ cart }) => {
   const [cartDetails, setCartDetails] = useState(null);
   const [myCart, setMyCart] = useState(cart);
   const [loading, setLoading] = useState(false);
-  // useEffect(
-  //   () => async () => {
-  //     setLoading(true);
-  //     const cartData = await getMyCart(null);
-  //     setMyCart(cartData);
-  //     setTotalAmount(getTotalPrice(cartData));
-  //     setCartDetails(cartData?.attributes?.cart_data?.products);
-  //     setLoading(false);
-  //   },
-  //   [state.cartReload]
-  // );
-  // useEffect(
-  //   () => async () => {
-  //     setLoading(true);
-  //     const cartData = await getMyCart(null);
-  //     setMyCart(cartData);
-  //     setTotalAmount(getTotalPrice(cartData));
-  //     setCartDetails(cartData?.attributes?.cart_data?.products);
-  //     setLoading(false);
-  //   },
-  //   [state.cartReload]
-  // );
+  
   useEffect(() => {
     setLoading(true);
     getMyCart(null)
@@ -70,17 +49,6 @@ const Cart = ({ cart }) => {
         setLoading(false);
       });
   }, [state.cartReload]);
-  // useEffect(
-  //   () => async () => {
-  //     setLoading(true);
-  //     const cartData = await getMyCart(null);
-  //     setMyCart(cartData);
-  //     setTotalAmount(getTotalPrice(cartData));
-  //     setCartDetails(cartData?.attributes?.cart_data?.products);
-  //     setLoading(false);
-  //   },
-  //   []
-  // );
   const [updating, setUpdating] = useState(false);
 
   // const count = state.cartItemCount;

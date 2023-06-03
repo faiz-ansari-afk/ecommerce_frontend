@@ -41,7 +41,7 @@ const CoverImageHero = ({ hero }) => {
       )}
       <div className="grid h-screen grid-cols-1 md:grid-cols-2 gap-1 md:gap-4 mx-2 md:mx-12 justify-center items-center my-12 mb-32 md:mb-12">
         <div className="">
-          <div className="relative bg-transparent aspect-[4/3.5]  rounded-lg border  ">
+          <div className="relative bg-transparent aspect-[4/3.5]  rounded-lg   ">
             <Image
               src={`${hero.cover_image.data.attributes.url}`}
               alt="product image"

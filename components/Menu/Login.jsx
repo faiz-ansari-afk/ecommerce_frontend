@@ -150,6 +150,7 @@ const Login = ({ setIsLoginFormOpen, setIsOpen, ...rest }) => {
       <form className="space-y-3" onSubmit={handleSubmit} autoComplete="off">
         <InputField
           classes="bg-gray-700 text-white "
+          autoFocus
           name="email"
           type="email"
           value={email}

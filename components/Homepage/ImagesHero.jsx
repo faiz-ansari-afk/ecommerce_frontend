@@ -19,7 +19,6 @@ const ImagesHero = ({ hero }) => {
     hero_for,
     glassmorphism_div,
   } = hero;
-  ////console.log('glassmorphism_div', glassmorphism_div.reactCSSstyle);
   //generate link
   let linkUrl = '/shops';
   if (hero_for === 'shop') {
@@ -82,7 +81,7 @@ const ImagesHero = ({ hero }) => {
           <div className="bg-transparent  rounded-lg  ">
             <AutoPlaySlider
               dataArray={mappedImages}
-              heightWidth="aspect-[4/3.5] rounded-lg"
+              heightWidth="aspect-[2/2] rounded-lg"
               imageCover="object-cover  rounded-b-lg"
               arrow={true}
               timer={5000}
