@@ -13,72 +13,145 @@ const BrowseCollection = ({ currentProduct }) => {
   const [products, setProducts] = useState(null);
   const [title, setTitle] = useState('Browse our collection');
 
-  const fetchData = async () => {
-    const productFetchData = await getFilteredProducts({
-      collectionName: 'category',
-      attributeNames: ['name'],
-      attributeValues: [''],
-      operator: '$contains',
-      pageSize: 15,
-    });
-    return productFetchData;
-  };
-  useEffect(
-    () => async () => {
-      const data = await fetchData();
+  // const fetchData = async () => {
+  //   const productFetchData = await getFilteredProducts({
+  //     collectionName: 'category',
+  //     attributeNames: ['name'],
+  //     attributeValues: [''],
+  //     operator: '$contains',
+  //     pageSize: 15,
+  //   });
+  //   return productFetchData;
+  // };
 
-      const shuffledArray = data
-        ? [...data].sort(() => Math.random() - 0.5)
-        : null;
+  // useEffect(
+  //   () => async () => {
+  //     const data = await fetchData();
 
-      if (currentProduct) {
-        //get same category product
-        const getProductByCategory = await getFilteredProducts({
-          collectionName: 'category',
-          attributeNames: ['name'],
-          attributeValues: [
-            currentProduct.attributes.category.data.attributes.name,
-          ],
-          operator: '$contains',
-          pagination: false,
-          pageNumber: 1,
-          pageSize: 15,
-        });
+  //     const shuffledArray = data
+  //       ? [...data].sort(() => Math.random() - 0.5)
+  //       : null;
 
-        //remove current product from sameCategoryData
-        const finalData = getProductByCategory.filter(
-          (product) =>
-            product.attributes.name !== currentProduct.attributes.name
-        );
-        if (finalData.length === 0) {
+  //     if (currentProduct) {
+  //       //get same category product
+  //       const getProductByCategory = await getFilteredProducts({
+  //         collectionName: 'category',
+  //         attributeNames: ['name'],
+  //         attributeValues: [
+  //           currentProduct.attributes.category.data.attributes.name,
+  //         ],
+  //         operator: '$contains',
+  //         pagination: false,
+  //         pageNumber: 1,
+  //         pageSize: 15,
+  //       });
+
+  //       //remove current product from sameCategoryData
+  //       const finalData = getProductByCategory.filter(
+  //         (product) =>
+  //           product.attributes.name !== currentProduct.attributes.name
+  //       );
+  //       if (finalData.length === 0) {
+  //         setProducts(
+  //           shuffledArray
+  //             .filter((product) => product.attributes.inStock)
+  //             .splice(0, 6)
+  //         );
+  //         return;
+  //       }
+  //       setProducts(
+  //         finalData.filter((product) => product.attributes.inStock).splice(0, 6)
+  //       );
+  //       setTitle(
+  //         `Browse more in ${currentProduct.attributes.category.data.attributes.name} category`
+  //       );
+  //     } else {
+  //       setProducts(
+  //         shuffledArray
+  //           .filter(
+  //             (product) =>
+  //               product.attributes.inStock ||
+  //               product.attributes.name !== currentProduct.attributes.name
+  //           )
+  //           .splice(0, 6)
+  //       );
+  //     }
+  //   },
+  //   []
+  // );
+  useEffect(() => {
+    const fetchData = async () => {
+      const productFetchData = await getFilteredProducts({
+        collectionName: 'category',
+        attributeNames: ['name'],
+        attributeValues: [''],
+        operator: '$contains',
+        pageSize: 15,
+      });
+      return productFetchData;
+    };
+    fetchData()
+      .then((data) => {
+        const shuffledArray = data
+          ? [...data].sort(() => Math.random() - 0.5)
+          : null;
+
+        if (currentProduct) {
+          //get same category product
+          // const getProductByCategory = await getFilteredProducts({
+          getFilteredProducts({
+            collectionName: 'category',
+            attributeNames: ['name'],
+            attributeValues: [
+              currentProduct.attributes.category.data.attributes.name,
+            ],
+            operator: '$contains',
+            pagination: false,
+            pageNumber: 1,
+            pageSize: 15,
+          })
+            .then((getProductByCategory) => {
+              //remove current product from sameCategoryData
+              const finalData = getProductByCategory.filter(
+                (product) =>
+                  product.attributes.name !== currentProduct.attributes.name
+              );
+              if (finalData.length === 0) {
+                setProducts(
+                  shuffledArray
+                    .filter((product) => product.attributes.inStock)
+                    .splice(0, 6)
+                );
+                return;
+              }
+              setProducts(
+                finalData
+                  .filter((product) => product.attributes.inStock)
+                  .splice(0, 6)
+              );
+              setTitle(
+                `Browse more in ${currentProduct.attributes.category.data.attributes.name} category`
+              );
+            })
+            .catch((error) => {
+              console.log('Fetching categorised products error', error);
+            });
+        } else {
           setProducts(
             shuffledArray
-              .filter((product) => product.attributes.inStock)
+              .filter(
+                (product) =>
+                  product.attributes.inStock ||
+                  product.attributes.name !== currentProduct.attributes.name
+              )
               .splice(0, 6)
           );
-          return;
         }
-        setProducts(
-          finalData.filter((product) => product.attributes.inStock).splice(0, 6)
-        );
-        setTitle(
-          `Browse more in ${currentProduct.attributes.category.data.attributes.name} category`
-        );
-      } else {
-        setProducts(
-          shuffledArray
-            .filter(
-              (product) =>
-                product.attributes.inStock ||
-                product.attributes.name !== currentProduct.attributes.name
-            )
-            .splice(0, 6)
-        );
-      }
-    },
-    []
-  );
-
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
   return (
     <>
       <Link
