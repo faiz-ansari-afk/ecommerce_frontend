@@ -30,7 +30,7 @@ export default function Home({ homepage, categories }) {
             <BrowseCategories categories={categories} />
           </section>
         )}
-        <ProductsGallery />
+        {/* <ProductsGallery /> */}
         {homepage.attributes.THIRD_HERO && (
           <ClassifyHero hero={homepage.attributes.THIRD_HERO} />
         )}
