@@ -30,7 +30,6 @@ export async function updateCartStatus({ cart_status, cartID }) {
 
     const result = await axios(config);
     if (cart_status === 'ordered') {
-      //////console.log("Local cart removed")
 
       destroyCookie({}, 'cart_uid', {
         path: '/', // THE KEY IS TO SET THE SAME PATH
@@ -39,7 +38,7 @@ export async function updateCartStatus({ cart_status, cartID }) {
 
     return result.data.data;
   } catch (error) {
-    //////console.log('Get Cart Error', error);
+    console.log('Get Cart Error', error);
   }
 }
 export const getCarts = async () => {
@@ -56,10 +55,9 @@ export const getCarts = async () => {
     const result = await axios(config);
 
     const data = result.data.data;
-    ////////console.log("getCarts success")
     return data;
   } catch (error) {
-    ////////console.log('Get Cart Error', error);
+    console.log('Get Cart Error', error);
     return null;
   }
 };
@@ -96,7 +94,6 @@ export async function getMyCart(ctx) {
   const carts = await getCarts();
   let myCart = carts?.find((cart) => cart.attributes.cart_uid === cart_uid);
   if (typeof myCart === 'undefined') {
-    //////console.log("getMyCart function --> no cart found");
     destroyCookie({},'cart_uid',{
       path:'/'
     })
@@ -146,7 +143,7 @@ export const addToCart = async (variantOfProduct) => {
 
     return result.data.data;
   } catch (error) {
-    ////console.log('Add to Cart Error', error);
+    console.log('Add to Cart Error', error);
   }
 };
 

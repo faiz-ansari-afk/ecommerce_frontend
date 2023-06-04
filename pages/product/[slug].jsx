@@ -35,7 +35,6 @@ export const getStaticPaths = async () => {
   const products = await getData();
   // const slugLink = getSlugText(products);
 
-  console.log('Running Get static Path');
   // const paths = [...slugLink].map((p) => ({ params: { slug: p.toString() } }));
   // console.log("products",products)
   const paths = products.map((p) => ({

@@ -107,13 +107,13 @@ const contact = () => {
             Bhiwandi Ali Baba Partners Brand Stores & <br /> Showrooms
           </h3>
           <div className=" p-8">
-            <Slider perView={2.5} space={30} navigation={false}>
+            {/* <Slider perView={2.5} space={30} navigation={false}>
               {imageSlider.map((img) => (
                 <div className="aspect-[9/12] cursor-pointer" key={img.url}>
                   <Image src={img.url} fill alt="store location images" />
                 </div>
               ))}
-            </Slider>
+            </Slider> */}
           </div>
         </div>
 

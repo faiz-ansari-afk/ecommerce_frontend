@@ -28,7 +28,7 @@ const AboutUs = ({ aboutUsData }) => {
         <title>About Us - Ijazat</title>
       </Head>
       <main className="py-20  lg:py-32 ">
-        <h3 className="font-[GillSans] uppercase text-center text-gray-500">
+        <h3 className="font-[GillSans] uppercase text-center text-gray-500 text-xl">
           Our philosophy
         </h3>
         <h1 className="font-[TiemposFine] text-5xl font-extralight text-gray-800 my-10 text-center">
@@ -37,21 +37,21 @@ const AboutUs = ({ aboutUsData }) => {
         <section className="grid lg:grid-cols-3 gap-5 my-24 md:grid-cols-2 grid-cols-1 px-5 lg:px-10">
           {description_para_one && (
             <div className="">
-              <p className="text-lg mb-4 pr-10 text-slate-600">
+              <p className="text-center md:text-left   text-lg mb-4 md:pr-10 text-slate-600">
                 {parse(description_para_one)}
               </p>
             </div>
           )}
           {description_para_two && (
             <div className="">
-              <p className="text-lg mb-4 pr-10 text-slate-600">
+              <p className="text-center md:text-left   text-lg mb-4 md:pr-10 text-slate-600">
                 {parse(description_para_two)}
               </p>
             </div>
           )}
           {description_para_three && (
             <div className="">
-              <p className="text-lg mb-4 pr-10 text-slate-600">
+              <p className="text-center md:text-left   text-lg mb-4 md:pr-10 text-slate-600">
                 {parse(description_para_three)}
               </p>
             </div>
@@ -63,7 +63,7 @@ const AboutUs = ({ aboutUsData }) => {
         </section>
         <section>
           <div className="grid lg:grid-cols-2 grid-cols-1 items-center justify-between">
-            <div className="w-full h-screen border relative">
+            <div className="w-full h-[40vh] md:h-[50vh] lg:h-screen border relative">
               <Image
                 src={`${hero_image.data.attributes.url}`}
                 alt="About us image"
@@ -73,12 +73,12 @@ const AboutUs = ({ aboutUsData }) => {
                               33vw"
               />
             </div>
-            <div className="w-full h-screen flex items-end lg:p-12 py-12 px-4  bg-[#e3d9c6]">
+            <div className="w-full h-[70vh] md:h-[50vh] lg:h-screen flex items-end lg:p-12 py-12 px-4  bg-[#e3d9c6]">
               <div className="">
                 <h3 className="lg:text-md text-xl font-[GillSans] my-8 uppercase">
                   {hero_title}
                 </h3>
-                <p className="text-3xl tracking-widest mb-4 italic text-gray-800">
+                <p className="text-xl md:text-3xl tracking-widest mb-4 italic text-gray-800">
                   {parse(hero_description)}
                 </p>
               </div>

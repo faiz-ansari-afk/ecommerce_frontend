@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { mapToModelViewCategory } from '@/utils/controller/categoryController';
 import BrowseCategories from '@/components/BrowseCategories';
+import ProductsGallery from '@/components/Homepage/ProductsGallery';
 import { getHomepageData } from '@/utils/controller/homepageController';
 import { ClassifyHero } from '@/components/Homepage';
 
@@ -29,7 +30,7 @@ export default function Home({ homepage, categories }) {
             <BrowseCategories categories={categories} />
           </section>
         )}
-
+        <ProductsGallery />
         {homepage.attributes.THIRD_HERO && (
           <ClassifyHero hero={homepage.attributes.THIRD_HERO} />
         )}

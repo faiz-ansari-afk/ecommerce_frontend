@@ -2,8 +2,6 @@ import { useRef, useEffect, useState } from 'react';
 import Select from 'react-select';
 import slugify from 'slugify';
 import { useRouter } from 'next/router';
-import { deepSearchProducts } from '@/utils/controller/searchController';
-import { getFilteredProducts } from '@/utils/controller/productController';
 import useSpeechRecognition from '@/utils/hooks/voiceController';
 
 const SearchBar = ({
@@ -100,9 +98,6 @@ const SearchBar = ({
 
         timeoutId = setTimeout(() => {
           if (!listening) {
-            // const data = searchProducts(searchKeyword, products);
-            ////console.log('fetching data to search', data);
-            // setSearchedProducts(data);
           }
         }, 1000);
       }

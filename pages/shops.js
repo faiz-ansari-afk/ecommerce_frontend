@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { getAllShops } from '@/utils/controller/shopController';
 import { Player } from '@lottiefiles/react-lottie-player';
+import ProductCardSkeleton from '@/components/product/ProductCardSkeleton';
 import {
   getCoverImageUrl,
   getThemeColor,
@@ -13,7 +14,8 @@ import SearchBar from '@/components/Shops/SearchBar';
 
 const Shops = ({ shops }) => {
   const [results, setResults] = useState(shops);
-  ////console.log(shops);
+  const [loading, setLoading] = useState(false);
+
   return (
     <>
       <Head>
@@ -28,26 +30,26 @@ const Shops = ({ shops }) => {
           </h1>
           <p className="mx-auto mb-4 max-w-3xl text-center text-lg font-light text-gray-600 lg:mb-8 lg:text-xl">
             <span className="font-bold">Shop with ease!</span> We've partnered
-            with over{' '}
+            with{' '}
             <span className="font-bold text-2xl">
-              {shops.length === 0 ? '0' : shops.length - 1}
+              {shops.length === 0 ? '0' : shops.length}
             </span>{' '}
-            shops for your convenience. <br />
+            {shops.length === 1 ? 'shop' : 'shops'} for your convenience. <br />
             From fashion to electronics and more, enjoy hassle-free shopping at
             your fingertips.
           </p>
         </div>
         <div className="my-5 max-w-3xl mx-auto">
-          <SearchBar
-            dataSets={shops}
-            results={results}
-            setResults={setResults}
-          />
+          <SearchBar setResults={setResults} setLoading={setLoading} />
         </div>
         <div className="h-3 w-full rounded-lg bg-gray-100" />
         <main className="my-16 ">
           <div className="container mx-auto grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-            {results.length > 0 ? (
+            {loading ? (
+              [1, 2, 3].map((skeleton) => (
+                <ProductCardSkeleton key={skeleton} />
+              ))
+            ) : results.length > 0 ? (
               results.map((shop, index) => {
                 const theme = shop.attributes.product_for;
                 return (
@@ -116,7 +118,6 @@ export default Shops;
 
 export async function getServerSideProps(context) {
   const shops = await getAllShops();
-  // ////console.log('collection', products);
   return {
     props: {
       shops,

@@ -28,7 +28,6 @@ export async function getServerSideProps(ctx) {
 }
 
 const Cart = ({ cart }) => {
-  console.log('cart from server', cart);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const { dispatch, state } = useContext(DataContext);
   const [cartDetails, setCartDetails] = useState(null);

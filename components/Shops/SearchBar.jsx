@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
-import { deepSearchShopsOrProducts } from '@/utils/controller/searchController';
+import {
+  searchShopOrShopProducts,
+} from '@/utils/controller/searchController';
+import { getAllShops } from '@/utils/controller/shopController';
 import useSpeechRecognition from '@/utils/hooks/voiceController';
+import { getFilteredProducts } from '@/utils/controller/productController';
 // import { searchShops } from '@/utils/controller/shopController';
 
 const SearchBar = ({
-  dataSets,
-  results,
+  shopName,
+  setLoading,
   setResults,
   placeholder: plh = 'Search shops by name or area...',
   ofWhich = 'SHOPS',
@@ -17,7 +21,33 @@ const SearchBar = ({
 
   const { transcript, listening, supported, startListening, stopListening } =
     useSpeechRecognition();
-
+  // ___________________________________________________________
+  async function shopProductsData() {
+    const data = await searchShopOrShopProducts({
+      shopName,
+      attributeNames: ['name', 'description', 'search_text'],
+      attributeValues: searchQuery.split(' '),
+      operator: '$containsi',
+      pagination: false,
+      pageNumber: 1,
+      pageSize: 15,
+    });
+    setResults(data);
+  }
+  async function shopSearchData() {
+    const data = await searchShopOrShopProducts({
+      searchShop: true,
+      shopName,
+      attributeNames: ['name', 'description', 'search_text', 'area'],
+      attributeValues: searchQuery.split(' '),
+      operator: '$containsi',
+      pagination: false,
+      pageNumber: 1,
+      pageSize: 15,
+    });
+    setResults(data);
+  }
+  // _______________________________________________________
   useEffect(() => {
     if (transcript.length > 0) {
       setSearchQuery(transcript);
@@ -71,10 +101,27 @@ const SearchBar = ({
           <button
             type="button"
             className="absolute inset-y-0 right-0 flex items-center pr-3"
-            onClick={() => {
+            onClick={async () => {
               setSearchQuery('');
               setPlaceholder(plh);
-              setResults(dataSets);
+              setLoading(true);
+              if(ofWhich === 'PRODUCTS'){
+              const products = await getFilteredProducts({
+                collectionName: 'shop',
+                attributeNames: ['name'],
+                attributeValues: [shopName],
+                operator: '$contains',
+                pagination: false,
+                pageNumber: 1,
+                pageSize: 15,
+              });
+              setResults(products);
+            }
+            else {
+              const shops = await getAllShops();
+              setResults(shops);
+            }
+              setLoading(false);
             }}
           >
             X
@@ -83,15 +130,15 @@ const SearchBar = ({
       </div>
       <button
         className="bg-black rounded-full hover:shadow-lg text-white w-fit  py-2 px-4 "
-        onClick={() => {
-          //   updateQuery(searchQuery);
-          // const result = await searchShops({searchQuery})
-          const result = deepSearchShopsOrProducts({
-            searchQuery,
-            dataSets,
-            ofWhich,
-          });
-          setResults(result);
+        onClick={async () => {
+          if (ofWhich === 'PRODUCTS') {
+            setLoading(true);
+            await shopProductsData();
+          } else {
+            setLoading(true);
+            await shopSearchData();
+          }
+          setLoading(false);
         }}
         disabled={searchQuery.length === 0}
       >

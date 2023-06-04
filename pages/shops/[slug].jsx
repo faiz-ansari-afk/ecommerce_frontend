@@ -1,14 +1,14 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect, useContext, useRef } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { DataContext } from '@/store/globalstate';
 import parse from 'html-react-parser';
 import slugify from 'slugify';
 import { Phone, Email, Location } from '@/components/Icon';
 import { parseCookies } from 'nookies';
 import { decodeJWT } from '@/utils/controller/sessionController';
-import Confetti from 'react-confetti';
+import { getFilteredProducts } from '@/utils/controller/productController';
 import {
   getSlugText,
   getCoverImageUrl,
@@ -24,18 +24,9 @@ import ImageSlider from '@/components/product/ImageSlider';
 import { getUser } from '@/utils/controller/auth';
 
 export const getStaticPaths = async () => {
-  // const shops = await getAllShops();
-
-  // const slugLink = getSlugText(shops);
-
-  // if (!shops) return {
-  //   paths:[],
-  //   fallback: 'blocking',
-  // };
-  // const paths = shops.map((p) => ({ params: { slug: p.attributes.name.toString() } }));
   return {
-    paths:[],
-    fallback: 'blocking'
+    paths: [],
+    fallback: 'blocking',
   };
 };
 
@@ -44,44 +35,30 @@ export const getStaticProps = async ({ params }) => {
 
   const shop =
     shops && shops.find((shop) => getSlugText([shop]) === params.slug);
+  const products = await getFilteredProducts({
+    collectionName: 'shop',
+    attributeNames: ['name'],
+    attributeValues: [shop ? shop.attributes.name : null],
+    operator: '$contains',
+    pagination: false,
+    pageNumber: 1,
+    pageSize: 6,
+  });
 
   return {
     props: {
       shop,
+      products,
       key: params.slug,
-      revalidate:0
     },
   };
 };
 
-const Shop = ({ shop }) => {
+const Shop = ({ shop, products: _products }) => {
   const [showMore, setShowMore] = useState(false);
-  const [products, setProducts] = useState(
-    shop.attributes?.products.data.slice(0, 6)
-  );
+  const [products, setProducts] = useState(_products);
   const mappedImages = mapToSliderImages(shop.attributes.images.data);
   const theme = shop.attributes.product_for;
-
-  // Subscribers state and logic
-  // const confettiContainerRef = useRef(null);
-  // const [showConfetti, setShowConfetti] = useState(false);
-  // const [containerSize, setContainerSize] = useState({
-  //   width: 0,
-  //   height: 0
-  // });
-  // useEffect(() => {
-  //   if (confettiContainerRef.current) {
-  //     const { width, height } = confettiContainerRef.current.getBoundingClientRect();
-  //     setContainerSize({ width, height });
-  //   }
-  // }, []);
-  // useEffect(() => {
-  //   let timeout;
-  //   if (showConfetti) {
-  //     timeout = setTimeout(() => setShowConfetti(false), 2000);
-  //   }
-  //   return () => clearTimeout(timeout);
-  // }, [showConfetti]);
 
   const [user, setUser] = useState(null);
   const cookies = parseCookies();
@@ -180,7 +157,7 @@ const Shop = ({ shop }) => {
                   <span
                     className={`${getThemeColor(
                       theme
-                    )} flex gap-5 items-center px-5 md:px-12 py-2 rounded-lg`}
+                    )}  flex gap-5 items-center px-5 md:px-12 py-2 rounded-lg`}
                   >
                     <span className="relative font-serif">
                       {followCount} followers
@@ -255,7 +232,7 @@ const Shop = ({ shop }) => {
                             >
                               <div
                                 className={`w-48 flex-shrink-0  rounded-lg p-2 transition-colors 
-                                ${getThemeColor(theme, 1)} 
+                                ${getThemeColor(theme, 1)} hover:bg-orange-100 
                               `}
                               >
                                 <div className="relative mx-auto h-36 rounded-lg">
@@ -296,7 +273,7 @@ const Shop = ({ shop }) => {
                 </div>
                 {/**_____________ #TODO: Video Banner Here _________ */}
                 <div className="my-24">
-                  <div className="mt-4 md:mt-8">
+                  <div className="mt-4 md:mt-8  md:w-2/3">
                     <h3 className="font-bold text-2xl mb-4">About:</h3>
                     <p
                       className={` mb-1  text-xl font-light text-gray-900 lg:mb-2 lg:text-xl ${

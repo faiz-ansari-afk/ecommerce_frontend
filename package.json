@@ -28,6 +28,7 @@
     "react-icons": "^4.8.0",
     "react-select": "^5.7.0",
     "react-toastify": "^9.1.2",
+    "react-topbar-progress-indicator": "^4.1.1",
     "slugify": "^1.6.5",
     "twilio": "^4.10.0",
     "uuid": "^9.0.0"

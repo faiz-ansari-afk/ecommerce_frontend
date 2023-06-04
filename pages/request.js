@@ -185,7 +185,6 @@ export async function getServerSideProps(context) {
     method: 'get',
   });
   const user = await getUser(null, context);
-  console.log('getAllRequestedItems ❤️', getAllRequestedItems);
   if(getAllRequestedItems)
   return {
     props: {
