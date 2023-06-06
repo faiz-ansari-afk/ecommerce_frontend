@@ -65,18 +65,24 @@ const Navbar = () => {
     };
   }, []);
   // console.log("navbar user",user)
+  // ${
+  //   hideNavbar
+  //     ? 'translate-y-full opacity-0 '
+  //     : 'fixed top-0 z-[100] w-full py-4 lg:py-8  translate-y-0 opacity-100 animate-fadeInDown transition-opacity duration-500 delay-200 transform origin-top'
+  // }
+  // ${
+  //   hideNavbar
+  //     ? 'invisible transition duration-[2000] -translate-y-full '
+  //     : 'fixed top-0 z-[100] w-full py-4 lg:py-8  visible transition duration-500'
+  // }
   return (
     <header
       className={`${
         page !== '/collections'
           ? 'bg-gradient-to-b from-gray-900/50 to-transparent'
           : ''
-      }
-      ${
-        hideNavbar
-          ? 'translate-y-full opacity-0 '
-          : 'fixed top-0 z-[100] w-full py-4 lg:py-8  translate-y-0 opacity-100 animate-fadeInDown transition-opacity duration-500 delay-200 transform origin-top'
-      }
+      } fixed top-0 z-[100] w-full py-4 lg:py-8
+     
       `}
     >
       <nav className="container mx-auto flex items-center gap-2 md:gap-10 justify-center px-5 lg:px-10">
@@ -89,7 +95,10 @@ const Navbar = () => {
             <span className="text-sm text-white lg:text-base">Back</span>
           </button>
         ) : (
-          <MicrophoneIcon className="h-5 w-5 stroke-2 cursor-pointer text-gray-200 lg:h-7 lg:w-7" onClick={() => dispatch({ type: 'TRUE_OPEN_SEARCH' })} />
+          <MicrophoneIcon
+            className="h-5 w-5 stroke-2 cursor-pointer text-gray-200 lg:h-7 lg:w-7"
+            onClick={() => dispatch({ type: 'TRUE_OPEN_SEARCH' })}
+          />
         )}
         <span
           className={`text-xl text-center flex-grow font-bold tracking-wider lg:text-3xl ${
@@ -105,15 +114,14 @@ const Navbar = () => {
         >
           <li title="search ">
             <MagnifyingGlassIcon
-            
-              className="h-5 w-5 stroke-2 lg:h-7 lg:w-7 cursor-pointer"
+              className="stroke-2 h-7 w-7 cursor-pointer"
               onClick={() => dispatch({ type: 'TRUE_OPEN_SEARCH' })}
             />
           </li>
           {user && (
             <li className="">
               <Link href="/account/overview">
-                <Avatar  />
+                <Avatar heightWidth="h-7 w-7" />
               </Link>
             </li>
           )}
@@ -121,10 +129,10 @@ const Navbar = () => {
             {cartLoaded && (
               <>
                 <Link href="/cart" title="cart">
-                  <ShoppingBagIcon className="h-5 w-5 stroke-2 lg:h-7 lg:w-7" />
+                  <ShoppingBagIcon className=" stroke-2 h-7 w-7" />
 
                   {count > 0 && (
-                    <span className="absolute right-3 top-3 flex min-h-[1.25rem] min-w-[1.25rem] items-center justify-center rounded-full border border-black bg-black px-[2.5px] text-xs font-bold text-white">
+                    <span className="absolute  left-3 top-3 flex min-h-[1.25rem] min-w-[1.25rem] items-center justify-center rounded-full border border-black bg-black px-[2.5px] text-xs font-bold text-white">
                       {count}
                     </span>
                   )}

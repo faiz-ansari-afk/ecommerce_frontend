@@ -1,30 +1,60 @@
-import React from 'react'
+import slugify from 'slugify';
+import Link from 'next/link';
+import Image from 'next/image';
+import { getCoverImageUrl } from '@/utils/controller/productController';
+import styles from './ProductGallery.module.css'
+const ProductsGallery = ({ products }) => {
+  // const products = null
+/*
 
-const ProductsGallery = () => {
+*/
   return (
-    <div className="h-screen">
-   <div className="grid grid-cols-2 md:grid-cols-3 grid-rows-3 md:grid-rows-4 gap-4 h-5/6 w-4/5 mx-auto">
-      <div className="bg-indigo-100 row-span-1 md:row-span-2">
-         <span>01</span>
+    <div className={` h-full relative px-4 lg:px-12 py-32`}>
+      <div className={` ${styles.bgRipple} absolute inset-0 z-2`}></div>
+      <Link href={`/collections`}>
+        <p className="text-center uppercase my-4 tracking-widest ">
+          Our Newest collections
+        </p>
+      </Link>
+      <div className="flex h-64 lg:h-72 gap-6 py-6 overflow-x-scroll  ">
+        {products
+          ? products.map((product, index) => (
+              <div
+                className="aspect-[2/2]  border relative   rounded-lg bg-slate-400 "
+                key={index}
+              >
+                <Link href={`/product/${slugify(product.attributes.name)}`}>
+                  <div className=" bg-rose-400 rounded-lg ">
+                    <Image
+                      src={getCoverImageUrl(product)}
+                      fill
+                      className="rounded-lg "
+                      alt={product.attributes.name}
+                    />
+                    <div className="absolute rounded-b-lg overflow-hidden  bottom-0 px-4  bg-gray-700 text-white ">
+                      <p className="line-clamp-1">{product.attributes.name} </p>
+                      <p className="text-center pb-2 ">
+                        ₹{product.attributes.base_price}{' '}
+                        {product.attributes.shop_price && (
+                          <del className="ml-4">
+                            ₹{product.attributes.shop_price}
+                          </del>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            ))
+          : [1, 1, 1, 1, 1].map((product, index) => (
+              <div
+                key={index}
+                className="aspect-[2/2] h-54 overflow-scroll-none animate-pulse p-4 transition-colors bg-gradient-to-br from-gray-300 to-gray-100  "
+              />
+            ))}
       </div>
-      <div className="bg-red-100 col-span-1 md:col-span-2">
-         <span>02</span>
-      </div>
-      <div className="bg-purple-100">
-         <span>03</span>
-      </div>
-      <div className="bg-violet-100 row-span-1 md:row-span-2">
-         <span>04</span>
-      </div>
-      <div className="bg-sky-100 row-span-1 md:row-span-2 col-span-1 md:col-span-2">
-         <span>05</span>
-      </div>
-      <div className="bg-emerald-100">
-         <span>06</span>
-      </div>
-   </div>
-</div>
-  )
-}
+    </div>
+  );
+};
 
-export default ProductsGallery
+export default ProductsGallery;

@@ -16,7 +16,7 @@ function ColorSwatch({ colors }) {
           return (
             <div
               key={index}
-              className="h-4 w-4 flex justify-center rounded-full border border-black "
+              className="h-3 md:h-4 w-3 md:w-4 flex justify-center rounded-full border border-black "
             >
               {moreColors.map((mc, ind) => {
                 return (
@@ -35,7 +35,7 @@ function ColorSwatch({ colors }) {
         return (
           <div
             key={index}
-            className="h-4 w-4 rounded-lg border border-black"
+            className="h-3 md:h-4 w-3 md:w-4 rounded-lg border border-black"
             style={{ backgroundColor: color }}
           ></div>
         );
@@ -50,10 +50,11 @@ const ProductCard = ({ product }) => {
   return (
     <Link href={`/product/${getSlugText([product])}`}>
       <div
-        className={`w-full flex-shrink-0  rounded-lg p-4 transition-colors hover:bg-orange-100 hover:shadow-lg
+        className={`w-full flex-shrink-0 border md:border-0 rounded-lg p-1 md:p-4 transition-colors hover:bg-orange-100 hover:shadow-lg
                       ${getThemeColor(product.attributes.theme, 1)} `}
       >
-        <div className=" relative h-64 w-full md:h-64 lg:h-64">
+        {/* <div className=" relative h-64 w-full md:h-64 lg:h-64"> */}
+        <div className=" relative  h-24 w-full md:h-64 lg:h-64">
           <Image
             src={getCoverImageUrl(product)}
             alt={product.attributes.name}

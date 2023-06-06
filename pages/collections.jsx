@@ -62,7 +62,7 @@ const Collection = ({ _products, _paginationData, categories }) => {
   }
 
   //** ___________ pagination _______________
-  const [pageSize, setPageSize] = useState(15); //by default make it 15
+  const [pageSize, setPageSize] = useState(18); //by default make it 15
   const [currentPage, setCurrentPage] = useState(_paginationData?.page || 1);
   const [totalPage, setTotalPage] = useState(
     _paginationData?.pageCount || null
@@ -193,13 +193,13 @@ const Collection = ({ _products, _paginationData, categories }) => {
           </div>
         )}
 
-        <div className="container mx-auto grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-8 mb-32">
+        <div className="container mx-auto grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-8 mb-32">
           {loading ? (
             [1, 2, 3, 4, 5, 6].map((skeleton) => (
               <ProductCardSkeleton key={skeleton} />
             ))
           ) : products && products.length > 0 ? (
-            products.map((product, index) => {
+            [...products,...products].map((product, index) => {
               const theme = product.attributes.theme;
               return <ProductCard key={index} product={product} />;
             })
@@ -236,7 +236,7 @@ export async function getServerSideProps(context) {
   const { query } = context;
   let products = null;
   const categories = await mapToModelViewCategory();
-  const pageSize = 15;
+  const pageSize = 18;
   // //console.log('query❤️❤️', query.category);
   if (query?.category && query.category !== 'All') {
     let unslugifiedCategory = query.category.replace('-', ' ');

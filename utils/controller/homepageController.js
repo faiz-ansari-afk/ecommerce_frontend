@@ -12,10 +12,10 @@ export const getHomepageData = async () => {
     const resultHomepage = await axios(config);
 
     const homepage = resultHomepage.data.data;
-    console.log("homepage",homepage)
+    // console.log("homepage",homepage)
     return homepage;
   } catch (error) {
-    ////console.log('Fetching  homepage error', error);
+    console.log('Fetching  homepage error', error);
     return null;
   }
 };

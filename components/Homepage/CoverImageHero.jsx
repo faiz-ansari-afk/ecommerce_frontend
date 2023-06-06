@@ -35,7 +35,7 @@ const CoverImageHero = ({ hero }) => {
   }
 
   return (
-    <div className="relative flex justify-center items-center  overflow-hidden w-screen h-screen">
+    <div className="relative flex justify-center items-center  overflow-hidden w-full h-screen">
       {glassmorphism_div?.id && (
         <div style={glassmorphism_div.reactCSSstyle}></div>
       )}

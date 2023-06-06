@@ -16,9 +16,10 @@ const BrowseCategories = ({ categories }) => {
                 categories.map((category, index) => {
                   return (
                     <div
-                      className="h-65 w-56 border rounded-lg flex-shrink-0  hover:shadow-lg"
+                      className="h-65 relative w-56 border rounded-lg flex-shrink-0  hover:shadow-lg"
                       key={index}
                     >
+                      <div className="absolute z-[100] inset-0 h-56 w-56  rounded-lg"></div>
                       <AutoPlaySlider
                         dataArray={category.images}
                         heightWidth="h-56 w-56"

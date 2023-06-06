@@ -1,0 +1,5 @@
+.bgRipple {
+    background-color: #e5e5f7;
+opacity: 0.4;
+background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #e5e5f7 26px ), repeating-linear-gradient( #c1c3e655, #c1c3e6 );
+}

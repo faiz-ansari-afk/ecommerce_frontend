@@ -156,33 +156,47 @@ const Menu = () => {
                     className={`space-y-2 mt-6 mb-10 md:mb-6 md:mt-12 font-heading text-5xl md:text-[36px]  `}
                   >
                     <li className="hover:text-gray-100">
-                      <Link href="/collections">Products</Link>
+                      <Link className="inline-block" href="/collections">
+                        Products
+                      </Link>
                     </li>
                     <li className="hover:text-gray-100">
-                      <Link href="/shops">Shops</Link>
+                      <Link className="inline-block" href="/shops">
+                        Shops
+                      </Link>
                     </li>
                     <li className="hover:text-gray-100">
-                      <Link href="/request?requestType=product">Request</Link>
+                      <Link
+                        className="inline-block"
+                        href="/request?requestType=product"
+                      >
+                        Request
+                      </Link>
                     </li>
                   </ul>
                   <ul className="text-xl md:text-[12px] space-y-1 font-[GillSans] uppercase ">
                     <li className=" hover:underline cursor-pointer">
-                      <Link href="/">HOME</Link>
+                      <Link className="inline-block" href="/">
+                        HOME
+                      </Link>
                     </li>
                     <li className=" hover:underline cursor-pointer">
-                      <Link href="/about-us">About us</Link>
+                      <Link className="inline-block" href="/about-us">
+                        About us
+                      </Link>
                     </li>
 
                     {!user && (
-                      <li
-                        className=" hover:underline cursor-pointer"
-                        onClick={() => setIsLoginFormOpen((ov) => !ov)}
-                      >
-                        Login
+                      <li className=" hover:underline cursor-pointer">
+                        <span onClick={() => setIsLoginFormOpen((ov) => !ov)}>
+                          Login
+                        </span>
                       </li>
                     )}
                     <li className=" hover:underline cursor-pointer">
-                      <Link href="/contact">Contact</Link>
+                      <Link className="inline-block" href="/contact">
+                        Contact
+                      </Link>
                     </li>
                   </ul>
                 </>
