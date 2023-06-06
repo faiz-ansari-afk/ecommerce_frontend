@@ -199,7 +199,7 @@ const Collection = ({ _products, _paginationData, categories }) => {
               <ProductCardSkeleton key={skeleton} />
             ))
           ) : products && products.length > 0 ? (
-            [...products,...products].map((product, index) => {
+            products.map((product, index) => {
               const theme = product.attributes.theme;
               return <ProductCard key={index} product={product} />;
             })
