@@ -172,7 +172,7 @@ const contact = () => {
             ))}
           </div>
 
-          <div className="grid grid-cols-3 mt-12 md:grid hidden px-12">
+          <div className="grid grid-cols-3 mt-12 md:grid  px-12">
             {locationOfShops.map((shop) => (
               <div
                 className="mb-3 max-w-[468px] min-w-[300px]"

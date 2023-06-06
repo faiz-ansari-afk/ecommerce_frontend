@@ -15,9 +15,12 @@ const BrowseCategories = ({ categories }) => {
               {categories &&
                 categories.map((category, index) => {
                   return (
+                    <Link
+                    key={index}
+                      href={`/collections?category=${slugify(category.name)}`}
+                    >
                     <div
                       className="h-65 relative w-56 border rounded-lg flex-shrink-0  hover:shadow-lg"
-                      key={index}
                     >
                       <div className="absolute z-[100] inset-0 h-56 w-56  rounded-lg"></div>
                       <AutoPlaySlider
@@ -26,14 +29,11 @@ const BrowseCategories = ({ categories }) => {
                         timer="10000"
                       />
 
-                      <Link
-                        href={`/collections?category=${slugify(category.name)}`}
-                      >
                         <p className="uppercase pt-1 text-center hover:underline">
                           {category.name}
                         </p>
-                      </Link>
                     </div>
+                      </Link>
                   );
                 })}
             </div>
