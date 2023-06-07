@@ -2,7 +2,7 @@ import slugify from 'slugify';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const webhookToken = process.env.WEBHOOK_TOKEN; // webhook token stored in client side and server side should match
+    const webhookToken = process.env.NEXT_PUBLIC_WEBHOOK_TOKEN; // webhook token stored in client side and server side should match
 
     const { event, model: collection, entry } = req.body;
     const { authorization } = req.headers;

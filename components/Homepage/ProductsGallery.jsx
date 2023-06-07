@@ -2,10 +2,10 @@ import slugify from 'slugify';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getCoverImageUrl } from '@/utils/controller/productController';
-import styles from './ProductGallery.module.css'
+import styles from './ProductGallery.module.css';
 const ProductsGallery = ({ products }) => {
   // const products = null
-/*
+  /*
 
 */
   return (
@@ -20,7 +20,7 @@ const ProductsGallery = ({ products }) => {
         {products
           ? products.map((product, index) => (
               <div
-                className="aspect-[2/2]  border relative   rounded-lg bg-slate-400 "
+                className="aspect-[2/2] flex-shrink-0   border relative   rounded-lg bg-slate-400 "
                 key={index}
               >
                 <Link href={`/product/${slugify(product.attributes.name)}`}>

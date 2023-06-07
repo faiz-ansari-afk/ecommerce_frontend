@@ -30,7 +30,7 @@ const ShippingDetails = ({
           accountFlag ? 'text-md mb-2' : 'text-3xl mb-12'
         }   text-gray-500`}
       >
-        Shipping address
+        Delivery Address
       </h2>
       {!accountFlag && <h5 className="pb-2 text-sm text-gray-500">Ship to</h5>}
       <ul className="font-[SangbleuSans] text-sm text-gray-900">

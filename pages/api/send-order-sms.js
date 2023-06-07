@@ -17,7 +17,7 @@ export default async function handler(req, res) {
         res.status(500).send('Something went wrong while sending SMS');
       }
     }
-    const webhookToken = process.env.WEBHOOK_TOKEN; // webhook token stored in client side and server side should match
+    const webhookToken = process.env.NEXT_PUBLIC_WEBHOOK_TOKEN; // webhook token stored in client side and server side should match
 
     const { event, model: collection, entry: order } = req.body;
     const { authorization } = req.headers;

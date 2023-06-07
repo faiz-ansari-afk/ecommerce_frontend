@@ -237,7 +237,7 @@ const Login = ({ setIsLoginFormOpen, setIsOpen, ...rest }) => {
             className="cursor-pointer underline underline-offset-2"
             disabled={loading}
           >
-            Continue
+            {loading ? "Loading" : "Continue"}
           </button>
         </div>
       </form>

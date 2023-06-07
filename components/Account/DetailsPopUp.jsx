@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { getPrice, getTotalPrice } from '@/utils/controller/cartController';
 import slugify from 'slugify';
 import { updateOrderStatus } from '@/utils/controller/orderController';
-import axios from 'axios';
+import {  Warning } from '@/components/Icon';
 
 const DetailsPopUp = ({ data, setOpenPopUp }) => {
   ////console.log('popup data', data);
@@ -13,6 +13,13 @@ const DetailsPopUp = ({ data, setOpenPopUp }) => {
   const orderCreatedAt = new Date(data.attributes.publishedAt);
   const products = data.attributes.cart.data.attributes.cart_data.products;
   const cart = data.attributes.cart.data;
+
+  const deliveryDate = data.attributes.expected_delivery_date
+    ? new Date(data.attributes.expected_delivery_date)
+    : null;
+  const options = { day: 'numeric', month: 'short', year: '2-digit' };
+  const deliveryGuy = data.attributes.delivery_guy_details.data;
+  // console.log('deliveryGuy', deliveryGuy);
   return (
     <div
       className={`fixed left-0 right-0 top-[20px] z-[1111]  h-[95%]  mx-2 md:mx-32 lg:mx-64  overflow-y-scroll rounded-lg border bg-white  px-2 pb-12 shadow-lg  md:px-8
@@ -36,10 +43,6 @@ const DetailsPopUp = ({ data, setOpenPopUp }) => {
         </h3>
         <ul className="">
           <li className="text-gray-600 ">
-            Order status:&nbsp;{' '}
-            <span className="text-lg text-black">{data.attributes.status}</span>
-          </li>
-          <li className="text-gray-600 ">
             Order date:&nbsp;{' '}
             <span className="text-lg text-black">
               {orderCreatedAt.toLocaleDateString('en-IN', {
@@ -47,7 +50,31 @@ const DetailsPopUp = ({ data, setOpenPopUp }) => {
               })}
             </span>
           </li>
+          <li className="text-gray-600 ">
+            Order status:&nbsp;{' '}
+            <span className="text-lg text-black">{data.attributes.status}</span>
+          </li>
+          {deliveryDate && (
+            <li className="text-lime-600 ">
+              Delivery Date:&nbsp;{' '}
+              <span className="text-lg text-black">
+                {deliveryDate.toLocaleDateString('en-US', options)}
+              </span>
+            </li>
+          )}
+          {deliveryGuy && data.attributes.status === 'out for delivery' && (
+            <li className="text-gray-600 ">
+              Delivered By:&nbsp;{' '}
+              <span className="text-lg text-black">
+                {deliveryGuy.attributes.username} {' '}
+                {deliveryGuy.attributes.contact &&
+                  <a href={`tel:${deliveryGuy.attributes.contact}`}>({deliveryGuy.attributes.contact})</a>}
+                
+              </span>
+            </li>
+          )}
         </ul>
+        {data.attributes.customMessage && <div className="text-sm items-center gap-3 bg-gray-100 flex px-4 py-1 rounded-lg  my-2"><p className=""><Warning /></p><p className="">{data.attributes.customMessage}</p></div>}
       </div>
 
       <div className="my-12">
@@ -63,37 +90,34 @@ const DetailsPopUp = ({ data, setOpenPopUp }) => {
               <span className="uppercase italic text-rose-600">unpaid</span>
             )}
           </li>
-
-          {data.attributes.payment_details && (
+          <li className="text-gray-600 ">
+                Payment Mode:&nbsp;{' '}
+                <span className="text-lg text-black">
+                  {data.attributes.payment_mode}
+                </span>
+              </li>
+          {data.attributes.status === 'completed' && (
             <>
-              <li className="text-gray-600 ">
-                Payment date:&nbsp;{' '}
+              {<li className="text-gray-600 ">
+                Payment Style:&nbsp;{' '}
                 <span className="text-lg text-black">
-                  {orderCreatedAt.toLocaleDateString('en-IN', {
-                    dateStyle: 'full',
-                  })}
+                  {data.attributes.payment_details}
                 </span>
-              </li>
-              <li className="text-gray-600 ">
-                Payment ID:{' '}
-                <span className="text-lg text-black">
-                  {data.attributes.payment_details.razorpay_payment_id}
-                </span>
-              </li>
+              </li>}
+              
             </>
           )}
         </ul>
       </div>
 
       <div className="my-12">
-        <h3 className="text-md mb-3 font-[GillSans] text-[#929292]">
-          DISPATCH
+        <h3 className="text-md mb-1 uppercase font-[GillSans] text-[#929292]">
+          Address Details
         </h3>
         <ul className="">
           <li className="text-gray-600 ">
             <span className="text-lg text-black">
-              {data.attributes.address.details.firstName}&nbsp;
-              {data.attributes.address.details.lastName}
+              {data.attributes.address.details.name}
             </span>
           </li>
           <li className="text-gray-600 ">
@@ -114,7 +138,7 @@ const DetailsPopUp = ({ data, setOpenPopUp }) => {
       <div className="products list text-md mb-3 font-[GillSans]  ">
         <div className="mb-3 flex border-b pb-3">
           <p className="flex-grow uppercase  text-[#929292]">PRODUCTS</p>
-          <p className=" uppercase  text-[#929292]">TOTAL</p>
+          <p className=" uppercase  text-[#929292]"></p>
         </div>
         <ul className="">
           {products.map((product, index) => (

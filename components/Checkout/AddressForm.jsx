@@ -9,6 +9,7 @@ import Select from 'react-select';
 import { parseCookies, setCookie } from 'nookies';
 import { sendSMS } from '@/utils/sendSMS';
 import ToastMessage from '@/components/Toast';
+import axios from 'axios';
 
 const AddressForm = ({
   user,
@@ -40,6 +41,8 @@ const AddressForm = ({
   const [addressError, setAddressError] = useState(null);
   const [otpError, setOtpError] = useState(null);
   const [otp, setOtp] = useState('');
+  const [isOtpSent,setIsOtpSent] = useState(false);
+  const [generatedOTPState,setGeneratedOTPState] = useState(null)
   const [otpVerified, setOtpVerified] = useState(false);
   const [openOtpField, setOpenOtpField] = useState(false);
 
@@ -93,7 +96,7 @@ const AddressForm = ({
     const otp = Math.floor(100000 + Math.random() * 900000); // Generates a random number between 100000 and 999999
     return otp.toString();
   };
-  
+
   function isValidPhone(contact) {
     const contactRegex = /^[6789]\d{9}$/;
     return contactRegex.test(contact);
@@ -130,10 +133,40 @@ const AddressForm = ({
       setPhoneError('');
     }
     if (!hasError) {
-      const GENERATED_OTP = 123456;
-      const genOTP = generateOTP();
-      const sendResponse = await sendSMS({to:phone,text:genOTP})
-      console.log("genOTP",genOTP,phone,sendResponse);
+      if(!isOtpSent){
+        const genOTP = generateOTP();
+        console.log("genOTP",genOTP)
+        let data = JSON.stringify({
+          "to": phone,
+          "text": genOTP
+        });
+        
+        let config = {
+          method: 'post',
+          maxBodyLength: Infinity,
+          url: '/api/sendOtp',
+          headers: { 
+            'Authorization': process.env.NEXT_PUBLIC_WEBHOOK_TOKEN, 
+            'Content-Type': 'application/json'
+          },
+          data : data
+        };
+        const sendResponse = await axios.request(config);
+        if (!sendResponse) {
+          ToastMessage({
+            type: 'error',
+            message: `OTP failed.`,
+          });
+          setIsOtpSent(false)
+          setLoading(false);
+          return;
+        }
+        setGeneratedOTPState(genOTP);
+        console.log('genOTP', generatedOTPState, phone, sendResponse);
+      }
+      
+      
+      setIsOtpSent(true);
       if (!openOtpField) {
         setOpenOtpField(true);
         setButtonName('Verify OTP');
@@ -152,8 +185,9 @@ const AddressForm = ({
       }
       //console.log('entered otp', otp, GENERATED_OTP);
       //validate otp here then proceed further
+      console.log("GENERATED_OTP",generatedOTPState)
       if (!otpVerified) {
-        if (parseInt(otp) !== GENERATED_OTP) {
+        if (parseInt(otp) !== parseInt(generatedOTPState)) {
           setOtpError('Wrong OTP ');
           setLoading(false);
           return;
@@ -255,9 +289,10 @@ const AddressForm = ({
           >
             Address*
           </InputField>
-          <div className="grid grid-cols-2 w-full gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-5">
             <InputField
-              classes="border"
+              classes={`border ${otpVerified ? 'border-lime-600' : ''}  `}
+              disabled={otpVerified}
               type="number"
               name="contact"
               error={phoneError}
@@ -271,6 +306,7 @@ const AddressForm = ({
                 classes="border"
                 type="number"
                 name="otp"
+                disabled={otpVerified}
                 error={otpError}
                 value={otp}
                 onchange={(e) => setOtp(e.target.value)}

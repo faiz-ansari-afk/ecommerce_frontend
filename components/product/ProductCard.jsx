@@ -6,7 +6,7 @@ import {
   getSlugText,
   getThemeColor,
 } from '@/utils/controller/productController';
-function ColorSwatch({ colors }) {
+function ColorSwatch({ colors ,collection}) {
   return (
     <div className="flex gap-3">
       {colors.map((color, index) => {
@@ -16,7 +16,7 @@ function ColorSwatch({ colors }) {
           return (
             <div
               key={index}
-              className="h-3 md:h-4 w-3 md:w-4 flex justify-center rounded-full border border-black "
+              className={` md:h-4  md:w-4 flex justify-center rounded-full border border-black ${collection ? 'h-3 w-3' : 'h-4 w-4'}`}
             >
               {moreColors.map((mc, ind) => {
                 return (
@@ -35,7 +35,7 @@ function ColorSwatch({ colors }) {
         return (
           <div
             key={index}
-            className="h-3 md:h-4 w-3 md:w-4 rounded-lg border border-black"
+            className={` md:h-4 md:w-4 rounded-lg border border-black ${collection ? 'h-3 w-3' : 'h-4 w-4'}`}
             style={{ backgroundColor: color }}
           ></div>
         );
@@ -43,18 +43,18 @@ function ColorSwatch({ colors }) {
     </div>
   );
 }
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, collection = true }) => {
   const colors = product.attributes?.color_and_size_variants?.map(
     (csv) => csv.color_code
   );
   return (
     <Link href={`/product/${getSlugText([product])}`}>
       <div
-        className={`w-full flex-shrink-0 border md:border-0 rounded-lg p-1 md:p-4 transition-colors hover:bg-orange-100 hover:shadow-lg
+        className={`w-full flex-shrink-0  md:border-0 rounded-lg p-1 md:p-4 transition-colors hover:bg-orange-100 hover:shadow-lg ${collection ? 'border' : ''}
                       ${getThemeColor(product.attributes.theme, 1)} `}
       >
         {/* <div className=" relative h-64 w-full md:h-64 lg:h-64"> */}
-        <div className=" relative  h-24 w-full md:h-64 lg:h-64">
+        <div className={` relative   w-full md:h-64 lg:h-64 ${collection ? 'h-24' : 'h-64'}`}>
           <Image
             src={getCoverImageUrl(product)}
             alt={product.attributes.name}
@@ -66,12 +66,12 @@ const ProductCard = ({ product }) => {
           />
         </div>
         <div className="flex flex-col items-center justify-center my-2">
-          <ColorSwatch colors={colors} />
+          <ColorSwatch colors={colors} collection={collection} />
         </div>
-        <h3 className="block truncate text-center font-light text-gray-600 lg:text-lg">
+        <h3 className={`block truncate text-center font-light text-gray-600 lg:text-lg ${collection ? '' : 'text-lg'}`}>
           {product.attributes.name}
         </h3>
-        <p className="font-mono text-center font-bold text-gray-600 lg:text-lg">
+        <p className={`font-mono text-center font-bold text-gray-600 lg:text-lg ${collection ? '' : 'text-lg'}`}>
           ₹{product.attributes.base_price}{' '}
           {product.attributes.shop_price && (
             <del>₹{product.attributes.shop_price}</del>

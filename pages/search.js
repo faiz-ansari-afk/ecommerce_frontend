@@ -179,34 +179,30 @@ const Collection = ({ _products, _paginationData, categories }) => {
           <div className="container mx-auto grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-8 mb-32 mt-12">
             {loading ? (
               [1, 2, 3, 4, 5, 6].map((skeleton) => (
-                <ProductCardSkeleton key={skeleton} />
+                <ProductCardSkeleton key={skeleton} collection={false} />
               ))
             ) : products ? (
               products.length > 0 ? (
                 products.map((product, index) => {
                   const theme = product.attributes.theme;
-                  return <ProductCard product={product} key={index} />;
+                  return <ProductCard product={product} key={index} collection={false} />;
                 })
               ) : (
                 <>
-                  <div className="hidden md:block"></div>
-                  <div>
+                  <div className="col-span-2 md:col-span-2 lg:col-span-3 ">
                     <NoProductFound />
-                    <p>
+                    <p className="text-center">
                       No product found in {category} category. Try changing
                       Categories
                     </p>
                   </div>
-                  <div className="hidden md:block"></div>
                 </>
               )
             ) : (
               <>
-                <div className="hidden md:block"></div>
-                <p className="text-center mt-5">
+                <p className="text-center mt-5 col-span-2 md:col-span-2 lg:col-span-3 ">
                   Please enter something to search
                 </p>
-                <div className="hidden md:block"></div>
               </>
             )}
           </div>

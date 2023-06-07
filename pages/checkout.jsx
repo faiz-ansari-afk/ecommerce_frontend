@@ -59,14 +59,16 @@ const checkout = ({ data: cart, user: _user }) => {
   }, [cart_uid]);
   return (
     <section className="mb-20 py-20 px-5 lg:py-32 lg:px-10">
-      <div className="grid gap-16 md:mx-10 md:grid-cols-3">
+      <div className="grid gap-6 md:gap-16 md:mx-10 md:grid-cols-3">
         <div className="md:col-span-2 ">
-          <div className="contact info">
-            <h3 className="font-[SangbleuSans] text-2xl text-gray-600">
+          <details>
+          <summary>Login details</summary>
+          <div className="contact info mb-12 bg-gray-100 p-3 rounded-lg">
+            <h3 className="font-[SangbleuSans] text-xl text-gray-800">
               Contact Info
             </h3>
 
-            <h4 className="mt-16 font-[SangbleuSans] text-xl text-gray-500">
+            <h4 className="mt-4 font-[SangbleuSans] text-xl text-gray-500">
               Email
             </h4>
             <p className="my-3">{user.email}</p>
@@ -77,7 +79,7 @@ const checkout = ({ data: cart, user: _user }) => {
               Log out
             </button>
           </div>
-
+          </details>
           {isAddressFilled ? (
             <div>
               <ShippingDetails
@@ -106,8 +108,17 @@ const checkout = ({ data: cart, user: _user }) => {
         </div>
 
         {/* This div will come first in mobile version */}
+
         <div className="order-first md:order-last">
-          <CheckoutSummary cart={cart} />
+          <div className=' md:hidden'>
+            <details className="">
+              <summary>Products to order</summary>
+              <CheckoutSummary cart={cart} />
+            </details>
+          </div>
+          <div className='hidden md:block'>
+              <CheckoutSummary cart={cart} />
+          </div>
         </div>
       </div>
     </section>

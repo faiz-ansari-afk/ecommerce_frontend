@@ -122,6 +122,7 @@ const Product = ({ product }) => {
       }
       // alert(`${product.attributes.name} added to cart`);
       ToastMessage({ type: 'success', message: `${nameString} added to cart` });
+      router.push('/cart');
       setSelectedColorID(null);
       setSelectedSizeID(null);
     } catch (error) {

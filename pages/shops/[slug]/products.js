@@ -89,12 +89,12 @@ const products = ({ shop, products, _pagination }) => {
               <div className="container mx-auto grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
                 {loading ? (
                   [1, 2, 3, 4, 5, 6].map((skeleton) => (
-                    <ProductCardSkeleton key={skeleton} />
+                    <ProductCardSkeleton key={skeleton} collection={false} />
                   ))
                 ) : results.length > 0 ? (
                   results.map((product, index) => {
                     const theme = product.attributes.theme;
-                    return <ProductCard product={product} key={index} />;
+                    return <ProductCard product={product} key={index} collection={false} />;
                   })
                 ) : (
                   <>

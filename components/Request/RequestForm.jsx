@@ -23,7 +23,7 @@ const RequestForm = ({ user, setOpenForm, accountFlag = false }) => {
     request_for: 'Product',
     note: '',
   });
-
+  const [loading,setLoading] = useState(false)
   const router = useRouter();
   const { dispatch, state } = useContext(DataContext);
 
@@ -88,6 +88,7 @@ const RequestForm = ({ user, setOpenForm, accountFlag = false }) => {
       }
       // //console.log('formData', formData);
       if (Object.keys(newErrors).length === 0) {
+        setLoading(true);
         setErrors(newErrors);
         // Form is valid, proceed with submission or other actions
         dispatch({ type: 'FALSE_OPEN_LOGIN' });
@@ -156,6 +157,7 @@ const RequestForm = ({ user, setOpenForm, accountFlag = false }) => {
         } else {
           ToastMessage({ type: 'error', message: 'Something went wrong' });
         }
+        setLoading(false);
       } else {
         // Form is invalid, update the state with the errors
         setErrors(newErrors);
@@ -365,8 +367,9 @@ const RequestForm = ({ user, setOpenForm, accountFlag = false }) => {
         <button
           type="submit"
           className={`px-2 max-w-[200px] rounded-full hover:shadow-xl py-1 bg-black text-white`}
+          disabled={loading}
         >
-          Submit Request
+          {loading ? "Submitting Request..." : "Submit Request"}
         </button>
       </form>
     </div>
