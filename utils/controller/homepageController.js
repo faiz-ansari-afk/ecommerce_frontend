@@ -12,6 +12,7 @@ export const getHomepageData = async () => {
     const resultHomepage = await axios(config);
 
     const homepage = resultHomepage.data.data;
+    console.log("_______________homepage Result______________________❤️💥",homepage)
     // console.log("homepage",homepage)
     return homepage;
   } catch (error) {

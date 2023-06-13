@@ -71,8 +71,8 @@ export async function signUp({ email, password, username }) {
     return error.response.data;
   }
 }
-export async function searchUserInDatabase({email}) {
-  const url = `${strapiUrl}/api/users?poplate=*&filters[$and][0][email][$eq]=${email}`;
+export async function searchUserInDatabase({ field = 'email', value }) {
+  const url = `${strapiUrl}/api/users?poplate=*&filters[$and][0][${field}][$eq]=${value}`;
   try {
     const jwt = getAuthJWT();
     const response = await axios({
@@ -83,10 +83,13 @@ export async function searchUserInDatabase({email}) {
         Authorization: `Bearer ${jwt}`,
       },
     });
-    console.log("respo",response)
+    // console.log('respo', response);
+    if (field === 'local_role') {
+      return response.data.length > 0 ? response.data : null;
+    }
     return response.data.length > 0 ? response.data[0] : null;
   } catch (error) {
-    return null
+    return null;
   }
 }
 
@@ -122,7 +125,26 @@ export async function getUser(id, ctx) {
     return null;
   }
 }
+export async function getAllUsers(ctx) {
+  const jwt = getAuthJWT(ctx);
 
+  const url = `${strapiUrl}/api/users?populate=*`;
+  try {
+    const response = await axios({
+      method: 'get',
+      maxBodyLength: Infinity,
+      url,
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log('Getting all user error', error.response);
+    return null;
+  }
+}
 export async function updateUserData({ id, ctx, data }) {
   const jwt = getAuthJWT(ctx);
   const url = `${strapiUrl}/api/users/${id}?populate=*`;

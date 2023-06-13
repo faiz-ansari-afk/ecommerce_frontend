@@ -38,7 +38,7 @@ const Login = ({ setIsLoginFormOpen, setIsOpen, ...rest }) => {
       return;
     }
     setEmailError(null);
-    const isUserAvailable = await searchUserInDatabase({ email: identifier });
+    const isUserAvailable = await searchUserInDatabase({field:"email", value: identifier });
     if (isUserAvailable) {
       setIsExistingUser(true);
       setIsNewUser(false);

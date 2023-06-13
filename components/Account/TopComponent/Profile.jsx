@@ -2,6 +2,7 @@ import { Camera } from '@/components/Icon';
 import { uploadImage, deleteImage } from '@/utils/controller/imageController';
 import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
+import ToastMessage from '@/components/Toast';
 
 const Profile = ({ user }) => {
   // //console.log(user);
@@ -42,7 +43,10 @@ const Profile = ({ user }) => {
       fieldName: 'profile_pic',
       files: [file],
     });
-    alert('Image uploaded');
+    ToastMessage({
+      type: 'success',
+      message: `Profile updated.`,
+    });
     setLoading(false);
   };
   useEffect(() => {

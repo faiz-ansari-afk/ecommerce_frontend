@@ -125,6 +125,12 @@ const Navbar = () => {
               </Link>
             </li>
           )}
+          <li>
+            <Link href="/admin/overview" title="admin panel">
+              Admin
+              </Link>
+
+          </li>
           <li className="relative">
             {cartLoaded && (
               <>

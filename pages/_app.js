@@ -161,7 +161,7 @@ export default function App({ Component, pageProps }) {
             />
           </div>
           {/* Not showing footer on account page */}
-          {!router.asPath.includes('account') && <Footer />}
+          {!router.asPath.includes('account') || !router.asPath.includes('admin') && <Footer />}
         </DataProvider>
       )}
       {!isBackendLive && <div>Site is under maintainance</div>}

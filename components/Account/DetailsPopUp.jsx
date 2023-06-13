@@ -217,7 +217,7 @@ const DetailsPopUp = ({ data, setOpenPopUp }) => {
                   if (confirm('Do you want to cancel?')) {
                     // If the user clicks "OK", do something
                     const orderResponse = await updateOrderStatus({
-                      status: 'cancelled',
+                      dataToUpdate: {status: 'cancelled'},
                       orderID: data.id,
                     });
                     if (orderResponse.id) {

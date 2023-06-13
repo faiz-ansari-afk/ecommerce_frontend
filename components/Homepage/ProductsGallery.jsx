@@ -16,7 +16,7 @@ const ProductsGallery = ({ products }) => {
           Our Newest collections
         </p>
       </Link>
-      <div className="flex h-64 lg:h-72 gap-6 py-6 overflow-x-scroll  ">
+      <div className="flex h-64 lg:h-72 gap-6 py-6 overflow-x-auto  ">
         {products
           ? products.map((product, index) => (
               <div

@@ -84,7 +84,7 @@ export async function getRequest({
     const response = await axios(config);
     return response.data.data;
   } catch (error) {
-    //console.log(`request ${method} erorr`, error);
+    console.log(`request getting erorr`, error);
     return error;
   }
 }

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import slugify from 'slugify';
 import { getTotalPrice, getPrice } from '@/utils/controller/cartController';
 
-const CheckoutSummary = ({ cart }) => {
+const CheckoutSummary = ({ cart, adminFlag = false }) => {
   const [totalAmount, setTotalAmount] = React.useState(getTotalPrice(cart));
   const [products, setProducts] = React.useState(
     cart?.attributes?.cart_data?.products
@@ -12,14 +12,16 @@ const CheckoutSummary = ({ cart }) => {
 
   return (
     <div>
-      <div className="flex justify-between border-b pb-12">
-        <h3 className="text-light font-[SangbleuSans] text-3xl ">
-          Order summary
-        </h3>
-        <Link href="/cart">
-          <button className="underline underline-offset-4">Edit bag</button>
-        </Link>
-      </div>
+      {!adminFlag && (
+        <div className="flex justify-between border-b pb-12">
+          <h3 className="text-light font-[SangbleuSans] text-3xl ">
+            Order summary
+          </h3>
+          <Link href="/cart">
+            <button className="underline underline-offset-4">Edit bag</button>
+          </Link>
+        </div>
+      )}
 
       <ul className="product list mt-2">
         {products &&
@@ -66,33 +68,39 @@ const CheckoutSummary = ({ cart }) => {
       </ul>
 
       <div className="mt-4 ">
-        <div className="flex justify-between pb-3">
-          <h6 className="text-sm font-light uppercase tracking-widest">
-            SUBTOTAL
-          </h6>
-          <h6>
-            <span>₹</span> {totalAmount.toFixed(2)}
-          </h6>
-        </div>
+        {!adminFlag && (
+          <>
+            <div className="flex justify-between pb-3">
+              <h6 className="text-sm font-light uppercase tracking-widest">
+                SUBTOTAL
+              </h6>
+              <h6>
+                <span>₹</span> {totalAmount.toFixed(2)}
+              </h6>
+            </div>
 
-        <div className="flex justify-between pb-3">
-          <h6 className="text-sm font-light uppercase tracking-widest">
-            shipping
-          </h6>
-          <h6 className="text-sm font-light text-gray-600">
-            <span>₹</span> 00.00{' '}
-          </h6>
-        </div>
+            <div className="flex justify-between pb-3">
+              <h6 className="text-sm font-light uppercase tracking-widest">
+                shipping
+              </h6>
+              <h6 className="text-sm font-light text-gray-600">
+                <span>₹</span> 00.00
+              </h6>
+            </div>
 
-        <div className="flex justify-between border-b pb-5">
-          <h6 className="text-sm font-light uppercase tracking-widest">
-            Tax{' '}
-            <span className="text-xm lowercase text-gray-600">(included)</span>
-          </h6>
-          <h6 className="text-sm font-light text-gray-600">
-            <span>₹</span> 00.00{' '}
-          </h6>
-        </div>
+            <div className="flex justify-between border-b pb-5">
+              <h6 className="text-sm font-light uppercase tracking-widest">
+                Tax
+                <span className="text-xm lowercase text-gray-600">
+                  (included)
+                </span>
+              </h6>
+              <h6 className="text-sm font-light text-gray-600">
+                <span>₹</span> 00.00
+              </h6>
+            </div>
+          </>
+        )}
 
         <div className="flex justify-between  py-4">
           <h6 className="font-bold uppercase tracking-widest">Total</h6>
@@ -101,22 +109,24 @@ const CheckoutSummary = ({ cart }) => {
           </h6>
         </div>
 
-        <div className="py-4">
-          <details className="w-full rounded-lg bg-gray-100">
-            <summary className="px-4 py-3">Add a coupon code</summary>
-            <div className="flex  gap-2 px-4">
-              <div className="relative z-0 my-4 w-full  pb-2">
-                <input
-                  id="codeHere"
-                  type="text"
-                  placeholder="Enter code"
-                  className="mt-0 block w-full appearance-none  rounded-md border border-black px-3 pt-3 pb-2  focus:outline-none focus:ring-0"
-                />
+        {!adminFlag && (
+          <div className="py-4">
+            <details className="w-full rounded-lg bg-gray-100">
+              <summary className="px-4 py-3">Add a coupon code</summary>
+              <div className="flex  gap-2 px-4">
+                <div className="relative z-0 my-4 w-full  pb-2">
+                  <input
+                    id="codeHere"
+                    type="text"
+                    placeholder="Enter code"
+                    className="mt-0 block w-full appearance-none  rounded-md border border-black px-3 pt-3 pb-2  focus:outline-none focus:ring-0"
+                  />
+                </div>
+                <button className="hover:underline">Apply</button>
               </div>
-              <button className="hover:underline">Apply</button>
-            </div>
-          </details>
-        </div>
+            </details>
+          </div>
+        )}
       </div>
     </div>
   );
