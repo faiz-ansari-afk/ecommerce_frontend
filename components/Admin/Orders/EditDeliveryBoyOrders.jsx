@@ -1,9 +1,9 @@
 import CheckoutSummary from '@/components/Checkout/CheckoutSummary';
-import { useEffect, useState } from 'react';
-import { searchUserInDatabase } from '@/utils/controller/auth';
+import { useState } from 'react';
 import { updateOrderStatus } from '@/utils/controller/orderController';
 import { useRouter } from 'next/router';
 
+import { getRelativeDay, detectObjectChange } from '@/utils/helper';
 import Select from 'react-select';
 import ToastMessage from '@/components/Toast';
 import moment from 'moment/moment';
@@ -24,29 +24,10 @@ const EditOrders = ({ currentOrderData: order, setOpen }) => {
     paymentStatus: order.attributes.payment,
     paymentDetail: order.attributes.payment_details || '',
   };
-  const detectObjectChange = (obj1, obj2) => {
-    // Get the keys of both objects
-    const keys1 = Object.keys(obj1);
-    const keys2 = Object.keys(obj2);
 
-    // If the number of keys is different, objects are not equal
-    if (keys1.length !== keys2.length) {
-      return true;
-    }
-
-    // Compare the values of each key in both objects
-    for (let key of keys1) {
-      if (obj1[key] !== obj2[key]) {
-        return true;
-      }
-    }
-
-    // All keys and values are equal, objects are equal
-    return false;
-  };
-
-  // ?____________________________________ Order Status Dropdown Logic ______________________
+  // ?____________________________________ Order Status Dropdown Logic ________________________
   const statusList = [
+    { value: 'out for delivery', label: 'out for delivery' },
     { value: 'completed', label: 'completed' },
     { value: 'cancelled', label: 'cancelled' },
   ];
@@ -87,17 +68,6 @@ const EditOrders = ({ currentOrderData: order, setOpen }) => {
     if (!detectChange) {
       return;
     }
-    // #TODO: Add validation
-    /*
-    orderStatus: order.attributes.status,
-    customMessage: order.attributes.customMessage || '',
-    paymentDetail: order.attributes.payment_details || '',
-    paymentStatus: order.attributes.payment,
-
-    paymentStatusError: null,
-    paymentDetailError: null,
-    customMessageError: null,
-    */
     if (formData.orderStatus === 'completed') {
       if (formData.paymentStatus === 'unpaid') {
         setErrorData((ov) => ({
@@ -136,7 +106,7 @@ const EditOrders = ({ currentOrderData: order, setOpen }) => {
         customMessage: formData.customMessage,
       };
     }
-    
+
     setUpdating(true);
 
     const updateResponse = await updateOrderStatus({
@@ -158,12 +128,19 @@ const EditOrders = ({ currentOrderData: order, setOpen }) => {
         message: `Something Went Wrong.`,
       });
     }
-    
   };
   const disabledAllField = ['completed', 'cancelled'].includes(
     order.attributes.status
   );
-
+  const today = moment().startOf('day');
+  const targetDate = moment(order.attributes.expected_delivery_date).startOf(
+    'day'
+  );
+  const diffDays = targetDate.diff(today, 'days');
+  const [deliveryDate, classBasedOnDelivery] = getRelativeDay(
+    order.attributes.expected_delivery_date,
+    order.attributes.status
+  );
   return (
     <div className="overflow-y-auto mb-32 mx-2 md:mx-6 h-full px-1">
       <div className="flex  my-3 md:my-6 items-center justify-between ">
@@ -178,9 +155,11 @@ const EditOrders = ({ currentOrderData: order, setOpen }) => {
         </button>
       </div>
       <p className="px-2 py-1 bg-gray-100 rounded-lg my-4 flex justify-between flex-col md:flex-row md:items-center">
-        {' '}
         <span>Ordered At: {moment(order.attributes.createdAt).fromNow()}</span>
         <span className="text-xs">{order.attributes.order_id}</span>
+      </p>
+      <p className="px-2 py-1 bg-lime-100 inline-block">
+        Delivery: {deliveryDate}
       </p>
       <details open>
         <summary>Delivery Details</summary>
@@ -268,7 +247,9 @@ const EditOrders = ({ currentOrderData: order, setOpen }) => {
               onChange={(option) =>
                 setFormData((ov) => ({ ...ov, paymentStatus: option.value }))
               }
-              isDisabled={formData.orderStatus === 'cancelled' || disabledAllField}
+              isDisabled={
+                formData.orderStatus === 'cancelled' || disabledAllField
+              }
               options={paymentStatusList}
               defaultValue={paymentStatusList[indexOfPayment]}
             />
@@ -285,7 +266,9 @@ const EditOrders = ({ currentOrderData: order, setOpen }) => {
               onChange={(option) =>
                 setFormData((ov) => ({ ...ov, paymentDetail: option.value }))
               }
-              isDisabled={formData.orderStatus === 'cancelled' || disabledAllField}
+              isDisabled={
+                formData.orderStatus === 'cancelled' || disabledAllField
+              }
               options={paymentDetailsList}
               defaultValue={paymentDetailsList[indexOfPaymentDetail]}
             />

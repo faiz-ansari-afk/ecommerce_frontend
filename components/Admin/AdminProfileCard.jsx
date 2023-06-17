@@ -14,11 +14,9 @@ const AdminProfileCard = ({ user }) => {
   const handleImageChange = async (event) => {
     setLoading(true);
     const file = event.target.files[0];
-    // //console.log("file from navbar",file)
     const imageUrl = URL.createObjectURL(file);
     setImageSrc(imageUrl);
     if (user.profile_pic) {
-      // //console.log("id image",user.profile_pic.id)
       await deleteImage({ id: user.profile_pic.id });
     }
     await uploadImage({
@@ -41,9 +39,9 @@ const AdminProfileCard = ({ user }) => {
     }
   }, []);
   return (
-    <div className="bg-gray-200 max-w-sm rounded-lg p-3">
+    <div className="bg-gray-200 inline-block rounded-lg p-3">
       <div className="flex gap-5">
-        <div className="relative rounded-full  border  md:h-32 md:w-32 h-24 w-24">
+        <div className="relative rounded-full  border flex-shrink-0  md:h-32 md:w-32 h-24 w-24">
           {imageSrc && (
             <Image
               src={imageSrc}
@@ -52,7 +50,7 @@ const AdminProfileCard = ({ user }) => {
               sizes="(max-width: 768px) 100vw,
                                   (max-width: 1200px) 50vw,
                                   33vw"
-              className="h-full w-full rounded-full bg-white object-contain"
+              className="h-full w-full rounded-full bg-white object-cover"
             />
           )}
           <span

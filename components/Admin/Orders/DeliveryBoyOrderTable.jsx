@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { getAllOrdersOfAllUsers } from '@/utils/controller/orderController';
 
-
 import moment from 'moment/moment';
 import Select from 'react-select';
 import Pagination from '@/components/Pagination';
 import EditOrders from './EditOrders';
 import EditDeliveryBoyOrders from './EditDeliveryBoyOrders';
+import { getRelativeDay } from '@/utils/helper';
 
-const DeliveryBoyOrderTable = ({ orders: _orders, pagination: { pagination }, user }) => {
+const DeliveryBoyOrderTable = ({
+  orders: _orders,
+  pagination: { pagination },
+  user,
+}) => {
   const [orders, setOrders] = useState(_orders);
 
   const [open, setOpen] = useState(false);
@@ -28,7 +32,7 @@ const DeliveryBoyOrderTable = ({ orders: _orders, pagination: { pagination }, us
         pageSize,
         pageNumber: currentPage,
         status: status ? status : null,
-        email:user.email
+        email: user.email,
       });
       setOrders(orders.data);
 
@@ -47,7 +51,7 @@ const DeliveryBoyOrderTable = ({ orders: _orders, pagination: { pagination }, us
     { name: 'Customer ' },
     { name: 'Total' },
     { name: 'Status' },
-    { name: 'Delivery By' },
+    { name: 'Deliver Time' },
     { name: 'Recieved At' },
     { name: 'Action' },
   ];
@@ -66,11 +70,15 @@ const DeliveryBoyOrderTable = ({ orders: _orders, pagination: { pagination }, us
     { value: 'out for delivery', label: 'out for delivery' },
   ];
 
+  
   return (
     <div className="relative pb-32">
       {open && (
         <div className="fixed m-3 rounded-lg md:m-12 bg-white border inset-0 z-[999]">
-          <EditDeliveryBoyOrders setOpen={setOpen} currentOrderData={currentOrderData} />
+          <EditDeliveryBoyOrders
+            setOpen={setOpen}
+            currentOrderData={currentOrderData}
+          />
         </div>
       )}
       <div className="flex items-center justify-between pb-4">
@@ -93,10 +101,6 @@ const DeliveryBoyOrderTable = ({ orders: _orders, pagination: { pagination }, us
             defaultValue={pageSizeList[1]}
           />
         </div>
-
-        {/* <div className="relative">
-          <SearchBar />
-        </div> */}
       </div>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-500 ">
@@ -128,9 +132,11 @@ const DeliveryBoyOrderTable = ({ orders: _orders, pagination: { pagination }, us
               </tr>
             ) : (
               orders.map((order, index) => {
+                const [deliveryDate,classBasedOnDelivery] = getRelativeDay(order.attributes.expected_delivery_date,order.attributes.status);
+                
                 return (
                   <tr
-                    className="bg-white border-b even:bg-gray-100  hover:bg-gray-300"
+                    className={`bg-white border-b even:bg-gray-100  hover:bg-gray-300 `}
                     key={index}
                   >
                     <td className="pl-6 py-4">{order.id}</td>
@@ -145,7 +151,7 @@ const DeliveryBoyOrderTable = ({ orders: _orders, pagination: { pagination }, us
                     </td>
                     <td className={`px-6 py-4 `}>
                       <span
-                        className={`
+                        className={`truncate
                       ${
                         order.attributes.status === 'completed' &&
                         'text-lime-700'
@@ -167,37 +173,23 @@ const DeliveryBoyOrderTable = ({ orders: _orders, pagination: { pagination }, us
                         {order.attributes.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4">
-                      {order.attributes.delivery_guy_details.data ? (
-                        order.attributes.delivery_guy_details.data.attributes
-                          .username
-                      ) : (
-                        <span className="text-sm text-rose-500">None</span>
-                      )}
+                    <td className={`${classBasedOnDelivery} px-6 py-4 truncate`}>
+                      {deliveryDate}
                     </td>
                     <td className="px-6 py-4">
                       {moment(order.attributes.createdAt).fromNow()}
                     </td>
                     <td className="px-6 py-4">
-                      {/* {order.attributes.status === 'completed' ? (
-                        <button className="font-mediumtext-black">
-                          Closed
-                        </button>
-                      ) : ( */}
                       <button
                         className="font-medium text-blue-600  hover:underline"
                         onClick={() => {
-                          // if (order.attributes.status !== 'completed') {
                           setOpen(true);
                           setCurrentOrderData(order);
-                          // }
                         }}
-                        // disabled={order.attributes.status === 'completed'}
                         title="Edit"
                       >
                         Edit
                       </button>
-                      {/* )} */}
                     </td>
                   </tr>
                 );

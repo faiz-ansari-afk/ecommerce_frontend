@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
+import { DataContext } from '@/store/globalstate';
 import { useRouter } from 'next/router';
 import { Bullet } from '../Icon';
 import Link from 'next/link';
+
+import { destroyCookie } from 'nookies';
+
 const Nav = ({ user }) => {
+  const { dispatch, state } = useContext(DataContext);
   let Links = [
     { name: 'PROFILE', link: '/admin/overview' },
     { name: 'ORDERS', link: '/admin/orders' },
@@ -16,6 +21,17 @@ const Nav = ({ user }) => {
     ];
   }
   const router = useRouter();
+  const handleLogout = () => {
+    destroyCookie({}, 'jwt', {
+      path: '/', // THE KEY IS TO SET THE SAME PATH
+    });
+    destroyCookie({}, 'cart_uid', {
+      path: '/', // THE KEY IS TO SET THE SAME PATH
+    });
+    dispatch({ type: 'FALSE_GLOBAL_USER_lOGIN' });
+    dispatch({ type: 'RELOAD_CART' });
+    router.push('/');
+  };
   return (
     <div className="w-full flex justify-center ">
       <div className="mx-auto  py-5  w-full flex-shrink-0">
@@ -43,6 +59,7 @@ const Nav = ({ user }) => {
           <li>
             <button
               className={`py-1 my-1 items-center gap-2 flex uppercase bg-rose-900 text-white px-2 text-sm rounded-lg`}
+              onClick={handleLogout}
             >
               Logout
             </button>

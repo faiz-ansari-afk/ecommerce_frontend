@@ -41,7 +41,6 @@ const Navbar = () => {
   async function getCartItemCount() {
     const myCart = await getMyCart();
     const count = getCount(myCart);
-    // //////console.log('Navbar Cart Loaded');
     dispatch({ type: 'SET_CART_ITEMS_COUNT', payload: count });
   }
   useEffect(() => {
@@ -65,7 +64,6 @@ const Navbar = () => {
       prevScrollPos = currentScrollPos;
     };
   }, []);
-  // console.log("navbar user",user)
   // ${
   //   hideNavbar
   //     ? 'translate-y-full opacity-0 '
@@ -76,17 +74,17 @@ const Navbar = () => {
   //     ? 'invisible transition duration-[2000] -translate-y-full '
   //     : 'fixed top-0 z-[100] w-full py-4 lg:py-8  visible transition duration-500'
   // }
-  const [fullUser,setFullUser] = useState(null)
-  useEffect(()=>{
-    const fetchUserDetail = async ()=> {
-      if(user){
-        const userDetail = await getUser(user.id,null)
-        setFullUser(userDetail)
+  const [fullUser, setFullUser] = useState(null);
+  useEffect(() => {
+    const fetchUserDetail = async () => {
+      if (user) {
+        const userDetail = await getUser(user.id, null);
+        setFullUser(userDetail);
       }
-    }
+    };
     fetchUserDetail();
-  },[cookies.jwt,user?.id])
-  
+  }, [cookies.jwt, user?.id]);
+
   return (
     <header
       className={`${
@@ -138,12 +136,13 @@ const Navbar = () => {
               </Link>
             </li>
           )}
-          {fullUser && fullUser.local_role !== 'customer' && <li>
-            <Link href="/admin/overview" title="admin panel">
-            <Avatar heightWidth="h-7 w-7" url="/adminAvatar.jpg" />
+          {fullUser && fullUser.local_role !== 'customer' && (
+            <li>
+              <Link href="/admin/orders" title="admin panel">
+                <Avatar heightWidth="h-7 w-7" url="/adminAvatar.jpg" />
               </Link>
-
-          </li>}
+            </li>
+          )}
           <li className="relative">
             {cartLoaded && (
               <>

@@ -4,6 +4,7 @@ import { searchUserInDatabase } from '@/utils/controller/auth';
 import { updateOrderStatus } from '@/utils/controller/orderController';
 import { useRouter } from 'next/router';
 
+import { detectObjectChange } from '@/utils/helper';
 import Select from 'react-select';
 import ToastMessage from '@/components/Toast';
 import moment from 'moment/moment';
@@ -19,32 +20,12 @@ const EditOrders = ({ currentOrderData: order, setOpen }) => {
     customMessage: order.attributes.customMessage || '',
     paymentStatus: order.attributes.payment,
   });
-  const [initialFormData, setInitialFormData] = useState({
+  const initialFormData = {
     orderStatus: order.attributes.status || null,
     deliveryGuy: order.attributes.delivery_guy_details.data?.id || null,
     deliveryDate: order.attributes.expected_delivery_date || '',
     customMessage: '',
     paymentStatus: order.attributes.payment || null,
-  });
-  const detectObjectChange = (obj1, obj2) => {
-    // Get the keys of both objects
-    const keys1 = Object.keys(obj1);
-    const keys2 = Object.keys(obj2);
-
-    // If the number of keys is different, objects are not equal
-    if (keys1.length !== keys2.length) {
-      return true;
-    }
-
-    // Compare the values of each key in both objects
-    for (let key of keys1) {
-      if (obj1[key] !== obj2[key]) {
-        return true;
-      }
-    }
-
-    // All keys and values are equal, objects are equal
-    return false;
   };
 
   // ? _____________________ Delivery User Dropdown Logic ___________________
@@ -139,7 +120,6 @@ const EditOrders = ({ currentOrderData: order, setOpen }) => {
         delivery_guy_details: formData.deliveryGuy,
         expected_delivery_date: formData.deliveryDate,
       };
-      
     }
 
     if (formData.customMessage) {
@@ -158,7 +138,7 @@ const EditOrders = ({ currentOrderData: order, setOpen }) => {
         customMessage: formData.customMessage,
       };
     }
-    
+
     setUpdating(true);
 
     const updateResponse = await updateOrderStatus({

@@ -23,7 +23,7 @@ import { useMemo } from 'react';
 const index = ({ user: _user, data }) => {
   const { dispatch, state } = useContext(DataContext);
   const [user, setUser] = useState(_user);
-  //console.log(data)
+  
   const _requestedItems = useMemo(() => data.requestedItems);
   const [myRequestedItems, setMyRequestedItems] = useState(_requestedItems);
 
