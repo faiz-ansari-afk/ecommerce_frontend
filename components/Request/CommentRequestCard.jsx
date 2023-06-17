@@ -3,7 +3,10 @@ import { DataContext } from '@/store/globalstate';
 import InputField from '@/components/FormComponent/InputField';
 import { Warning, Avatar } from '@/components/Icon';
 import { getUser } from '@/utils/controller/auth';
-import { updateRequest, getSingleRequest } from '@/utils/controller/requestController';
+import {
+  updateRequest,
+  getSingleRequest,
+} from '@/utils/controller/requestController';
 import { Player, Controls } from '@lottiefiles/react-lottie-player';
 import ToastMessage from '@/components/Toast';
 /*
@@ -42,6 +45,7 @@ const CommentRequestCard = ({ request, user: _user }) => {
   );
 
   const [comment, setComment] = useState('');
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const handleComment = async (e) => {
     e.preventDefault();
@@ -64,8 +68,11 @@ const CommentRequestCard = ({ request, user: _user }) => {
       return;
     }
     setError(null);
-    const newUpdatedRequest = await getSingleRequest({id:request.id})
-    const allNewComments = newUpdatedRequest.attributes.comments ? newUpdatedRequest.attributes.comments : [];
+    setLoading(true);
+    const newUpdatedRequest = await getSingleRequest({ id: request.id });
+    const allNewComments = newUpdatedRequest.attributes.comments
+      ? newUpdatedRequest.attributes.comments
+      : [];
     const dataToSubmit = {
       data: {
         comments: [
@@ -104,6 +111,7 @@ const CommentRequestCard = ({ request, user: _user }) => {
     if (request.attributes.comment_enabled) {
       updateCommentToStrapi();
     }
+    setLoading(false);
   };
   const memoizedAllComments = useMemo(() => allComments);
   useEffect(() => {
@@ -144,10 +152,13 @@ const CommentRequestCard = ({ request, user: _user }) => {
     );
   }
   const handleDelete = async (id) => {
-    
-    const newUpdatedRequest = await getSingleRequest({id:request.id})
-    const allNewComments = newUpdatedRequest.attributes.comments ? newUpdatedRequest.attributes.comments : [];
-    const updatedComments = allNewComments.filter((comment) => comment.id !== id);
+    const newUpdatedRequest = await getSingleRequest({ id: request.id });
+    const allNewComments = newUpdatedRequest.attributes.comments
+      ? newUpdatedRequest.attributes.comments
+      : [];
+    const updatedComments = allNewComments.filter(
+      (comment) => comment.id !== id
+    );
     const dataToSubmit = {
       data: {
         comments: [...updatedComments],
@@ -198,16 +209,21 @@ const CommentRequestCard = ({ request, user: _user }) => {
                 <div className="">
                   <button
                     type="submit"
-                    disabled={comment.length === 0}
+                    disabled={comment.length === 0 || loading}
                     className={`px-3 md:px-3 lg:px-6  py-1 bg-black text-white rounded-full hover:shadow-lg ${
                       comment.length === 0 && 'cursor-not-allowed'
                     }`}
                   >
-                    submit
+                    {loading ? 'submitting...' : 'submit'}
                   </button>
                 </div>
               </div>
             </form>
+            {user && (
+              <p className="text-xs px-1 text-orange-800">
+                commenting as: {user.username}
+              </p>
+            )}
             <div
               className="bg-yellow-100 flex gap-2 items-center border-l-4 border-yellow-500 text-yellow-700 lg:p-4 md:p-2 p-1 my-3"
               role="alert"

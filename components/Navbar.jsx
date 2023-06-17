@@ -13,6 +13,7 @@ import Link from 'next/link';
 import Avatar from './Icon/Avatar';
 import { decodeJWT } from '@/utils/controller/sessionController';
 import { getCount, getMyCart } from '@/utils/controller/cartController';
+import { getUser } from '@/utils/controller/auth';
 
 const Navbar = () => {
   const [page, setPage] = useState('');
@@ -75,6 +76,17 @@ const Navbar = () => {
   //     ? 'invisible transition duration-[2000] -translate-y-full '
   //     : 'fixed top-0 z-[100] w-full py-4 lg:py-8  visible transition duration-500'
   // }
+  const [fullUser,setFullUser] = useState(null)
+  useEffect(()=>{
+    const fetchUserDetail = async ()=> {
+      if(user){
+        const userDetail = await getUser(user.id,null)
+        setFullUser(userDetail)
+      }
+    }
+    fetchUserDetail();
+  },[cookies.jwt,user?.id])
+  
   return (
     <header
       className={`${
@@ -105,7 +117,8 @@ const Navbar = () => {
             page === '/' ? 'text-gray-50' : 'text-gray-900'
           }`}
         >
-          <Link href="/">Ijazat</Link>
+          {/* <Link href="/"><div className="">Are Baba <br/><span className="text-xs">Bhiwandi</span></div></Link> */}
+          <Link href="/">Are Baba</Link>
         </span>
         <ul
           className={`flex items-center gap-3 md:gap-6 ${
@@ -125,12 +138,12 @@ const Navbar = () => {
               </Link>
             </li>
           )}
-          <li>
+          {fullUser && fullUser.local_role !== 'customer' && <li>
             <Link href="/admin/overview" title="admin panel">
-              Admin
+            <Avatar heightWidth="h-7 w-7" url="/adminAvatar.jpg" />
               </Link>
 
-          </li>
+          </li>}
           <li className="relative">
             {cartLoaded && (
               <>

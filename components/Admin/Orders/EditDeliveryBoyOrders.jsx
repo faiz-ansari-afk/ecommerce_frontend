@@ -14,18 +14,16 @@ const EditOrders = ({ currentOrderData: order, setOpen }) => {
   const router = useRouter();
   const [formData, setFormData] = useState({
     orderStatus: order.attributes.status,
-    deliveryGuy: order.attributes.delivery_guy_details.data?.id || null,
-    deliveryDate: order.attributes.expected_delivery_date || '',
     customMessage: order.attributes.customMessage || '',
+    paymentDetail: order.attributes.payment_details || '',
     paymentStatus: order.attributes.payment,
   });
-  const [initialFormData, setInitialFormData] = useState({
-    orderStatus: order.attributes.status || null,
-    deliveryGuy: order.attributes.delivery_guy_details.data?.id || null,
-    deliveryDate: order.attributes.expected_delivery_date || '',
-    customMessage: '',
-    paymentStatus: order.attributes.payment || null,
-  });
+  const initialFormData = {
+    orderStatus: order.attributes.status,
+    customMessage: order.attributes.customMessage || '',
+    paymentStatus: order.attributes.payment,
+    paymentDetail: order.attributes.payment_details || '',
+  };
   const detectObjectChange = (obj1, obj2) => {
     // Get the keys of both objects
     const keys1 = Object.keys(obj1);
@@ -47,32 +45,8 @@ const EditOrders = ({ currentOrderData: order, setOpen }) => {
     return false;
   };
 
-  // ? _____________________ Delivery User Dropdown Logic ___________________
-
-  const [deliveryUsers, setDeliveryUsers] = useState(null);
-  useEffect(() => {
-    const fetchDeliveryUsers = async () => {
-      const users = await searchUserInDatabase({
-        field: 'local_role',
-        value: 'delivery',
-      });
-      const selectUserView = users?.map((user) => {
-        const obj = {
-          label: user.username,
-          value: user.id,
-        };
-        return obj;
-      });
-      setDeliveryUsers(selectUserView);
-    };
-    fetchDeliveryUsers();
-  }, []);
-  const deliveryGuyFlag = order.attributes.delivery_guy_details.data;
-
   // ?____________________________________ Order Status Dropdown Logic ______________________
   const statusList = [
-    { value: 'ordered', label: 'ordered' },
-    { value: 'out for delivery', label: 'out for delivery' },
     { value: 'completed', label: 'completed' },
     { value: 'cancelled', label: 'cancelled' },
   ];
@@ -88,22 +62,18 @@ const EditOrders = ({ currentOrderData: order, setOpen }) => {
     (pstatus) => order.attributes.payment === pstatus.value
   );
 
-  // ?___________________ DElivery date logic_____________________________
-  const today = new Date().toISOString().split('T')[0];
-  const [openDeliveryField, setOpenDeliveryField] = useState(
-    deliveryGuyFlag ? false : true
+  const paymentDetailsList = [
+    { value: 'cash', label: 'cash' },
+    { value: 'online', label: 'online' },
+  ];
+  const indexOfPaymentDetail = paymentDetailsList.findIndex(
+    (pstatus) => order.attributes.payment_details === pstatus.value
   );
-  // *___________________ Notify User ____________________-
-  const [notifyUser, setNotifyUser] = useState(`${order.attributes.notify}`);
 
-  const handleNotifyChange = (event) => {
-    setNotifyUser(event.target.value);
-  };
   const [updating, setUpdating] = useState(false);
   const [errorData, setErrorData] = useState({
-    deliveryGuyError: null,
-    deliveryDateError: null,
-    paymentError: null,
+    paymentStatusError: null,
+    paymentDetailError: null,
     customMessageError: null,
   });
 
@@ -117,29 +87,39 @@ const EditOrders = ({ currentOrderData: order, setOpen }) => {
     if (!detectChange) {
       return;
     }
-    if (formData.orderStatus === 'out for delivery') {
-      if (!formData.deliveryGuy) {
+    // #TODO: Add validation
+    /*
+    orderStatus: order.attributes.status,
+    customMessage: order.attributes.customMessage || '',
+    paymentDetail: order.attributes.payment_details || '',
+    paymentStatus: order.attributes.payment,
+
+    paymentStatusError: null,
+    paymentDetailError: null,
+    customMessageError: null,
+    */
+    if (formData.orderStatus === 'completed') {
+      if (formData.paymentStatus === 'unpaid') {
         setErrorData((ov) => ({
           ...ov,
-          deliveryGuyError: 'Delivery Assign kr bhai',
+          paymentStatusError: 'Mark this order as PAID, if order is delivered',
         }));
         return;
       }
-      setErrorData((ov) => ({ ...ov, deliveryGuyError: null }));
-      if (!formData.deliveryDate) {
+      setErrorData((ov) => ({ ...ov, paymentStatusError: null }));
+      if (formData.paymentDetail === '') {
         setErrorData((ov) => ({
           ...ov,
-          deliveryDateError: 'Kab delivery hogi wo bhi Assign kr bhai',
+          paymentDetailError: 'Customer pay kaise kiya wo enter kro',
         }));
         return;
       }
-      setErrorData((ov) => ({ ...ov, deliveryDateError: null }));
+      setErrorData((ov) => ({ ...ov, paymentDetailError: null }));
       dataToSend = {
         status: formData.orderStatus,
-        delivery_guy_details: formData.deliveryGuy,
-        expected_delivery_date: formData.deliveryDate,
+        payment: formData.paymentStatus,
+        payment_details: formData.paymentDetail,
       };
-      
     }
 
     if (formData.customMessage) {
@@ -152,9 +132,7 @@ const EditOrders = ({ currentOrderData: order, setOpen }) => {
       }
       setErrorData((ov) => ({ ...ov, customMessageError: null }));
       dataToSend = {
-        status: formData.orderStatus,
-        delivery_guy_details: formData.deliveryGuy,
-        expected_delivery_date: formData.deliveryDate,
+        ...dataToSend,
         customMessage: formData.customMessage,
       };
     }
@@ -180,6 +158,7 @@ const EditOrders = ({ currentOrderData: order, setOpen }) => {
         message: `Something Went Wrong.`,
       });
     }
+    
   };
   const disabledAllField = ['completed', 'cancelled'].includes(
     order.attributes.status
@@ -267,32 +246,10 @@ const EditOrders = ({ currentOrderData: order, setOpen }) => {
             <p>Cannot Edit Cancelled or Completed request.</p>
           </div>
         )}
-        {/* <div className="bg-rose-900 text-white p-3 rounded-lg inline-block">
-          <p className="mb-2">Notify user about this change via SMS</p>
-          <label className="mr-4">
-            <input
-              type="radio"
-              name="option"
-              value="true"
-              checked={notifyUser === 'true'}
-              onChange={handleNotifyChange}
-            />
-            Yes
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="option"
-              value="false"
-              checked={notifyUser === 'false'}
-              onChange={handleNotifyChange}
-            />
-            No
-          </label>
-        </div> */}
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           <div className="statusContainer ">
-            <p>Order Status</p>
+            <p>Order Status:</p>
             <Select
               instanceId={'status list'}
               onChange={(option) =>
@@ -303,84 +260,41 @@ const EditOrders = ({ currentOrderData: order, setOpen }) => {
               defaultValue={statusList[indexOfStatus]}
             />
           </div>
-          <div className="flex justify-center flex-col ">
-            <p>Delivery Guy:</p>
-            {deliveryGuyFlag && (
-              <div className="text-sm bg-gray-100 p-3 rounded-lg mb-4">
-                <p className="flex justify-between">
-                  <span>{deliveryGuyFlag.attributes.username}</span>
-                  <button
-                    className="underline"
-                    onClick={() => setOpenDeliveryField((ov) => !ov)}
-                  >
-                    {openDeliveryField ? 'close' : 'Change'}
-                  </button>
-                </p>
-                <p>{deliveryGuyFlag.attributes.email}</p>
-                <p>
-                  Contact:{' '}
-                  {deliveryGuyFlag.attributes.contact
-                    ? deliveryGuyFlag.attributes.contact
-                    : 'Not available'}
-                </p>
-              </div>
-            )}
-            {openDeliveryField && (
-              <div>
-                <Select
-                  instanceId={'delivery guy list'}
-                  onChange={(option) =>
-                    setFormData((ov) => ({ ...ov, deliveryGuy: option.value }))
-                  }
-                  // isDisabled={isDisabled}
-                  isLoading={deliveryUsers ? false : true}
-                  isDisabled={disabledAllField}
-                  options={deliveryUsers}
-                />
-                {errorData.deliveryGuyError && (
-                  <p className="text-sm my-1 pl-1 text-rose-600">
-                    {errorData.deliveryGuyError}
-                  </p>
-                )}
-              </div>
-            )}
-          </div>
+
           <div className=" ">
-            <p>Delivery Date:</p>
-            <input
-              className="bg-gray-50 border text-gray-900 text-sm px-2 py-2.5 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full"
-              type="date"
-              value={formData.deliveryDate}
-              min={today}
-              disabled={disabledAllField}
-              onChange={(date) => {
-                const formattedDate = new Date(date.target.value)
-                  .toISOString()
-                  .split('T')[0];
-                // const dateString = new Date(
-                //   date.target.value
-                // ).toLocaleDateString();
-                setFormData((ov) => ({ ...ov, deliveryDate: formattedDate }));
-              }}
-            />
-            {errorData.deliveryDateError && (
-              <p className="text-sm my-1 pl-1 text-rose-600">
-                {errorData.deliveryDateError}
-              </p>
-            )}
-          </div>
-          {/* <div className=" ">
             <p>Payment Status:</p>
             <Select
               instanceId={'paymentStatus list'}
               onChange={(option) =>
                 setFormData((ov) => ({ ...ov, paymentStatus: option.value }))
               }
+              isDisabled={formData.orderStatus === 'cancelled' || disabledAllField}
               options={paymentStatusList}
               defaultValue={paymentStatusList[indexOfPayment]}
-              />
-              {errorData.paymentError && <p className='text-sm my-1 pl-1 text-rose-600'>{errorData.paymentError}</p>}
-          </div> */}
+            />
+            {errorData.paymentStatusError && (
+              <p className="text-sm my-1 pl-1 text-rose-600">
+                {errorData.paymentStatusError}
+              </p>
+            )}
+          </div>
+          <div className=" ">
+            <p>Payment Detail:</p>
+            <Select
+              instanceId={'paymentDetail list'}
+              onChange={(option) =>
+                setFormData((ov) => ({ ...ov, paymentDetail: option.value }))
+              }
+              isDisabled={formData.orderStatus === 'cancelled' || disabledAllField}
+              options={paymentDetailsList}
+              defaultValue={paymentDetailsList[indexOfPaymentDetail]}
+            />
+            {errorData.paymentDetailError && (
+              <p className="text-sm my-1 pl-1 text-rose-600">
+                {errorData.paymentDetailError}
+              </p>
+            )}
+          </div>
           <div className=" ">
             <p>Add Custom Message:</p>
             <InputField

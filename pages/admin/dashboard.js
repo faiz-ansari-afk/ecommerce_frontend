@@ -10,9 +10,9 @@ import OrdersSummary from '@/components/Admin/OrdersSummary';
 import RequestSummary from '@/components/Admin/RequestSummary';
 import Link from 'next/link';
 
-const dashboard = ({ requests, orders, users }) => {
+const dashboard = ({ requests, orders, users, user }) => {
   return (
-    <Layout>
+    <Layout user={user}>
       <OrdersSummary orders={orders} />
       <RequestSummary requests={requests} />
       <Link href="/admin/users">
@@ -40,9 +40,9 @@ export async function getServerSideProps(ctx) {
   let userIsAuthenticated = false;
   const jwt = parseCookies(ctx).jwt;
   const userInfo = decodeJWT(jwt);
-  ////////console.log("user data jwt",jwt, userInfo)
+  let user = null;
   if (userInfo) {
-    const user = await getUser(null, ctx);
+    user = await getUser(null, ctx);
     if (user) {
       userIsAuthenticated = user.local_role !== 'customer';
     } else {
@@ -76,6 +76,7 @@ export async function getServerSideProps(ctx) {
     props: {
       orders:orders.data,
       users,
+      user,
       requests,
     },
   };

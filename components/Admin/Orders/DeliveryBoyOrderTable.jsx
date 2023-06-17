@@ -6,8 +6,9 @@ import moment from 'moment/moment';
 import Select from 'react-select';
 import Pagination from '@/components/Pagination';
 import EditOrders from './EditOrders';
+import EditDeliveryBoyOrders from './EditDeliveryBoyOrders';
 
-const OrdersTable = ({ orders: _orders, pagination: { pagination } }) => {
+const DeliveryBoyOrderTable = ({ orders: _orders, pagination: { pagination }, user }) => {
   const [orders, setOrders] = useState(_orders);
 
   const [open, setOpen] = useState(false);
@@ -27,6 +28,7 @@ const OrdersTable = ({ orders: _orders, pagination: { pagination } }) => {
         pageSize,
         pageNumber: currentPage,
         status: status ? status : null,
+        email:user.email
       });
       setOrders(orders.data);
 
@@ -68,7 +70,7 @@ const OrdersTable = ({ orders: _orders, pagination: { pagination } }) => {
     <div className="relative pb-32">
       {open && (
         <div className="fixed m-3 rounded-lg md:m-12 bg-white border inset-0 z-[999]">
-          <EditOrders setOpen={setOpen} currentOrderData={currentOrderData} />
+          <EditDeliveryBoyOrders setOpen={setOpen} currentOrderData={currentOrderData} />
         </div>
       )}
       <div className="flex items-center justify-between pb-4">
@@ -121,7 +123,7 @@ const OrdersTable = ({ orders: _orders, pagination: { pagination } }) => {
             ) : orders.length < 1 ? (
               <tr>
                 <td colspan="7" align="center" className="py-3">
-                  No data to show
+                  No orders to deliver💕.
                 </td>
               </tr>
             ) : (
@@ -217,4 +219,4 @@ const OrdersTable = ({ orders: _orders, pagination: { pagination } }) => {
   );
 };
 
-export default OrdersTable;
+export default DeliveryBoyOrderTable;

@@ -9,7 +9,9 @@ import {
   Email,
   Whatsapp,
 } from '@/components/Icon';
+import { Player } from '@lottiefiles/react-lottie-player';
 import parse from 'html-react-parser';
+import Link from 'next/link';
 
 const AboutUs = ({ aboutUsData }) => {
   //console.log('aboutUsData', aboutUsData);
@@ -61,6 +63,61 @@ const AboutUs = ({ aboutUsData }) => {
               LinkedIn, WhatsApp, and email to stay updated with our latest
               offerings and promotions. */}
         </section>
+
+        <section>
+          <div className="grid lg:grid-cols-2 grid-cols-1 items-center justify-between">
+            <div className="w-full h-[60vh] md:h-[50vh] lg:h-screen flex items-end lg:p-12 py-12 px-4  bg-[#e3d9c6]">
+              <div className="">
+                <h3 className="lg:text-md text-xl font-[GillSans] my-8 uppercase">
+                  Our Service
+                </h3>
+                <p className="text-xl md:text-3xl tracking-widest mb-4 italic text-gray-800">
+                  You can submit custom product requests and bring your unique
+                  fashion vision to life.
+                </p>
+                <Link href="/request">
+                  <button className="px-3 py-2 bg-black text-white rounded-full hover:shadow-lg">
+                    Request Now
+                  </button>
+                </Link>
+              </div>
+            </div>
+            <div className="w-full h-[40vh] md:h-[50vh] lg:h-screen border relative  bg-[#e3d9c6]">
+              <Image
+                src="/service.png"
+                alt="Our Service"
+                fill
+                className="rounded-lg"
+                sizes="(max-width: 768px) 100vw,
+                              (max-width: 1200px) 50vw,
+                              33vw"
+              />
+            </div>
+          </div>
+        </section>
+        <section className="h-screen flex items-center justify-center">
+          <div>
+          <h3 className="font-[GillSans] uppercase  text-center text-gray-500 text-3xl">
+            Hum Kyu <span className="text-sm text-black">Why Us</span>
+          </h3>
+          <div className="flex flex-col">
+          <Player
+          autoplay
+          loop
+          src="https://assets3.lottiefiles.com/packages/lf20_ytn4jhdg.json"
+          style={{ height: '300px', width: '300px' }}
+        ></Player>
+          <p className="text-center px-3 md:max-w-lg  md:mx-auto   text-lg mb-4  text-slate-600">
+            Experience incredible savings and convenience at our ecommerce
+            store. Enjoy prices{' '}
+            <span className="text-black font-bold text-xl">25%</span> lower than
+            Amazon or Flipkart, request any product you need, and pay only after
+            checking the item with our secure open box delivery—no pre-payment
+            required.
+          </p>
+          </div>
+          </div>
+        </section>
         <section>
           <div className="grid lg:grid-cols-2 grid-cols-1 items-center justify-between">
             <div className="w-full h-[40vh] md:h-[50vh] lg:h-screen border relative">
@@ -73,7 +130,7 @@ const AboutUs = ({ aboutUsData }) => {
                               33vw"
               />
             </div>
-            <div className="w-full h-[70vh] md:h-[50vh] lg:h-screen flex items-end lg:p-12 py-12 px-4  bg-[#e3d9c6]">
+            <div className="w-full h-[50vh] md:h-[50vh] lg:h-screen flex items-end lg:p-12 py-12 px-4  bg-[#e3d9c6]">
               <div className="">
                 <h3 className="lg:text-md text-xl font-[GillSans] my-8 uppercase">
                   {hero_title}
@@ -81,6 +138,11 @@ const AboutUs = ({ aboutUsData }) => {
                 <p className="text-xl md:text-3xl tracking-widest mb-4 italic text-gray-800">
                   {parse(hero_description)}
                 </p>
+                <Link href="/collections">
+                  <button className="px-4 py-2 bg-black text-white rounded-full hover:shadow-lg">
+                    All Products
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

@@ -6,25 +6,15 @@ import { parseCookies, destroyCookie } from 'nookies';
 
 import Layout from '@/components/Admin/Layout';
 import OrdersTable from '@/components/Admin/Orders/OrdersTable';
+import DeliveryBoyOrderTable from '@/components/Admin/Orders/DeliveryBoyOrderTable';
 import { useEffect, useState } from 'react';
 
-const orders = ({ orders, pagination }) => {
-  // const [open, setOpen] = useState(false);
-  // useEffect(() => {
-  //   if (open) {
-  //     document.body.classList.add('overflow-hidden');
-  //   } else {
-  //     document.body.classList.remove('overflow-hidden');
-  //   }
-  // }, [open]);
+const orders = ({ orders, pagination, user }) => {
+  console.log("orders",orders)
   return (
-    <Layout>
-      <OrdersTable
-        orders={orders}
-        pagination={pagination}
-        // open={open}
-        // setOpen={setOpen}
-      />
+    <Layout user={user}>
+      {user.local_role === 'admin' && <OrdersTable orders={orders} pagination={pagination} />}
+      {user.local_role === 'delivery' && <DeliveryBoyOrderTable orders={orders} pagination={pagination} user={user} />}
     </Layout>
   );
 };
@@ -36,8 +26,9 @@ export async function getServerSideProps(ctx) {
   const jwt = parseCookies(ctx).jwt;
   const userInfo = decodeJWT(jwt);
   ////////console.log("user data jwt",jwt, userInfo)
+  let user = null;
   if (userInfo) {
-    const user = await getUser(null, ctx);
+    user = await getUser(null, ctx);
     if (user) {
       userIsAuthenticated = user.local_role !== 'customer';
     } else {
@@ -56,12 +47,16 @@ export async function getServerSideProps(ctx) {
       },
     };
   }
-  const orders = await getAllOrdersOfAllUsers({ pageSize: 15, pageNumber: 1 });
-
+  let orders = [];
+  if(user.local_role === 'admin')
+  orders = await getAllOrdersOfAllUsers({ pageSize: 15, pageNumber: 1});
+  else 
+  orders = await getAllOrdersOfAllUsers({email:user.email, pageSize: 15, pageNumber: 1 });
   return {
     props: {
       orders: orders.data,
       pagination: orders.meta,
+      user
     },
   };
 }

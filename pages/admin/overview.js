@@ -13,7 +13,7 @@ import { useState } from 'react';
 
 const overview = ({ user }) => {
   return (
-    <Layout>
+    <Layout user={user}>
       <AdminProfileCard user={user} />
       
       <p className="pb-32"></p>

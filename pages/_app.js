@@ -39,10 +39,10 @@ export default function App({ Component, pageProps }) {
   });
   TopBarProgress.config({
     barColors: {
-      "0": "#000",
-      "1.0": "#000"
+      0: '#000',
+      '1.0': '#000',
     },
-    shadowBlur: 5
+    shadowBlur: 5,
   });
   // __________________
   const [isOnline, setNetwork] = useState(
@@ -138,7 +138,7 @@ export default function App({ Component, pageProps }) {
     };
   }, []);
   const router = useRouter();
-
+  console.log('router', router);
   return (
     <>
       {isBackendLive && (
@@ -161,7 +161,7 @@ export default function App({ Component, pageProps }) {
             />
           </div>
           {/* Not showing footer on account page */}
-          {!router.asPath.includes('account') || !router.asPath.includes('admin') && <Footer />}
+          {!router.asPath.includes('account') && <Footer />}
         </DataProvider>
       )}
       {!isBackendLive && <div>Site is under maintainance</div>}

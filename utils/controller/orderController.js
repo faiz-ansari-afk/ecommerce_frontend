@@ -27,36 +27,39 @@ export async function createOrder({ data, ctx }) {
   }
 }
 
-export async function getAllOrder(ctx) {
-  const user = await getUser(null, ctx);
 
+export async function getAllOrder(ctx) {
+  const user = await getUser(null,ctx);
+  
   const strapiUrl = process.env.NEXT_PUBLIC_WEBSITE;
 
   //fetching only that orders that belong to logged in user
   const url = `${strapiUrl}/api/orders?populate=*&sort[0]=createdAt%3Adesc&filters[$and][1][users_permissions_user][email][$in]=${user.email}`;
   const jwt = getAuthJWT(ctx);
-
+  
   const config = {
     method: 'get',
     url,
     headers: {
       Authorization: `Bearer ${jwt}`,
       'Content-Type': 'application/json',
-    },
+    }
   };
 
   try {
     const response = await axios(config);
     return response.data.data;
   } catch (error) {
-    ////////console.log('Get All Order  error', error);
+    console.log('Get All Order  error', error);
     return error;
   }
 }
+
 export async function getAllOrdersOfAllUsers({
   pageSize = 15,
   pageNumber = 1,
   status = '',
+  email= ''
 }) {
   const strapiUrl = process.env.NEXT_PUBLIC_WEBSITE;
 
@@ -66,6 +69,9 @@ export async function getAllOrdersOfAllUsers({
   let url = `${strapiUrl}/api/orders?populate=*&sort[0]=createdAt%3Adesc&pagination[page]=${pageNumber}&pagination[pageSize]=${pageSize}`;
   if (status) {
     url = `${strapiUrl}/api/orders?populate=*&sort[0]=createdAt%3Adesc&pagination[page]=${pageNumber}&pagination[pageSize]=${pageSize}&filters[$and][0][status][$eq]=${status}`;
+  }
+  if(email){
+    url = `${url}&filters[$and][1][delivery_guy_details][email][$in]=${email}`;
   }
   const jwt = getAuthJWT();
 
@@ -92,7 +98,7 @@ export async function updateOrderStatus({ dataToUpdate, orderID }) {
 
   const orderData = JSON.stringify({
     data: {
-      ...dataToUpdate
+      ...dataToUpdate,
     },
   });
 

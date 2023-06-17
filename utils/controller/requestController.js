@@ -43,7 +43,14 @@ export async function createRequest({ data, ctx, method = 'post' }) {
 }
 
 export async function getRequest({
-  filterBy = { status: null, requested_by: null, all:false },
+  filterBy = {
+    status: null,
+    requested_by: null,
+    all: false,
+    pagination: false,
+    pageNumber: 1,
+    pageSize: 15,
+  },
   ctx,
   method = 'get',
 }) {
@@ -57,8 +64,8 @@ export async function getRequest({
   const strapiUrl = process.env.NEXT_PUBLIC_WEBSITE;
   let url = `${strapiUrl}/api/requests?populate[requested_by][populate]=*&populate[images][populate]=*&populate[comments][populate]=*&filters[$or][0][status][$eq]=completed&filters[$or][1][status][$eq]=approved&sort[0]=createdAt%3Adesc`;
 
-  if(filterBy.all){
-    url = `${strapiUrl}/api/requests?populate[requested_by][populate]=*&populate[images][populate]=*&populate[comments][populate]=*`
+  if (filterBy.all) {
+    url = `${strapiUrl}/api/requests?populate[requested_by][populate]=*&populate[images][populate]=*&populate[comments][populate]=*`;
   }
   if (filterBy.status && !filterBy.requested_by) {
     url = `${strapiUrl}/api/requests?populate[requested_by][populate]=*&populate[images][populate]=*&populate[comments][populate]=*&filters[$or][0][status][$eq]=${filterBy.status}&sort[0]=createdAt%3Adesc`;
@@ -66,7 +73,9 @@ export async function getRequest({
   if (filterBy.requested_by) {
     url = `${strapiUrl}/api/requests?populate[requested_by][populate]=*&populate[images][populate]=*&populate[comments][populate]=*&filters[$or][0][requested_by][email][$containsi]=${filterBy.requested_by}&sort[0]=createdAt%3Adesc`;
   }
-  
+  if (filterBy.pagination) {
+    url = `${url}&pagination[page]=${filterBy.pageNumber}&pagination[pageSize]=${filterBy.pageSize}`;
+  }
   const jwt = getAuthJWT(ctx);
 
   let config = {
@@ -82,6 +91,10 @@ export async function getRequest({
   try {
     //creating order
     const response = await axios(config);
+    // console.log("❤️--lol--",response.data)
+    if (filterBy.pagination) {
+      return response.data;
+    }
     return response.data.data;
   } catch (error) {
     console.log(`request getting erorr`, error);
@@ -89,29 +102,16 @@ export async function getRequest({
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 export async function updateRequest({ data, ctx, id }) {
   //this function handles creation of request and fetching all requests
 
   const strapiUrl = process.env.NEXT_PUBLIC_WEBSITE;
   let url = `${strapiUrl}/api/requests/${id}?populate[requested_by][populate]=*&populate[images][populate]=*&populate[comments][populate]=*&filters[$or][0][status][$eq]=completed&filters[$or][1][status][$eq]=approved&sort[0]=createdAt%3Adesc`;
-  
+
   const jwt = getAuthJWT(ctx);
 
   let config = {
-    method:'put',
+    method: 'put',
     maxBodyLength: Infinity,
     url,
     headers: {
@@ -120,7 +120,7 @@ export async function updateRequest({ data, ctx, id }) {
     },
     data,
   };
-  
+
   try {
     //creating order
     const response = await axios(config);
@@ -135,11 +135,11 @@ export async function deleteRequest({ id }) {
 
   const strapiUrl = process.env.NEXT_PUBLIC_WEBSITE;
   let url = `${strapiUrl}/api/requests/${id}?populate[requested_by][populate]=*&populate[images][populate]=*&populate[comments][populate]=*&filters[$or][0][status][$eq]=completed&filters[$or][1][status][$eq]=approved&sort[0]=createdAt%3Adesc`;
-  
+
   const jwt = getAuthJWT(ctx);
 
   let config = {
-    method:'delete',
+    method: 'delete',
     maxBodyLength: Infinity,
     url,
     headers: {
@@ -148,7 +148,7 @@ export async function deleteRequest({ id }) {
     },
     // data,
   };
-  
+
   try {
     //creating order
     const response = await axios(config);
@@ -159,17 +159,16 @@ export async function deleteRequest({ id }) {
   }
 }
 
-
-export async function getSingleRequest({ id,ctx = null }) {
+export async function getSingleRequest({ id, ctx = null }) {
   //this function handles creation of request and fetching all requests
 
   const strapiUrl = process.env.NEXT_PUBLIC_WEBSITE;
   let url = `${strapiUrl}/api/requests/${id}?populate[requested_by][populate]=*&populate[images][populate]=*&populate[comments][populate]=*&filters[$or][0][status][$eq]=completed&filters[$or][1][status][$eq]=approved&sort[0]=createdAt%3Adesc`;
-  
+
   const jwt = getAuthJWT(ctx);
 
   let config = {
-    method:'get',
+    method: 'get',
     maxBodyLength: Infinity,
     url,
     headers: {
@@ -177,7 +176,7 @@ export async function getSingleRequest({ id,ctx = null }) {
       'Content-Type': 'application/json',
     },
   };
-  
+
   try {
     //creating order
     const response = await axios(config);

@@ -37,11 +37,13 @@ const Cart = ({ cart }) => {
   useEffect(() => {
     setLoading(true);
     getMyCart(null)
-      .then((cartData) => {
-        setMyCart(cartData);
-        setTotalAmount(getTotalPrice(cartData));
-        setCartDetails(cartData?.attributes?.cart_data?.products);
-        setLoading(false);
+    .then((cartData) => {
+      setMyCart(cartData);
+      setTotalAmount(getTotalPrice(cartData));
+      setCartDetails(cartData?.attributes?.cart_data?.products);
+      setCount(cartData ? cartData.attributes.cart_data.products.length : 0)
+      
+      setLoading(false);
       })
       .catch((error) => {
         console.error('Error fetching cart data:', error);
@@ -49,9 +51,9 @@ const Cart = ({ cart }) => {
       });
   }, [state.cartReload]);
   const [updating, setUpdating] = useState(false);
-
   // const count = state.cartItemCount;
   const [count, setCount] = useState(state.cartItemCount);
+  console.log("count cart",count)
   const [totalAmount, setTotalAmount] = useState(getTotalPrice(myCart));
 
   const router = useRouter();
@@ -133,7 +135,7 @@ const Cart = ({ cart }) => {
         <section className="py-20 px-5 lg:py-32 lg:px-10">
           <div className="flex flex-col items-center  pt-32">
             <div>
-              <h3 className="pb-32 text-3xl font-extralight text-gray-600 md:text-5xl">
+              <h3 className="pb-32 text-center text-3xl font-extralight text-gray-600 md:text-5xl">
                 Your shopping bag is empty!
               </h3>
             </div>

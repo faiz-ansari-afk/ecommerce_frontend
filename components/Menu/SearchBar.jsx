@@ -105,7 +105,6 @@ const SearchBar = ({
           </svg>
         </div>
         <input
-          autoFocus
           type="text"
           id="voice-search"
           className="block w-full rounded-lg  bg-slate-700 p-2.5   pl-10  text-sm text-white placeholder-gray-400 "
