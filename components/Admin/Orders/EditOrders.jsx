@@ -4,6 +4,7 @@ import { searchUserInDatabase } from '@/utils/controller/auth';
 import { updateOrderStatus } from '@/utils/controller/orderController';
 import { useRouter } from 'next/router';
 
+import { getRelativeDay } from '@/utils/helper';
 import { detectObjectChange } from '@/utils/helper';
 import Select from 'react-select';
 import ToastMessage from '@/components/Toast';
@@ -70,6 +71,7 @@ const EditOrders = ({ currentOrderData: order, setOpen }) => {
   );
 
   // ?___________________ DElivery date logic_____________________________
+  const [relativeDeliveryDate,classBasedOnDelivery] = order.attributes.expected_delivery_date ? getRelativeDay(order.attributes.expected_delivery_date,order.attributes.status) : ["Not assigned yet","text-gray-600"]
   const today = new Date().toISOString().split('T')[0];
   const [openDeliveryField, setOpenDeliveryField] = useState(
     deliveryGuyFlag ? false : true
@@ -121,7 +123,20 @@ const EditOrders = ({ currentOrderData: order, setOpen }) => {
         expected_delivery_date: formData.deliveryDate,
       };
     }
-
+    if (formData.orderStatus === 'ordered') {
+      if (formData.deliveryGuy) {
+        dataToSend = {
+          ...dataToSend,
+          delivery_guy_details: formData.deliveryGuy,
+        };
+      }
+      if (formData.deliveryDate) {
+        dataToSend = {
+          ...dataToSend,
+          expected_delivery_date: formData.deliveryDate,
+        };
+      }
+    }
     if (formData.customMessage) {
       if (formData.customMessage.length < 20) {
         setErrorData((ov) => ({
@@ -138,7 +153,7 @@ const EditOrders = ({ currentOrderData: order, setOpen }) => {
         customMessage: formData.customMessage,
       };
     }
-
+    
     setUpdating(true);
 
     const updateResponse = await updateOrderStatus({
@@ -183,58 +198,7 @@ const EditOrders = ({ currentOrderData: order, setOpen }) => {
         <span>Ordered At: {moment(order.attributes.createdAt).fromNow()}</span>
         <span className="text-xs">{order.attributes.order_id}</span>
       </p>
-      <details open>
-        <summary>Delivery Details</summary>
-        <div className="lg:flex gap-5">
-          <div className=" lg:w-1/2">
-            <p className="text-xl">Items:</p>
-            <div className="bg-gray-100 p-3 rounded-lg shadow-lg">
-              <CheckoutSummary
-                cart={order.attributes.cart.data}
-                adminFlag={true}
-              />
-            </div>
-          </div>
 
-          <div className=" flex-col gap-5 flex my-6 lg:my-0">
-            <div className="">
-              <p className="text-xl text-gray-600">Details:</p>
-              <p className="bg-lime-200 rounded-lg p-3 font-sans max-w-sm">
-                {order.attributes.address.details.name} &nbsp; &nbsp; &nbsp;{' '}
-                {order.attributes.address.details.phoneNumber}
-              </p>
-            </div>
-            <div className="">
-              <p className="text-xl text-gray-600">Address:</p>
-              <p className="bg-indigo-200 rounded-lg p-3  max-w-md">
-                {order.attributes.address.address.address},{' '}
-                {order.attributes.address.address.city}
-              </p>
-            </div>
-            {order.attributes.address.address.note && (
-              <div className="">
-                <p className="text-xl text-gray-600">Note:</p>
-                <p className="">{order.attributes.address.address.note}</p>
-              </div>
-            )}
-            <div className="">
-              <p className="text-xl text-gray-600">Login Details:</p>
-              <p className="text-sm">
-                Username:{' '}
-                {order.attributes.users_permissions_user.data
-                  ? order.attributes.users_permissions_user.data.attributes
-                      .username
-                  : 'Null'}
-              </p>
-              <p className="text-sm">
-                {' '}
-                Email:{' '}
-                {order.attributes.users_permissions_user.data.attributes.email}
-              </p>
-            </div>
-          </div>
-        </div>
-      </details>
       <div className=" my-6 ">
         {disabledAllField && (
           <div
@@ -334,13 +298,15 @@ const EditOrders = ({ currentOrderData: order, setOpen }) => {
               min={today}
               disabled={disabledAllField}
               onChange={(date) => {
-                const formattedDate = new Date(date.target.value)
-                  .toISOString()
-                  .split('T')[0];
-                // const dateString = new Date(
-                //   date.target.value
-                // ).toLocaleDateString();
-                setFormData((ov) => ({ ...ov, deliveryDate: formattedDate }));
+                
+                if (date.target.value) {
+                  const formattedDate = new Date(date.target.value)
+                    .toISOString()
+                    .split('T')[0];
+                  setFormData((ov) => ({ ...ov, deliveryDate: formattedDate }));
+                } else {
+                  setFormData((ov) => ({ ...ov, deliveryDate: '' }));
+                }
               }}
             />
             {errorData.deliveryDateError && (
@@ -348,6 +314,7 @@ const EditOrders = ({ currentOrderData: order, setOpen }) => {
                 {errorData.deliveryDateError}
               </p>
             )}
+            <p className={`${classBasedOnDelivery} text-sm px-1`}>{relativeDeliveryDate}</p>
           </div>
           {/* <div className=" ">
             <p>Payment Status:</p>
@@ -391,6 +358,58 @@ const EditOrders = ({ currentOrderData: order, setOpen }) => {
           {updating ? 'Saving...' : 'Save'}
         </button>
       </div>
+      <details open className="pb-32">
+        <summary>Delivery Details</summary>
+        <div className="lg:flex gap-5">
+          <div className=" lg:w-1/2">
+            <p className="text-xl">Items:</p>
+            <div className="bg-gray-100 p-3 rounded-lg shadow-lg">
+              <CheckoutSummary
+                cart={order.attributes.cart.data}
+                adminFlag={true}
+              />
+            </div>
+          </div>
+
+          <div className=" flex-col gap-5 flex my-6 lg:my-0">
+            <div className="">
+              <p className="text-xl text-gray-600">Details:</p>
+              <p className="bg-lime-200 rounded-lg p-3 font-sans max-w-sm">
+                {order.attributes.address.details.name} &nbsp; &nbsp; &nbsp;{' '}
+                {order.attributes.address.details.phoneNumber}
+              </p>
+            </div>
+            <div className="">
+              <p className="text-xl text-gray-600">Address:</p>
+              <p className="bg-indigo-200 rounded-lg p-3  max-w-md">
+                {order.attributes.address.address.address},{' '}
+                {order.attributes.address.address.city}
+              </p>
+            </div>
+            {order.attributes.address.address.note && (
+              <div className="">
+                <p className="text-xl text-gray-600">Note:</p>
+                <p className="">{order.attributes.address.address.note}</p>
+              </div>
+            )}
+            <div className="">
+              <p className="text-xl text-gray-600">Login Details:</p>
+              <p className="text-sm">
+                Username:{' '}
+                {order.attributes.users_permissions_user.data
+                  ? order.attributes.users_permissions_user.data.attributes
+                      .username
+                  : 'Null'}
+              </p>
+              <p className="text-sm">
+                {' '}
+                Email:{' '}
+                {order.attributes.users_permissions_user.data.attributes.email}
+              </p>
+            </div>
+          </div>
+        </div>
+      </details>
     </div>
   );
 };

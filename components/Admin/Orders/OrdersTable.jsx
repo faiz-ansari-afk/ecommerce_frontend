@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getAllOrdersOfAllUsers } from '@/utils/controller/orderController';
 
-
+import { getRelativeDay } from '@/utils/helper';
 import moment from 'moment/moment';
 import Select from 'react-select';
 import Pagination from '@/components/Pagination';
@@ -46,6 +46,7 @@ const OrdersTable = ({ orders: _orders, pagination: { pagination } }) => {
     { name: 'Total' },
     { name: 'Status' },
     { name: 'Delivery By' },
+    { name: 'Delivery At' },
     { name: 'Recieved At' },
     { name: 'Action' },
   ];
@@ -73,7 +74,7 @@ const OrdersTable = ({ orders: _orders, pagination: { pagination } }) => {
       )}
       <div className="flex items-center justify-between pb-4">
         <div className="flex  items-center gap-1">
-          <span className="">Sort By Status:</span>
+          <span className="text-sm">Sort By Status:</span>
           <div className="min-w-[150px] md:min-w-[200px]">
             <Select
               instanceId={'status list'}
@@ -126,6 +127,7 @@ const OrdersTable = ({ orders: _orders, pagination: { pagination } }) => {
               </tr>
             ) : (
               orders.map((order, index) => {
+                const [deliveryDate,classBasedOnDelivery] = order.attributes.expected_delivery_date ? getRelativeDay(order.attributes.expected_delivery_date,order.attributes.status) : ["Not assigned","text-rose-600"]
                 return (
                   <tr
                     className="bg-white border-b even:bg-gray-100  hover:bg-gray-300"
@@ -138,10 +140,10 @@ const OrdersTable = ({ orders: _orders, pagination: { pagination } }) => {
                             .attributes.username
                         : 'Null'}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4 font-bold">
                       {order.attributes.final_price}
                     </td>
-                    <td className={`px-6 py-4 `}>
+                    <td className={`px-6 py-4 truncate`}>
                       <span
                         className={`
                       ${
@@ -173,7 +175,10 @@ const OrdersTable = ({ orders: _orders, pagination: { pagination } }) => {
                         <span className="text-sm text-rose-500">None</span>
                       )}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className={`px-6 py-4 truncate ${classBasedOnDelivery}`}>
+                      {deliveryDate}
+                    </td>
+                    <td className="px-6 py-4 truncate">
                       {moment(order.attributes.createdAt).fromNow()}
                     </td>
                     <td className="px-6 py-4">

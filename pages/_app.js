@@ -138,7 +138,7 @@ export default function App({ Component, pageProps }) {
     };
   }, []);
   const router = useRouter();
-  console.log('router', router);
+  // console.log('router', !router.pathname.includes("admin"));
   return (
     <>
       {isBackendLive && (
@@ -161,7 +161,7 @@ export default function App({ Component, pageProps }) {
             />
           </div>
           {/* Not showing footer on account page */}
-          {!router.asPath.includes('account') && <Footer />}
+          {!router.asPath.includes('account') || !router.pathname.includes("admin") && <Footer />}
         </DataProvider>
       )}
       {!isBackendLive && <div>Site is under maintainance</div>}

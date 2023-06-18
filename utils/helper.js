@@ -14,7 +14,7 @@ export function getRelativeDay(inputDate,status) {
     const formattedInputDate = `${inputDateDay} ${inputDateMonth} ${inputDateYear}`;
 
 
-    console.log(formattedCurrentDate,inputDate)
+    
     const isPast = inputDate < formattedCurrentDate;
     if(isPast) return [formattedInputDate,''];
     const today = moment().startOf('day');

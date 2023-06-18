@@ -83,7 +83,7 @@ const DeliveryBoyOrderTable = ({
       )}
       <div className="flex items-center justify-between pb-4">
         <div className="flex  items-center gap-1">
-          <span className="">Sort By Status:</span>
+          <span className="text-sm">Sort By Status:</span>
           <div className="min-w-[150px] md:min-w-[200px]">
             <Select
               instanceId={'status list'}
@@ -146,7 +146,7 @@ const DeliveryBoyOrderTable = ({
                             .attributes.username
                         : 'Null'}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4 font-bold">
                       {order.attributes.final_price}
                     </td>
                     <td className={`px-6 py-4 `}>
@@ -176,7 +176,7 @@ const DeliveryBoyOrderTable = ({
                     <td className={`${classBasedOnDelivery} px-6 py-4 truncate`}>
                       {deliveryDate}
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4 truncate">
                       {moment(order.attributes.createdAt).fromNow()}
                     </td>
                     <td className="px-6 py-4">
