@@ -10,7 +10,7 @@ import DeliveryBoyOrderTable from '@/components/Admin/Orders/DeliveryBoyOrderTab
 import { useEffect, useState } from 'react';
 
 const orders = ({ orders, pagination, user }) => {
-  console.log("orders",orders)
+  
   return (
     <Layout user={user}>
       {user.local_role === 'admin' && <OrdersTable orders={orders} pagination={pagination} />}

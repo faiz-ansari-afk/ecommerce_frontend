@@ -132,7 +132,7 @@ const Cart = ({ cart }) => {
         <Head>
           <title>Cart</title>
         </Head>
-        <section className="py-20 px-5 lg:py-32 lg:px-10">
+        <section className="py-20 px-5 lg:py-32 lg:px-10 animate__animated animate__fadeIn animate__fast">
           <div className="flex flex-col items-center  pt-32">
             <div>
               <h3 className="pb-32 text-center text-3xl font-extralight text-gray-600 md:text-5xl">
@@ -152,7 +152,7 @@ const Cart = ({ cart }) => {
       <Head>
         <title>Cart</title>
       </Head>
-      <section className="py-20 px-5 lg:py-32 lg:px-10">
+      <section className="py-20 px-5 lg:py-32 lg:px-10 animate__animated animate__fadeIn animate__fast">
         {count === 0 ? (
           <div className="flex flex-col items-center  pt-32">
             <div>

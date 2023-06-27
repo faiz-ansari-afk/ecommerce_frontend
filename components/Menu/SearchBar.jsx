@@ -5,12 +5,13 @@ import {
 } from '@/utils/controller/productController';
 import useSpeechRecognition from '@/utils/hooks/voiceController';
 import { DataContext } from '@/store/globalstate';
+import { Menu } from '../Icon';
 
 const SearchBar = ({
   setSearchedProducts,
   setOpenSearchList,
   setQueryParam,
-  setIsKeyboardOpen,
+  setIsKeyboardOpen = null,
 }) => {
   const [searchKeyword, setSearchKeyword] = useState('');
 
@@ -37,15 +38,15 @@ const SearchBar = ({
     };
     //debouncing req for 1 sec
     const getData = setTimeout(() => {
-      if (searchKeyword.length > 0) fetchData();
-    }, 500);
+      if (searchKeyword.length > 0) {setSearchedProducts(null); fetchData();}
+    }, 200);
 
     return () => clearTimeout(getData);
   }, [searchKeyword]);
   // _________________******************************_________________________*********************________________________
 
   //**__________________________________speech to text logic__________________________________
-  const [placeholder, setPlaceholder] = useState('Search Products, Stories...');
+  const [placeholder, setPlaceholder] = useState('Search Products, Requests...');
 
   const { transcript, listening, supported, startListening, stopListening } =
     useSpeechRecognition();
@@ -72,7 +73,7 @@ const SearchBar = ({
             });
             setSearchedProducts(results);
           }
-        }, 500);
+        }, 200);
       }
       stopListening();
       debounceSearch();
@@ -84,7 +85,7 @@ const SearchBar = ({
     return () => stopListening();
   }, [transcript]);
   return (
-    <form className="flex items-center pt-2 px-1 ">
+    <form className="flex items-center  ">
       <label htmlFor="voice-search" className="sr-only">
         Search
       </label>
@@ -117,15 +118,15 @@ const SearchBar = ({
           <button
             onClick={() => {
               setSearchKeyword('');
-              setIsKeyboardOpen(false);
+              setIsKeyboardOpen && setIsKeyboardOpen(false);
               setOpenSearchList(false);
               setSearchedProducts(null);
-              setPlaceholder('Search Products, Stories...');
+              setPlaceholder('Search Products, Requests...');
               stopListening();
             }}
             className="text-white absolute inset-y-0 right-0 flex items-center pr-3"
           >
-            X
+            <Menu />
           </button>
         ) : (
           supported && (

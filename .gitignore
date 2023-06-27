@@ -30,3 +30,7 @@ yarn-error.log*
 .env
 # vercel
 .vercel
+
+# pwa
+public/sw.js
+public/workbox-*

@@ -21,7 +21,7 @@ const Shops = ({ shops }) => {
       <Head>
         <title>Partnered Shops</title>
       </Head>
-      <section className="py-20 px-2 lg:py-32 lg:px-10">
+      <section className="py-20 px-2 lg:py-32 lg:px-10 animate__animated animate__fadeIn animate__fast">
         <div>
           <h1
             className={`mb-4 text-center font-heading text-5xl font-medium italic tracking-wide text-gray-900 lg:mb-8 lg:text-7xl `}

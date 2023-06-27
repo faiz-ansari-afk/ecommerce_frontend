@@ -70,7 +70,6 @@ const DeliveryBoyOrderTable = ({
     { value: 'out for delivery', label: 'out for delivery' },
   ];
 
-  
   return (
     <div className="relative pb-32">
       {open && (
@@ -132,8 +131,11 @@ const DeliveryBoyOrderTable = ({
               </tr>
             ) : (
               orders.map((order, index) => {
-                const [deliveryDate,classBasedOnDelivery] = getRelativeDay(order.attributes.expected_delivery_date,order.attributes.status);
-                
+                const [deliveryDate, classBasedOnDelivery] = getRelativeDay(
+                  order.attributes.expected_delivery_date,
+                  order.attributes.status
+                );
+
                 return (
                   <tr
                     className={`bg-white border-b even:bg-gray-100  hover:bg-gray-300 `}
@@ -173,7 +175,9 @@ const DeliveryBoyOrderTable = ({
                         {order.attributes.status}
                       </span>
                     </td>
-                    <td className={`${classBasedOnDelivery} px-6 py-4 truncate`}>
+                    <td
+                      className={`${classBasedOnDelivery} px-6 py-4 truncate`}
+                    >
                       {deliveryDate}
                     </td>
                     <td className="px-6 py-4 truncate">

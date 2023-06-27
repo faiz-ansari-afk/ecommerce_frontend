@@ -40,7 +40,7 @@ const Video = ({ src, children }) => {
   };
 
   return (
-    <section className="relative h-screen overflow-hidden">
+    <section className="relative  aspect-video lg:h-screen lg:w-full overflow-hidden">
       <video
         ref={ref}
         loop
@@ -53,7 +53,7 @@ const Video = ({ src, children }) => {
         <source src={src} type="video/mp4" />
       </video>
       <span className="absolute inset-0 z-20 bg-black/60"></span>
-      <span className="absolute bottom-10 left-8 z-40 flex items-center space-x-1 lg:bottom-14 lg:left-14 lg:space-x-2">
+      <span className="absolute bottom-1 left-1 z-40 flex items-center space-x-1 lg:bottom-14 lg:left-14 lg:space-x-2">
         {isPaused ? (
           <PlayIcon
             onClick={handlePLaying}

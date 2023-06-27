@@ -10,7 +10,7 @@ import Link from 'next/link';
 
 const request = ({ requestedItem: _requestedItem, user }) => {
   const [requestedItem, setRequestedItem] = useState(_requestedItem);
-  console.log("requestedItem",_requestedItem)
+  
   // const [sortBy, setSortBy] = useState('All');
   // const requestedItemMemo = useMemo(() => requestedItem);
   const scrollRef = useRef(null);
@@ -38,7 +38,7 @@ const request = ({ requestedItem: _requestedItem, user }) => {
         />
       </Head>
 
-      <main className="py-20 px-5 lg:py-32 lg:px-10 ">
+      <main className="py-20 px-5 lg:py-32 lg:px-10 animate__animated animate__fadeIn animate__fast">
         {/* **************** Heading tab ************************ */}
         <div>
           <h1

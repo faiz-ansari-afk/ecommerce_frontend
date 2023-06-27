@@ -1,12 +1,12 @@
 import { useState, useContext } from 'react';
 import { setCookie } from 'nookies';
 import { signIn, signUp, searchUserInDatabase } from '@/utils/controller/auth';
-import { Arrow } from '@/components/Icon';
+import { Arrow, Menu } from '@/components/Icon';
 import { DataContext } from '../../store/globalstate';
 import ToastMessage from '@/components/Toast';
 import InputField from '../FormComponent/InputField';
 import { useRouter } from 'next/router';
-const Login = ({ setIsLoginFormOpen, setIsOpen, ...rest }) => {
+const Login = ({ setIsLoginOpen }) => {
   const router = useRouter();
   const { dispatch, state } = useContext(DataContext);
   const [loading, setLoading] = useState(false);
@@ -38,7 +38,10 @@ const Login = ({ setIsLoginFormOpen, setIsOpen, ...rest }) => {
       return;
     }
     setEmailError(null);
-    const isUserAvailable = await searchUserInDatabase({field:"email", value: identifier });
+    const isUserAvailable = await searchUserInDatabase({
+      field: 'email',
+      value: identifier,
+    });
     if (isUserAvailable) {
       setIsExistingUser(true);
       setIsNewUser(false);
@@ -59,7 +62,7 @@ const Login = ({ setIsLoginFormOpen, setIsOpen, ...rest }) => {
           path: '/',
         });
         ToastMessage({ type: 'success', message: `Successfully logged in.` });
-        setIsOpen(false);
+        setIsLoginOpen(false);
         setLoading(false);
         dispatch({ type: 'FALSE_OPEN_LOGIN' });
         router.reload();
@@ -111,7 +114,7 @@ const Login = ({ setIsLoginFormOpen, setIsOpen, ...rest }) => {
             path: '/',
           });
           ToastMessage({ type: 'success', message: `Successfully Register.` });
-          setIsOpen(false);
+          setIsLoginOpen(false);
           dispatch({ type: 'FALSE_OPEN_LOGIN' });
           setLoading(false);
           router.reload();
@@ -129,20 +132,35 @@ const Login = ({ setIsLoginFormOpen, setIsOpen, ...rest }) => {
   };
 
   return (
-    <div className="px-1">
-      <div
-        className="h-5 w-5 ml-2"
-        onClick={() => {
-          dispatch({ type: 'FALSE_OPEN_LOGIN' });
-          setIsLoginFormOpen((ov) => !ov);
-        }}
-      >
-        <Arrow className="-rotate-90 text-white hover:cursor-pointer" />
-      </div>
-      <div className="mb-4 mt-3 font-[SangbleuSans] text-4xl">
+    <div className="px-1 w-full md:min-w-[400px] relative ">
+      {isNewUser && (
+        <div
+          className="h-5 w-5 ml-2"
+          onClick={() => {
+            // dispatch({ type: 'FALSE_OPEN_LOGIN' });
+            setIsNewUser((ov) => false);
+            setIsExistingUser((ov) => false);
+          }}
+        >
+          <Arrow className="-rotate-90 text-white hover:cursor-pointer animate__animated  animate__fadeIn" />
+        </div>
+      )}
+      {isExistingUser && (
+        <div
+          className="h-5 w-5 ml-2"
+          onClick={() => {
+            // dispatch({ type: 'FALSE_OPEN_LOGIN' });
+            setIsNewUser((ov) => false);
+            setIsExistingUser((ov) => false);
+          }}
+        >
+          <Arrow className="-rotate-90 text-white hover:cursor-pointer animate__animated  animate__fadeIn" />
+        </div>
+      )}
+      <div className="mb-4 mt-3 font-[SangbleuSans] text-4xl text-center text-gray-300 animate__animated  animate__fadeIn">
         {isNewUser ? 'Welcome' : isExistingUser ? 'Welcome Back!' : 'Good day!'}
       </div>
-      <div className="text-md my-2 px-4 font-[GillSans] leading-tight text-gray-200">
+      <div className="text-md my-2 px-4 font-[GillSans] text-center py-2 leading-tight text-gray-200 animate__animated  animate__fadeIn">
         {isNewUser
           ? 'Create your account'
           : isExistingUser
@@ -150,9 +168,13 @@ const Login = ({ setIsLoginFormOpen, setIsOpen, ...rest }) => {
           : 'Fill in your e-mail address to log in or create an account.'}
       </div>
 
-      <form className="space-y-3" onSubmit={handleSubmit} autoComplete="off">
+      <form
+        className="space-y-3 animate__animated  animate__fadeIn "
+        onSubmit={handleSubmit}
+        autoComplete="off"
+      >
         <InputField
-          classes="bg-gray-700 text-white "
+          classes="bg-gray-700 text-gray-200 "
           autoFocus
           name="email"
           type="email"
@@ -169,9 +191,9 @@ const Login = ({ setIsLoginFormOpen, setIsOpen, ...rest }) => {
         </InputField>
 
         {isExistingUser && (
-          <>
+          <div className="animate__animated  animate__fadeIn ">
             <InputField
-              classes="bg-gray-700 text-white "
+              classes="bg-gray-700 text-gray-200 "
               name="password"
               type="password"
               value={password}
@@ -183,12 +205,12 @@ const Login = ({ setIsLoginFormOpen, setIsOpen, ...rest }) => {
             >
               Password
             </InputField>
-          </>
+          </div>
         )}
         {isNewUser && (
-          <>
+          <div className="animate__animated  animate__fadeIn space-y-3">
             <InputField
-              classes="bg-gray-700 text-white "
+              classes="bg-gray-700 text-gray-200 "
               name="username"
               type="text"
               value={username}
@@ -201,7 +223,7 @@ const Login = ({ setIsLoginFormOpen, setIsOpen, ...rest }) => {
               Username
             </InputField>
             <InputField
-              classes="bg-gray-700 text-white "
+              classes="bg-gray-700 text-gray-200 "
               name="createpassword"
               type="password"
               value={password}
@@ -216,7 +238,7 @@ const Login = ({ setIsLoginFormOpen, setIsOpen, ...rest }) => {
               <div className="text-sm text-rose-500">{passwordError}</div>
             )}
             <InputField
-              classes="bg-gray-700 text-white "
+              classes="bg-gray-700 text-gray-200 "
               name="confirm-password"
               type="password"
               value={confirmPassword}
@@ -228,16 +250,16 @@ const Login = ({ setIsLoginFormOpen, setIsOpen, ...rest }) => {
             >
               Confirm Password
             </InputField>
-          </>
+          </div>
         )}
 
         <div className="mt-8 mb-12 text-center  font-[GillSans] tracking-wider">
           <button
             type="submit"
-            className="cursor-pointer underline underline-offset-2"
+            className="cursor-pointer underline underline-offset-2 text-gray-200"
             disabled={loading}
           >
-            {loading ? "Loading" : "Continue"}
+            {loading ? 'Loading' : 'Continue'}
           </button>
         </div>
       </form>

@@ -98,7 +98,7 @@ function Variants({
   }, [selectedColorID, selectedSizeID]);
 
   return (
-    <div className="border-t border-black ">
+    <div className="border-t border-black animate__animated animate__fadeInUp animate__faster">
       <div className="flex mt-3">
         <h3 className="inline-block flex-grow underline uppercase font-light text-gray-800 ">
           Choose color
@@ -140,7 +140,7 @@ function Variants({
                   sizes="(max-width: 768px) 100vw,
                         (max-width: 1200px) 50vw,
                         33vw"
-                  className="h-full w-full object-fit"
+                  className="h-full w-full object-cover"
                 />
               </div>
             );

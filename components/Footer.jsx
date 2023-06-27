@@ -1,52 +1,57 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 function Footer() {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   return (
-    <footer className="bg-black text-white py-16 container mx-auto font-[GillSans]">
-      <div className="w-full  flex items-center justify-center bg-black">
-        <div className="md:w-2/3 w-full px-4 text-white flex flex-col">
-          <div className="flex flex-col  ">
-            <h3 className="text-3xl hover:scale-[1.1] transition duration-300 text-center my-5">
-              <Link href="/">Are Baba</Link>
-            </h3>
-            <div className="flex  mb-8 flex-row justify-between">
-              <Link
-                className="cursor-pointer  text-gray-600 hover:text-gray-200 transition duration-500 uppercase"
-                href="/about-us"
-              >
+    <footer className="container mx-auto bg-gray-900 mt-4 md:mt-0">
+      <div className=" p-4 md:py-8">
+        <div className="sm:flex sm:items-center sm:justify-between">
+          <Link href="/">
+            <div className="relative w-32 h-8  text-center">
+              <Image
+                src="/site/logo-no-background.svg"
+                fill
+                alt="site logo"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                priority
+                className="object-contain  rounded-lg  hover:text-white"
+              />
+            </div>
+          </Link>
+          <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
+            <li>
+              <Link href="/about-us" className="mr-4 hover:underline md:mr-6 ">
                 About
               </Link>
-              <Link
-                className="cursor-pointer  text-gray-600 hover:text-gray-200 transition duration-500 uppercase"
-                href="about-us"
-              >
-                Services
+            </li>
+            <li>
+              <Link href="#" className="mr-4 hover:underline md:mr-6">
+                Privacy Policy
               </Link>
-              <Link
-                className="cursor-pointer  text-gray-600 hover:text-gray-200 transition duration-500 uppercase"
-                href="about-us"
-              >
-                Why us
+            </li>
+            <li>
+              <Link href="/request" className="mr-4 hover:underline md:mr-6 ">
+                Requests
               </Link>
-              <Link
-                className="cursor-pointer  text-gray-600 hover:text-gray-200 transition duration-500 uppercase"
-                href="contact"
-              >
+            </li>
+            <li>
+              <Link href="/contact" className="hover:underline">
                 Contact
               </Link>
-            </div>
-            <div className="border-gray-100 h-1 w-full" />
-            <p className="w-full text-center my-12 text-gray-600 pb-32">
-              Copyright © {currentYear}{' '}
-              <span className="hover:text-white  transition duration-300">
-                Are Baba
-              </span>
-            </p>
-          </div>
+            </li>
+          </ul>
         </div>
+        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+        <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
+          © {currentYear}{' '}
+          <Link href="/" className="hover:underline">
+            Lisa Lord™
+          </Link>
+          . All Rights Reserved.
+        </span>
       </div>
     </footer>
   );

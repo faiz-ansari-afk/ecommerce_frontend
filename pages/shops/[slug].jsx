@@ -130,7 +130,7 @@ const Shop = ({ shop, products: _products }) => {
       </Head>
 
       <section>
-        <div className="relative  aspect-auto">
+        <div className="relative  aspect-auto mt-16">
           {/* h-[70vh] md:h-[85vh] lg:h-[90vh] */}
           <ImageSlider
             images={mappedImages}

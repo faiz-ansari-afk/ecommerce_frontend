@@ -10,15 +10,13 @@ export default function Home({ homepage, categories, products }) {
   return (
     <>
       <Head>
-        <title>Homepage - Sadak Chaap</title>
+        <title>Homepage - Are Baba</title>
         <meta
           name="description"
           content="Shop local in Bhiwandi with our ecommerce website. Browse and buy from a variety of products with ease. Visit us today!"
         />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="microphone" content="true" />
       </Head>
-      <main className="container mx-auto">
+      <main className="container mx-auto animate__animated animate__fadeIn animate__fast ">
         {homepage.attributes.FIRST_HERO && (
           <ClassifyHero hero={homepage.attributes.FIRST_HERO} />
         )}

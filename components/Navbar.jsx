@@ -3,13 +3,14 @@ import { useRouter } from 'next/router';
 import { DataContext } from '../store/globalstate';
 import { parseCookies } from 'nookies';
 
+import Image from 'next/image';
+import Link from 'next/link';
 import {
   MicrophoneIcon,
   MagnifyingGlassIcon,
   ShoppingBagIcon,
   ChevronLeftIcon,
 } from '@heroicons/react/24/outline';
-import Link from 'next/link';
 import Avatar from './Icon/Avatar';
 import { decodeJWT } from '@/utils/controller/sessionController';
 import { getCount, getMyCart } from '@/utils/controller/cartController';
@@ -64,11 +65,7 @@ const Navbar = () => {
       prevScrollPos = currentScrollPos;
     };
   }, []);
-  // ${
-  //   hideNavbar
-  //     ? 'translate-y-full opacity-0 '
-  //     : 'fixed top-0 z-[100] w-full py-4 lg:py-8  translate-y-0 opacity-100 animate-fadeInDown transition-opacity duration-500 delay-200 transform origin-top'
-  // }
+  
   // ${
   //   hideNavbar
   //     ? 'invisible transition duration-[2000] -translate-y-full '
@@ -116,7 +113,19 @@ const Navbar = () => {
           }`}
         >
           {/* <Link href="/"><div className="">Are Baba <br/><span className="text-xs">Bhiwandi</span></div></Link> */}
-          <Link href="/">Are Baba</Link>
+          {/* <Link href="/" className="h-7"><img src="/site/logo-no-background.svg" /></Link> */}
+          <Link href="/" className="flex justify-center">
+            <div className="relative h-10 w-44 text-center">
+              <Image
+                src="/site/logo-no-background.svg"
+                fill
+                alt="site logo"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                priority
+                className="object-contain text-black"
+              />
+            </div>
+          </Link>
         </span>
         <ul
           className={`flex items-center gap-3 md:gap-6 ${

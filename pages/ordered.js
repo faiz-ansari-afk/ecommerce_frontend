@@ -40,7 +40,7 @@ const payment = ({ user }) => {
         <title>Payment - Pasha</title>
       </Head>
 
-      <section className="py-32 " ref={confettiContainerRef}>
+      <section className="py-32 animate__animated animate__fadeIn animate__fast" ref={confettiContainerRef}>
         <div
           className="hidden md:block"
           style={{ position: 'absolute', top: 0, left: 0, right: 0 }}
@@ -68,7 +68,7 @@ const payment = ({ user }) => {
               Whatsapp number.
               <br />
               Thank you for ordering from
-              <span className="font-bold"> Sadak Chaap</span>
+              <span className="font-bold"> Are Baba</span>
             </p>
             <div className="flex flex-col gap-5 md:flex-row">
               <Link
@@ -80,7 +80,7 @@ const payment = ({ user }) => {
                     <span className="h-4 w-4">
                       <Bullet />
                     </span>
-                    Go to collection
+                    Go to collections
                   </div>
                 </div>
               </Link>

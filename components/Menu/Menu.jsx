@@ -12,11 +12,6 @@ import { decodeJWT } from '@/utils/controller/sessionController';
 import SearchBar from './SearchBar';
 import SearchList from './SearchList';
 
-// const playfairDisplay = Playfair_Display({
-//   subsets: ['latin'],
-//   variable: '--font-playfair-display',
-// });
-
 const Menu = () => {
   const { dispatch, state } = useContext(DataContext);
 

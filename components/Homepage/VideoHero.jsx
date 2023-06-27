@@ -29,7 +29,7 @@ const VideoHero = ({ hero }) => {
   // const firstTitleStyles = first_title.reactCSSstyle;
   // ////console.log('Video Hero', firstTitleStyles);
   return (
-    <div>
+    <div className='pt-16 bg-slate-700'>
       <Video src={`${hero.video.data.attributes.url}`}>
         <div className="">
           <p className="">

@@ -29,7 +29,7 @@ const AboutUs = ({ aboutUsData }) => {
       <Head>
         <title>About Us - Ijazat</title>
       </Head>
-      <main className="py-20  lg:py-32 ">
+      <main className="py-20  lg:py-32 animate__animated animate__fadeIn animate__fast ">
         <h3 className="font-[GillSans] uppercase text-center text-gray-500 text-xl">
           Our philosophy
         </h3>

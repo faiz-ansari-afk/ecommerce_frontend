@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { getPrice, getTotalPrice } from '@/utils/controller/cartController';
 import slugify from 'slugify';
 import { updateOrderStatus } from '@/utils/controller/orderController';
-import {  Warning } from '@/components/Icon';
+import { Warning } from '@/components/Icon';
 
 const DetailsPopUp = ({ data, setOpenPopUp }) => {
   ////console.log('popup data', data);
@@ -22,7 +22,7 @@ const DetailsPopUp = ({ data, setOpenPopUp }) => {
   // console.log('deliveryGuy', deliveryGuy);
   return (
     <div
-      className={`fixed left-0 right-0 top-[20px] z-[1111]  h-[95%]  mx-2 md:mx-32 lg:mx-64  overflow-y-scroll rounded-lg border bg-white  px-2 pb-12 shadow-lg  md:px-8
+      className={`fixed left-0 right-0 top-[20px] z-[1111]  h-[95%]  mx-2 md:mx-32 lg:mx-64  overflow-y-scroll rounded-lg border bg-white  px-2 pb-12 shadow-lg  md:px-8 animate__animated animate__zoomIn animate__faster
       `}
     >
       <div className="relative"></div>
@@ -66,15 +66,24 @@ const DetailsPopUp = ({ data, setOpenPopUp }) => {
             <li className="text-gray-600 ">
               Delivered By:&nbsp;{' '}
               <span className="text-lg text-black">
-                {deliveryGuy.attributes.username} {' '}
-                {deliveryGuy.attributes.contact &&
-                  <a href={`tel:${deliveryGuy.attributes.contact}`}>({deliveryGuy.attributes.contact})</a>}
-                
+                {deliveryGuy.attributes.username}{' '}
+                {deliveryGuy.attributes.contact && (
+                  <a href={`tel:${deliveryGuy.attributes.contact}`}>
+                    ({deliveryGuy.attributes.contact})
+                  </a>
+                )}
               </span>
             </li>
           )}
         </ul>
-        {data.attributes.customMessage && <div className="text-sm items-center gap-3 bg-gray-100 flex px-4 py-1 rounded-lg  my-2"><p className=""><Warning /></p><p className="">{data.attributes.customMessage}</p></div>}
+        {data.attributes.customMessage && (
+          <div className="text-sm items-center gap-3 bg-gray-100 flex px-4 py-1 rounded-lg  my-2">
+            <p className="">
+              <Warning />
+            </p>
+            <p className="">{data.attributes.customMessage}</p>
+          </div>
+        )}
       </div>
 
       <div className="my-12">
@@ -91,20 +100,21 @@ const DetailsPopUp = ({ data, setOpenPopUp }) => {
             )}
           </li>
           <li className="text-gray-600 ">
-                Payment Mode:&nbsp;{' '}
-                <span className="text-lg text-black">
-                  {data.attributes.payment_mode}
-                </span>
-              </li>
+            Payment Mode:&nbsp;{' '}
+            <span className="text-lg text-black">
+              {data.attributes.payment_mode}
+            </span>
+          </li>
           {data.attributes.status === 'completed' && (
             <>
-              {<li className="text-gray-600 ">
-                Payment Style:&nbsp;{' '}
-                <span className="text-lg text-black">
-                  {data.attributes.payment_details}
-                </span>
-              </li>}
-              
+              {
+                <li className="text-gray-600 ">
+                  Payment Style:&nbsp;{' '}
+                  <span className="text-lg text-black">
+                    {data.attributes.payment_details}
+                  </span>
+                </li>
+              }
             </>
           )}
         </ul>
@@ -217,7 +227,7 @@ const DetailsPopUp = ({ data, setOpenPopUp }) => {
                   if (confirm('Do you want to cancel?')) {
                     // If the user clicks "OK", do something
                     const orderResponse = await updateOrderStatus({
-                      dataToUpdate: {status: 'cancelled'},
+                      dataToUpdate: { status: 'cancelled' },
                       orderID: data.id,
                     });
                     if (orderResponse.id) {

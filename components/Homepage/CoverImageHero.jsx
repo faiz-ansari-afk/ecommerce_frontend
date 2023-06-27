@@ -35,11 +35,11 @@ const CoverImageHero = ({ hero }) => {
   }
 
   return (
-    <div className="relative flex justify-center items-center  overflow-hidden w-full h-screen">
+    <div className="relative flex justify-center items-center  overflow-hidden w-full py-12">
       {glassmorphism_div?.id && (
         <div style={glassmorphism_div.reactCSSstyle}></div>
       )}
-      <div className="grid h-screen grid-cols-1 md:grid-cols-2 gap-1 md:gap-4 mx-2 md:mx-12 justify-center items-center ">
+      <div className="grid  grid-cols-1 md:grid-cols-2 gap-1 md:gap-4 mx-2 md:mx-12 justify-center items-center ">
         <div className="">
           <div className="relative bg-transparent aspect-[4/3.5]  rounded-lg   ">
             <Image
@@ -53,7 +53,7 @@ const CoverImageHero = ({ hero }) => {
             />
           </div>
         </div>
-        <div className=" text-center md:text-left ">
+        <div className=" text-center md:text-left py-12">
           <div className="text-xl my-3 md:my-5 ">
             <span style={first_title.reactCSSstyle}>{first_title.title}</span>
           </div>

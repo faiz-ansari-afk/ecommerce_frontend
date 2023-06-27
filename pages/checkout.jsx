@@ -58,7 +58,7 @@ const checkout = ({ data: cart, user: _user }) => {
     }
   }, [cart_uid]);
   return (
-    <section className="mb-20 py-20 px-5 lg:py-32 lg:px-10">
+    <section className="mb-20 py-20 px-5 lg:py-32 lg:px-10 animate__animated animate__fadeIn animate__fast">
       <div className="grid gap-6 md:gap-16 md:mx-10 md:grid-cols-3">
         <div className="md:col-span-2 ">
           <details>

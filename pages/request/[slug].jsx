@@ -140,7 +140,7 @@ const RequestSlug = ({ request }) => {
         <title>{request.attributes.name}</title>
       </Head>
 
-      <section className="container mx-auto border ">
+      <section className="container mx-auto border mt-12">
         <div className="relative lg:h-screen h-[60vh]">
           <ImageSlider
             images={mappedImages}

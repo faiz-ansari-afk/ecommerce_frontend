@@ -9,18 +9,18 @@ const ProductsGallery = ({ products }) => {
 
 */
   return (
-    <div className={` h-full relative px-4 lg:px-12 py-32`}>
+    <div className={`  relative px-4 lg:px-12 py-16`}>
       <div className={` ${styles.bgRipple} absolute inset-0 z-2`}></div>
       <Link href={`/collections`}>
         <p className="text-center uppercase my-4 tracking-widest ">
           Our Newest collections
         </p>
       </Link>
-      <div className="flex h-64 lg:h-72 gap-6 py-6 overflow-x-auto  ">
+      <div className="flex h-64 lg:h-72 gap-6 py-6 overflow-x-auto  scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100">
         {products
           ? products.map((product, index) => (
               <div
-                className="aspect-[2/2] flex-shrink-0   border relative   rounded-lg bg-slate-400 "
+                className="aspect-[2/2] flex-shrink-0  hover:scale-105 transition duration-300 border relative   rounded-lg bg-slate-400 "
                 key={index}
               >
                 <Link href={`/product/${slugify(product.attributes.name)}`}>

@@ -9,16 +9,17 @@ import Menu from '@/components/Menu/Menu';
 import { getMyCart } from '@/utils/controller/cartController';
 import { updateUserData, getUser } from '@/utils/controller/auth';
 import Router from 'next/router';
+import { DataContext } from '@/store/globalstate';
 
 import TopBarProgress from 'react-topbar-progress-indicator';
 import { Inter, Literata } from 'next/font/google';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import NavbarNew from '@/components/NavbarNew';
 
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-});
+import 'animate.css';
+import LoginPopup from '@/components/LoginPopup';
+
 const literata = Literata({
   subsets: ['latin'],
   variable: '--font-lato',
@@ -39,8 +40,8 @@ export default function App({ Component, pageProps }) {
   });
   TopBarProgress.config({
     barColors: {
-      0: '#000',
-      '1.0': '#000',
+      0: '#fff',
+      '1.0': '#fff',
     },
     shadowBlur: 5,
   });
@@ -115,9 +116,6 @@ export default function App({ Component, pageProps }) {
   const [isBackendLive, setIsBackendLive] = useState(true);
   // ////console.log(isBackendLive)
 
-  // useEffect(() => {
-  //   ToastMessage({ type: "error", message: "Hello world!" });
-  // }, []);
   useEffect(() => {
     const unhandledRejectionHandler = (event) => {
       // Handle unhandled promise rejections
@@ -138,33 +136,48 @@ export default function App({ Component, pageProps }) {
     };
   }, []);
   const router = useRouter();
-  // console.log('router', !router.pathname.includes("admin"));
+  //handle scroll bargutter here becasue of navbar
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  // scroll lock when login is open
+  useEffect(() => {
+    const isDesktop = window.innerWidth >= 768;
+    if (isLoginOpen && isDesktop) {
+      document.body.style.overflowY = 'hidden';
+      document.body.style.paddingRight = '8px'; // Adjust the value as per your needs
+    } else {
+      document.body.style.overflowY = 'auto';
+      document.body.style.paddingRight = '0';
+    }
+  }, [isLoginOpen]);
+  
   return (
     <>
-      {isBackendLive && (
-        <DataProvider>
-          {progress && <TopBarProgress />}
-          <Navbar />
-          <div className={`${literata.variable} font-serif`}>
-            <Component {...pageProps} />
-
-            <Menu />
-            <ToastContainer
-              position="top-right"
-              autoClose={5000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              draggable={false}
-              pauseOnVisibilityChange
-              closeOnClick
-              pauseOnHover
-            />
-          </div>
-          {/* Not showing footer on account page */}
-          {!router.asPath.includes('account') || !router.pathname.includes("admin") && <Footer />}
-        </DataProvider>
-      )}
+      {/* {isBackendLive && ( */}
       {!isBackendLive && <div>Site is under maintainance</div>}
+      <DataProvider>
+        {progress && <TopBarProgress />}
+        <NavbarNew isLoginOpen={isLoginOpen} />
+        {/* <Navbar /> */}
+        <div className={`${literata.variable} font-serif`}>
+          <Component {...pageProps} />
+          <LoginPopup isLoginOpen={isLoginOpen} setIsLoginOpen={setIsLoginOpen} />
+          {/* <Menu /> */}
+          <ToastContainer
+            position="top-right"
+            autoClose={4000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            draggable={false}
+            pauseOnVisibilityChange
+            closeOnClick
+            pauseOnHover
+          />
+        </div>
+        {/* Not showing footer on account page */}
+        {!router.pathname.includes('admin') && <Footer />}
+        {/* <Footer /> */}
+      </DataProvider>
+      {/* )} */}
     </>
   );
 }

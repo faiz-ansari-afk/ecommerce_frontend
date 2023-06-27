@@ -14,7 +14,7 @@ import {
   ChevronUp,
   ChevronDown,
 } from '@/components/Icon';
-import styles from './product.module.css'
+import styles from './product.module.css';
 
 import {
   getAllProducts as getData,
@@ -111,6 +111,10 @@ const Product = ({ product }) => {
   const mappedImages = mapToSliderImages(product.attributes.images.data);
 
   async function handleAddToCart(productVariant) {
+    if(!product.attributes.inStock){
+      alert("Product is out of stock");
+      return;
+    }
     try {
       const addToCartResponse = await addToCart(productVariant);
       const count = getCount(addToCartResponse);
@@ -166,8 +170,10 @@ const Product = ({ product }) => {
       <Head>
         <title>{product.attributes.name}</title>
       </Head>
-      <div className={`fixed bottom-4 right-1/2  w-11/12 translate-x-1/2 transform items-center  rounded-lg bg-white py-4 px-2 shadow-lg md:right-4 md:w-[500px] md:translate-x-0   border border-black z-[100] ${styles.borderAnimation}`}>
-        <div className="flex gap-2 mb-3">
+      <div
+        className={`fixed bottom-4 right-1/2  w-11/12 translate-x-1/2 transform items-center  rounded-lg bg-white py-2 lg:py-4 px-2 shadow-lg md:right-4 md:w-[500px] md:translate-x-0   border border-black z-[100] ${styles.borderAnimation}`}
+      >
+        <div className="flex gap-2 ">
           <div className="relative rounded-lg h-24 w-24 flex-shrink-0  lg:h-28 lg:w-28">
             {selectedVariantImage && (
               <Image
@@ -185,7 +191,7 @@ const Product = ({ product }) => {
           <div>
             <div className="mb-2">
               <h1
-                className={`flex-grow  font-heading text-xl font-medium tracking-wide text-gray-900 line-clamp-2 `}
+                className={`flex-grow  font-heading lg:text-xl font-medium tracking-wide text-gray-900 line-clamp-2 `}
               >
                 {product.attributes.name}
               </h1>
@@ -205,18 +211,18 @@ const Product = ({ product }) => {
                 )}
               </div>
               {product.attributes.inStock ? (
-                <span className="animate-pulse rounded-full text-sm lg:text-base">
-                  <span className="inline-block w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                <span className="animate-pulse rounded-full text-xs lg:text-base">
+                  <span className="inline-block w-2 h-2 bg-green-500 rounded-full mr-1"></span>
                   In Stock{' '}
                   {product.attributes.stock_quantity < 10 && (
-                    <span className="ml-2 text-sm">
-                      only peice {product.attributes.stock_quantity} left
+                    <span className="ml-1 text-xs">
+                      only {product.attributes.stock_quantity} peice left
                     </span>
                   )}
                 </span>
               ) : (
-                <span className=" rounded-full text-sm lg:text-base text-gray-500">
-                  <span className="inline-block w-2 h-2 bg-rose-500 rounded-full mr-2"></span>
+                <span className=" rounded-full text-xs lg:text-base text-gray-500">
+                  <span className="inline-block w-2 h-2 bg-rose-500 rounded-full mr-1"></span>
                   out of Stock
                 </span>
               )}
@@ -249,7 +255,7 @@ const Product = ({ product }) => {
           </button>
           {selectedVariantDetails && (
             <button
-              className={`rounded-full bg-gray-900 hover:shadow-lg  px-4 py-1 text-white lg:px-4 lg:py-2 ${
+              className={`rounded-full bg-gray-900 hover:shadow-lg  px-4 py-1 text-white lg:px-4 lg:py-2 animate__animated animate__fadeIn animate__faster ${
                 loading && 'hover:cursor-not-allowed'
               }`}
               onClick={() => {
@@ -266,7 +272,7 @@ const Product = ({ product }) => {
         </div>
       </div>
 
-      <section>
+      <section className="mt-16">
         <div className="relative ">
           <ImageSlider
             images={mappedImages}
@@ -378,14 +384,10 @@ const Product = ({ product }) => {
                     onClick={handleShare}
                   >
                     <span className="h-6 w-6">
-                      <Share /> 
+                      <Share />
                     </span>
-                    <span className="uppercase text-gray-500">Share
-                    </span>
-                    
-
+                    <span className="uppercase text-gray-500">Share</span>
                   </button>
-                  
                 </div>
 
                 {/* <div className="mb-5 cursor-pointer rounded-full px-6 py-4 font-light text-gray-800 shadow hover:shadow-lg">

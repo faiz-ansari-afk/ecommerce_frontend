@@ -31,3 +31,5 @@ export { default as Instagram } from './Instagram';
 export { default as LinkedIn } from './LinkedIn';
 export { default as Facebook } from './Facebook';
 export { default as Whatsapp } from './Whatsapp';
+export { default as Menu } from './Close';
+export { default as Close } from './Menu';

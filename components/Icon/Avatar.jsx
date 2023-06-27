@@ -43,7 +43,7 @@ const Avatar = ({
           className="object-cover rounded-full"
         />
       ) : (
-        <div className="rounded-full  border h-5 md:h-6 md:w-6 lg:h-7 w-5 lg:w-7 transition-colors bg-gradient-to-br from-gray-300 to-gray-100 animate-pulse" />
+        <div className={`rounded-full  border  transition-colors bg-gradient-to-br from-gray-300 to-gray-100 animate-pulse ${heightWidth}`} />
       )}
     </div>
   );
