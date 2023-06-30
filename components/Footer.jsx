@@ -2,15 +2,33 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-function Footer() {
+function Footer({ isPWAInstalled, promptInstall }) {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   return (
-    <footer className="container mx-auto bg-gray-900 mt-4 md:mt-0">
-      <div className=" p-4 md:py-8">
-        <div className="sm:flex sm:items-center sm:justify-between">
+    <footer className=" mx-auto bg-gray-900 mt-4 md:mt-0">
+      {!isPWAInstalled && (
+        <section className="container mx-auto">
+          <div className="bg-slate-900  px-4 py-3 text-gray-200 sm:flex sm:items-center sm:justify-between ">
+            <p className="md:text-center  text-left">
+              To enhance your user experience, we recommend installing our app.
+            </p>
+            {/* <div className='flex justify-center'> */}
+            <button
+              className=" block rounded-lg bg-white px-5 py-3 text-center text-sm font-medium text-black transition hover:bg-white/90 focus:outline-none focus:ring mt-4 md:mt-0"
+              href="#"
+              onClick={promptInstall}
+            >
+              Install Now
+            </button>
+            {/* </div> */}
+          </div>
+        </section>
+      )}
+      <div className="container mx-auto p-3 md:py-8">
+        <div className="sm:flex items-center justify-between ">
           <Link href="/">
-            <div className="relative w-32 h-8  text-center">
+            <div className="relative border w-32 h-8  text-center">
               <Image
                 src="/site/logo-no-background.svg"
                 fill
@@ -21,7 +39,7 @@ function Footer() {
               />
             </div>
           </Link>
-          <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
+          <ul className="flex flex-wrap items-center justify-between my-6 text-sm font-medium text-gray-500  ">
             <li>
               <Link href="/about-us" className="mr-4 hover:underline md:mr-6 ">
                 About

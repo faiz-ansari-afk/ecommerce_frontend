@@ -13,7 +13,7 @@ import axios from 'axios';
 // import { makePayment } from '@/utils/controller/razorpayController';
 
 const PaymentMethod = ({ cart, user, userAddressData }) => {
-  const [method, setMethod] = useState('razorpay');
+  const [method, setMethod] = useState('cod');
   const handleRadioChange = (event) => {
     setMethod(event.target.value);
   };
@@ -111,7 +111,7 @@ const PaymentMethod = ({ cart, user, userAddressData }) => {
         All transactions are secure and encrypted.
       </h4>
       <ul className="mb-12 space-y-3">
-        <li
+        {/* <li
           className={`max-w-[500px]  rounded-lg ${
             method === 'razorpay' ? 'bg-orange-100' : ''
           }`}
@@ -133,7 +133,7 @@ const PaymentMethod = ({ cart, user, userAddressData }) => {
               Razor Pay (UPI)
             </label>
           </div>
-        </li>
+        </li> */}
         <li
           className={`max-w-[500px]  rounded-lg ${
             method === 'cod' ? 'bg-orange-100' : ''

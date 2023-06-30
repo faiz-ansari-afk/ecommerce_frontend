@@ -111,8 +111,8 @@ const Product = ({ product }) => {
   const mappedImages = mapToSliderImages(product.attributes.images.data);
 
   async function handleAddToCart(productVariant) {
-    if(!product.attributes.inStock){
-      alert("Product is out of stock");
+    if (!product.attributes.inStock) {
+      alert('Product is out of stock');
       return;
     }
     try {
@@ -251,7 +251,7 @@ const Product = ({ product }) => {
               setOpenVariants((ov) => !ov);
             }}
           >
-            Choose Variant {openVariants ? <ChevronDown /> : <ChevronUp />}
+            Buy Now {openVariants ? <ChevronDown /> : <ChevronUp />}
           </button>
           {selectedVariantDetails && (
             <button

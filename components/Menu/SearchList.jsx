@@ -4,7 +4,7 @@ import {
   getSlugText,
 } from '@/utils/controller/productController';
 import Image from 'next/image';
-import { Player, Controls } from '@lottiefiles/react-lottie-player';
+// import { Player, Controls } from '@lottiefiles/react-lottie-player';
 
 const SearchList = ({ searchedProducts, queryParam }) => {
   
@@ -41,7 +41,7 @@ const SearchList = ({ searchedProducts, queryParam }) => {
           <p className="mt-4 text-gray-300 text-center">No product found</p>
         </div>
           <Link
-            href={`/search?category=All-Categories&query=${queryParam}`}
+            href={`/search?searchQuery=${queryParam}`}
             className="my-4 underline underline-offset-2 text-right text-gray-300 "
           >
             Go to Advance Search
@@ -82,7 +82,7 @@ const SearchList = ({ searchedProducts, queryParam }) => {
       ))}
       <li>
         <Link
-          href={`/search?category=All-Categories&searchQuery=${queryParam}`}
+          href={`/search?searchQuery=${queryParam}`}
           className="my-2 underline underline-offset-2 flex justify-center"
         >
           See more

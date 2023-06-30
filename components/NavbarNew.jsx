@@ -10,31 +10,33 @@ import SearchList from './Menu/SearchList';
 //user and cart icons
 import Avatar from './Icon/Avatar';
 import { decodeJWT } from '@/utils/controller/sessionController';
+import { parseCookies } from 'nookies';
 import { getCount, getMyCart } from '@/utils/controller/cartController';
 import { getUser } from '@/utils/controller/auth';
 import { DataContext } from '../store/globalstate';
-import { parseCookies } from 'nookies';
 import { ShoppingBagIcon } from '@heroicons/react/24/outline';
 
 const NavbarNew = ({ isLoginOpen }) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const [openSearchList, setOpenSearchList] = useState(false);
   //close navbar menu when route change
+  //close search list on route change
   useEffect(() => {
     const handleRouteChange = (url) => {
-      // Handle the route change event
+      // Handle the page change event
+      setOpenSearchList(false);
       setIsOpen(false);
     };
 
-    // Subscribe to the router's route change event
+    // Subscribe to the router's "routeChangeComplete" event
     router.events.on('routeChangeComplete', handleRouteChange);
 
-    // Clean up the subscription when the component is unmounted
+    // Clean up the event listener on component unmount
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, []);
-  const [openSearchList, setOpenSearchList] = useState(false);
   const [searchedProducts, setSearchedProducts] = useState(null);
   const [queryParam, setQueryParam] = useState(null);
 
@@ -185,7 +187,7 @@ const NavbarNew = ({ isLoginOpen }) => {
               </div>
             )}
           </div>
-          <ul className="flex gap-3 lg:mx-3">
+          <ul className="flex gap-3 lg:mx-3 items-center">
             {!user && (
               <li className="hidden lg:block ">
                 <button
@@ -253,15 +255,16 @@ const NavbarNew = ({ isLoginOpen }) => {
           <div className="lg:hidden animate__animated animate__fadeIn">
             <ul className=" text-white px-3  text-xl mb-3  ">
               {links.map((link) => (
-                <li
-                  className={` my-1 ${
-                    router.pathname === link.link &&
-                    'block bg-slate-700 rounded'
-                  } px-3 pt-1 pb-2  hover:bg-slate-700 hover:rounded cursor-pointer `}
-                  key={link.link}
-                >
-                  <Link href={link.link}>{link.name}</Link>
-                </li>
+                <Link href={link.link} key={link.link}>
+                  <li
+                    className={` my-1 ${
+                      router.pathname === link.link &&
+                      'block bg-slate-700 rounded'
+                    } px-3 pt-1 pb-2  hover:bg-slate-700 hover:rounded cursor-pointer `}
+                  >
+                    {link.name}
+                  </li>
+                </Link>
               ))}
             </ul>
             <div className="h-[1px] bg-gray-200 w-full " />
@@ -287,7 +290,11 @@ const NavbarNew = ({ isLoginOpen }) => {
                   <Link href="/account/overview">
                     <div className="flex gap-3 text-white items-center rounded-lg">
                       <Avatar heightWidth="h-10 w-10" />
-                      <p className="text-xl  tracking-wider">Your Profile</p>
+                      {fullUser && (
+                        <p className="text-xl  tracking-wider">
+                          {fullUser.username}
+                        </p>
+                      )}
                     </div>
                   </Link>
                 </div>

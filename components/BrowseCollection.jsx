@@ -81,6 +81,7 @@ const BrowseCollection = ({ currentProduct }) => {
   // );
   useEffect(() => {
     const fetchData = async () => {
+      
       const productFetchData = await getFilteredProducts({
         collectionName: 'category',
         attributeNames: ['name'],

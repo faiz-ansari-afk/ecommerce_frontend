@@ -10,7 +10,7 @@ import Link from 'next/link';
 
 const request = ({ requestedItem: _requestedItem, user }) => {
   const [requestedItem, setRequestedItem] = useState(_requestedItem);
-  
+
   // const [sortBy, setSortBy] = useState('All');
   // const requestedItemMemo = useMemo(() => requestedItem);
   const scrollRef = useRef(null);
@@ -57,15 +57,6 @@ const request = ({ requestedItem: _requestedItem, user }) => {
           {/* ******************* Button and form wrapper ******************** */}
 
           <div className="">
-            {/* <div className="my-5 max-w-3xl mx-auto ">
-              <SearchBar
-                dataSets={requestedItem}
-                results={requestedItem}
-                setResults={setRequestedItem}
-                ofWhich="PRODUCTS"
-                placeholder={`Search all request`}
-              />
-            </div> */}
             <div className="___button-wrapper___ ">
               <p className="text-right lg:mx-8 mx-2">
                 <button
@@ -185,18 +176,18 @@ export async function getServerSideProps(context) {
     method: 'get',
   });
   const user = await getUser(null, context);
-  if(getAllRequestedItems)
-  return {
-    props: {
-      requestedItem:  getAllRequestedItems,
-      user,
-    },
-  };
+  if (getAllRequestedItems)
+    return {
+      props: {
+        requestedItem: getAllRequestedItems,
+        user,
+      },
+    };
   else
-  return {
-    props: {
-      requestedItem: null,
-      user,
-    },
-  };
+    return {
+      props: {
+        requestedItem: null,
+        user,
+      },
+    };
 }

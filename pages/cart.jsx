@@ -53,7 +53,7 @@ const Cart = ({ cart }) => {
   const [updating, setUpdating] = useState(false);
   // const count = state.cartItemCount;
   const [count, setCount] = useState(state.cartItemCount);
-  console.log("count cart",count)
+  
   const [totalAmount, setTotalAmount] = useState(getTotalPrice(myCart));
 
   const router = useRouter();

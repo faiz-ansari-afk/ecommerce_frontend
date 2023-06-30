@@ -15,6 +15,7 @@ import SearchBar from '@/components/Search/SearchBar';
 import Pagination from '@/components/Pagination';
 import ProductCardSkeleton from '@/components/product/ProductCardSkeleton';
 import ProductCard from '@/components/product/ProductCard';
+import RequestHero from '@/components/RequestHero';
 
 const Collection = ({ _products, _paginationData, categories }) => {
   const router = useRouter();
@@ -67,7 +68,7 @@ const Collection = ({ _products, _paginationData, categories }) => {
       {
         pathname: '/search',
         query: {
-          category,
+          // category,
           searchQuery,
         },
       },
@@ -89,10 +90,12 @@ const Collection = ({ _products, _paginationData, categories }) => {
     });
     // //console.log('search data Arrays', results);
     if (results) {
+      
       setProducts(results.data);
       // setPaginationData(results.meta.pagination);
       setTotalPage(results.meta.pagination.pageCount);
     }
+    setLoading(false);
   }
   // Create a debounced version of the fetchProducts function
   const debouncedFetchProducts = (searchValueArrays, currentPage) => {
@@ -101,8 +104,8 @@ const Collection = ({ _products, _paginationData, categories }) => {
     clearTimeout(timerId);
     timerId = setTimeout(() => {
       fetchResultFromBackend(searchValueArrays, currentPage);
-      setLoading(false);
-    }, 1000); // Debounce time: 1/2 second
+      
+    }, 500); // Debounce time: 1/2 second
   };
   //?_________ fetching initial data on client side, now fecthing initial data from server side____________
 
@@ -185,7 +188,13 @@ const Collection = ({ _products, _paginationData, categories }) => {
               products.length > 0 ? (
                 products.map((product, index) => {
                   const theme = product.attributes.theme;
-                  return <ProductCard product={product} key={index} collection={false} />;
+                  return (
+                    <ProductCard
+                      product={product}
+                      key={index}
+                      collection={false}
+                    />
+                  );
                 })
               ) : (
                 <>
@@ -195,6 +204,9 @@ const Collection = ({ _products, _paginationData, categories }) => {
                       No product found in {category} category. Try changing
                       Categories
                     </p>
+                  </div>
+                  <div className="col-span-2 md:col-span-2 lg:col-span-3 my-12">
+                  <RequestHero collectionFlag={true} />
                   </div>
                 </>
               )
@@ -214,6 +226,7 @@ const Collection = ({ _products, _paginationData, categories }) => {
             onPageChange={handlePageChange}
           />
         )}
+        
       </section>
     </>
   );

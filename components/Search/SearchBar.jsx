@@ -66,11 +66,11 @@ const SearchBar = ({
       setDebounced(true);
       setTimeout(() => {
         setDebounced(false);
-      }, 1000); // set the time you want to wait before allowing another click
+      }, 500); // set the time you want to wait before allowing another click
       // call your search function here
       if (searchQuery !== '') {
         setSortBy(null);
-        updateQuery(searchQuery, slugify(category));
+        // updateQuery(searchQuery, slugify(category));
         const searchValuesArray = searchQuery.split(' ');
         fetchResultFromBackend(searchValuesArray, 1);
       } else {
@@ -182,7 +182,7 @@ const SearchBar = ({
             instanceId={'lol1'}
             onChange={(option) => {
               setCategory(option.label);
-              updateQuery(searchQuery, slugify(option.label));
+              // updateQuery(searchQuery, slugify(option.label));
             }}
             options={categoryList}
             defaultValue={defaultCategory}

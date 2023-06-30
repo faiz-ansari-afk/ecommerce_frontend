@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
+import RequestHero from '@/components/RequestHero';
 import {
   getSlugText,
   getCoverImageUrl,
@@ -205,8 +206,7 @@ const Collection = ({ _products, _paginationData, categories }) => {
             })
           ) : (
             <>
-              <div className="hidden md:block"></div>
-              <div className="w-full container text-center">
+              <div className="container text-center col-span-2 lg:col-span-3">
                 <NoProductFound />
                 <p>
                   {products.length === 0
@@ -214,17 +214,17 @@ const Collection = ({ _products, _paginationData, categories }) => {
                     : `No ${selectedCategorySlug} available. Please comeback soon!`}
                 </p>
               </div>
-              <div className="hidden md:block"></div>
             </>
           )}
         </div>
-        {totalPage && totalPage > 1 && (
+        {totalPage && totalPage > 1 ? (
           <Pagination
             currentPage={currentPage}
             totalPages={totalPage}
             onPageChange={handlePageChange}
           />
-        )}
+        ): null}
+        <RequestHero collectionFlag={true} />
       </section>
     </>
   );
