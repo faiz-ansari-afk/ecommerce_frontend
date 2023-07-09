@@ -53,14 +53,18 @@ export default function Home({ homepage, categories, products }) {
           //
           <div className=" flex justify-center  m-2   ">
             <div className="flex flex-col md:flex-row  border-black border rounded-lg">
-              <div className="">
-                <Player
-                  autoplay
-                  loop
-                  src="https://assets6.lottiefiles.com/private_files/lf30_iraugwwv.json"
-                  style={{ height: '200px', width: '200px' }}
-                ></Player>
-              </div>
+              
+                <div className="relative h-[200px] w-[200px]  flex-shrink-0">
+                  <Image
+                    src="/loginGif.gif"
+                    alt="open box logo"
+                    fill
+                    sizes="(max-width: 768px) 100vw,
+                                              (max-width: 1200px) 50vw,
+                                              33vw"
+                    className="h-full w-full object-contain  rounded-lg"
+                  />
+                </div>
               <div className="  rounded-lg m-2 p-2 text-center max-w-lg md:flex justify-center md:flex-col ">
                 <h3 className="text-xl text-center">Welcome to Our Store</h3>
                 <p className="md:text-lg my-2 text-gray-700">
@@ -142,18 +146,7 @@ export default function Home({ homepage, categories, products }) {
 }
 
 export async function getServerSideProps(ctx) {
-  // const [homepage,categoriesDetails,products] = await Promise.all([])
-  // const homepage = await getHomepageData();
-  // const categoriesDetails = await mapToModelViewCategory();
-  // const products = await getFilteredProducts({
-  //   collectionName: 'category',
-  //   attributeNames: ['name'],
-  //   attributeValues: [''],
-  //   operator: '$contains',
-  //   pagination: false,
-  //   pageNumber: 1,
-  //   pageSize: 15,
-  // });
+  
   const homepagePromise = getHomepageData();
   const categoriesDetailsPromise = mapToModelViewCategory();
   const productsPromise = getFilteredProducts({
