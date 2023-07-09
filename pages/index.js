@@ -52,8 +52,8 @@ export default function Home({ homepage, categories, products }) {
         {!user && (
           //
           <div className=" flex justify-center  m-2   ">
-            <div className="flex flex-col md:flex-row  border-black border rounded-lg">
-              
+            <div className="flex flex-col md:flex-row   border-black border rounded-lg">
+              <div className='flex justify-center'>
                 <div className="relative h-[200px] w-[200px]  flex-shrink-0">
                   <Image
                     src="/loginGif.gif"
@@ -65,6 +65,7 @@ export default function Home({ homepage, categories, products }) {
                     className="h-full w-full object-contain  rounded-lg"
                   />
                 </div>
+              </div>
               <div className="  rounded-lg m-2 p-2 text-center max-w-lg md:flex justify-center md:flex-col ">
                 <h3 className="text-xl text-center">Welcome to Our Store</h3>
                 <p className="md:text-lg my-2 text-gray-700">
