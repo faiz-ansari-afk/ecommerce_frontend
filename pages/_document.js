@@ -10,7 +10,7 @@ export default function Document() {
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="PWA App" />
-        <meta name="description" content="Bhiwandi Online store for purchasing product at less price than amazon or flipkart" />
+        <meta name="description" content="Bhiwandi Online store for purchasing product at less price than other online stores" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
         
