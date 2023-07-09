@@ -15,6 +15,9 @@
     "axios": "^1.2.1",
     "classnames": "^2.3.2",
     "crypto-js": "^4.1.1",
+    "dotenv": "^16.3.1",
+    "firebase": "^9.23.0",
+    "firebase-admin": "^11.9.0",
     "form-data": "^4.0.0",
     "html-react-parser": "^3.0.4",
     "jsonwebtoken": "^9.0.0",
@@ -33,7 +36,8 @@
     "react-topbar-progress-indicator": "^4.1.1",
     "sharp": "^0.32.1",
     "slugify": "^1.6.5",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "webpack": "^5.88.1"
   },
   "devDependencies": {
     "@tailwindcss/line-clamp": "^0.4.4",

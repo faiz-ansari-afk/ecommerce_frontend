@@ -6,22 +6,21 @@ import { useState, useEffect } from 'react';
 import Footer from '@/components/Footer';
 import { getMyCart } from '@/utils/controller/cartController';
 import { updateUserData, getUser } from '@/utils/controller/auth';
+import { pageview } from '@/utils/googleAnalytics';
 import Router from 'next/router';
-import Image from 'next/image';
+
+
 
 import TopBarProgress from 'react-topbar-progress-indicator';
-import { Literata } from 'next/font/google';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import NavbarNew from '@/components/NavbarNew';
 
 import 'animate.css';
 import LoginPopup from '@/components/LoginPopup';
+import Layout from '@/components/Layout';
 
-const literata = Literata({
-  subsets: ['latin'],
-  variable: '--font-lato',
-});
+
 
 export default function App({ Component, pageProps }) {
   // progress bar handling
@@ -231,42 +230,39 @@ export default function App({ Component, pageProps }) {
     const mediaQuery = window.matchMedia('(display-mode: standalone)');
     setIsPWAInstalled(mediaQuery.matches);
   }, []);
+
+// google analytics for each page
+useEffect(() => {
+  const handleRouteChange = (url) => {
+    // console.log("url",url)
+    pageview(url);
+  };
+
+  //When the component is mounted, subscribe to router changes
+  //and log those page views
+  router.events.on("routeChangeComplete", handleRouteChange);
+
+  // If the component is unmounted, unsubscribe
+  // from the event with the `off` method
+  return () => {
+    router.events.off("routeChangeComplete", handleRouteChange);
+  };
+}, [router.events]);
+
+
+
   return (
     <>
-      {/* {isBackendLive && ( */}
-      {/* {!isBackendLive && <div>Site is under maintainance</div>} */}
-
       <DataProvider>
         {progress && <TopBarProgress />}
-        <NavbarNew isLoginOpen={isLoginOpen} />
-        {/* <Navbar /> */}
-        <div className={`${literata.variable} font-serif`}>
-          {/* {isOnline && (
-        <div className="mt-16 flex justify-center ">
-          <div className="flex items-center gap-2 border border-black m-1 pr-3 rounded-lg shadow-lg">
-            <div className="relative w-32 h-32">
-              <Image
-                src="/offlineGIF.gif"
-                alt="offline logo"
-                fill
-                sizes="(max-width: 768px) 100vw,
-                                  (max-width: 1200px) 50vw,
-                                  33vw"
-                className="h-full w-full object-contain rounded-lg"
-              />
-            </div>
-            <div className=''>
-            <p className='text-xl uppercase tracking-widest'>offline</p>
-              </div>
-          </div>
-        </div>
-      )} */}
+        <Layout>
+          <NavbarNew isLoginOpen={isLoginOpen} />
           <Component {...pageProps} />
+          {/* {true && <NotificationToast />} */}
           <LoginPopup
             isLoginOpen={isLoginOpen}
             setIsLoginOpen={setIsLoginOpen}
           />
-          {/* <Menu /> */}
           <ToastContainer
             position="top-right"
             autoClose={4000}
@@ -277,19 +273,16 @@ export default function App({ Component, pageProps }) {
             closeOnClick
             pauseOnHover
           />
-        </div>
-        {/* Not showing footer on account page */}
-        {router.pathname.includes('admin') ? null : router.pathname.includes(
-            'account'
-          ) ? null : (
-          <Footer
-            isPWAInstalled={isPWAInstalled}
-            promptInstall={promptInstall}
-          />
-        )}
-        {/* <Footer /> */}
+          {router.pathname.includes('admin') ? null : router.pathname.includes(
+              'account'
+            ) ? null : (
+            <Footer
+              isPWAInstalled={isPWAInstalled}
+              promptInstall={promptInstall}
+            />
+          )}
+        </Layout>
       </DataProvider>
-      {/* )} */}
     </>
   );
 }

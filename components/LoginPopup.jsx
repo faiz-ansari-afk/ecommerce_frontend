@@ -38,17 +38,17 @@ const LoginPopup = ({ isLoginOpen, setIsLoginOpen }) => {
       {isLoginOpen && (
         <div
           ref={ref}
-          className="fixed inset-0 flex items-center justify-center px-2 h-[550px]  md:max-w-[500px] m-auto md:h-[600px] bg-gradient-to-l from-black to-slate-700 rounded-lg shadow-white shadow-md z-[999999]"
+          className="fixed inset-0 flex items-center justify-center px-2 h-[550px]  md:max-w-[500px] m-auto md:h-[600px] bg-gradient-to-l from-black to-slate-700 rounded-lg  shadow-md z-[999999]"
         >
-          <div
-            className="text-xl absolute top-0 left-0 py-2 px-3 rounded-tl-lg text-white bg-gray-600 cursor-pointer"
+          <button
+            className="text-xl absolute top-0 left-0 py-2 px-4 rounded-tl-lg text-white bg-gray-600 cursor-pointer rounded-br-lg"
             onClick={() => {
               setIsLoginOpen(false);
               dispatch({ type: 'FALSE_OPEN_LOGIN' });
             }}
           >
             x
-          </div>
+          </button>
           <Login setIsLoginOpen={setIsLoginOpen} />
         </div>
       )}

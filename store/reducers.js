@@ -39,7 +39,16 @@ const reducers = (state, action) => {
         ...state,
         isPaymentMethodChecked: true,
       };
-      
+    case ACTIONS.TRUE_PUSH_NOTIFY:
+      return {
+        ...state,
+        pushNotify: true,
+      };
+    case ACTIONS.FALSE_PUSH_NOTIFY:
+      return {
+        ...state,
+        pushNotify: false,
+      };
     case ACTIONS.RELOAD_CART:
       return {
         ...state,

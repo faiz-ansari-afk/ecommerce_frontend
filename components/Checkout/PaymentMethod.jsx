@@ -104,12 +104,12 @@ const PaymentMethod = ({ cart, user, userAddressData }) => {
   }
   return (
     <div className="mt-12">
-      <h3 className="font-[SangbleuSans] text-3xl font-light">
+      <h3 className="font-[SangbleuSans] text-3xl mb-2 font-light">
         Payment method
       </h3>
-      <h4 className="my-2 text-sm">
+      {/* <h4 className="my-2 text-sm">
         All transactions are secure and encrypted.
-      </h4>
+      </h4> */}
       <ul className="mb-12 space-y-3">
         {/* <li
           className={`max-w-[500px]  rounded-lg ${

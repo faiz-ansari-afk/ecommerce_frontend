@@ -117,6 +117,7 @@ const Product = ({ product }) => {
     }
     try {
       const addToCartResponse = await addToCart(productVariant);
+      console.log("addToCartResponse",addToCartResponse)
       const count = getCount(addToCartResponse);
       dispatch({ type: 'SET_CART_ITEMS_COUNT', payload: count });
       dispatch({ type: 'RELOAD_CART' });
@@ -251,7 +252,7 @@ const Product = ({ product }) => {
               setOpenVariants((ov) => !ov);
             }}
           >
-            Buy Now {openVariants ? <ChevronDown /> : <ChevronUp />}
+            Choose Color {openVariants ? <ChevronDown /> : <ChevronUp />}
           </button>
           {selectedVariantDetails && (
             <button
@@ -354,31 +355,7 @@ const Product = ({ product }) => {
                 </button>
               </div>
               <div className="mt-4 flex gap-4 overflow-x-auto ">
-                {/* <div className="mb-5 cursor-pointer rounded-full px-6 py-4 font-light text-gray-800 shadow hover:shadow-lg">
-                  <div className="flex items-center justify-center ">
-                    <span className="h-4 w-4">
-                      <Bullet />
-                    </span>
-                    Dimension
-                  </div>
-                </div> */}
-
-                {/* <div className="mb-5 cursor-pointer rounded-full px-6 py-4 font-light text-gray-800 shadow hover:shadow-lg">
-                  <div className="flex items-center justify-center ">
-                    <span className="inline-block h-4 w-4">
-                      <Bullet />
-                    </span>
-                    Specs
-                  </div>
-                </div> */}
-
-                {/* <div className="mb-5 cursor-pointer rounded-full px-6 py-4 font-light text-gray-800 shadow hover:shadow-lg">
-                  <button className="flex h-6 w-6 items-center justify-center">
-                    <Download />
-                  </button>
-                </div> */}
-
-                <div className="mx-1 mb-5 cursor-pointer rounded-full px-6 py-4 font-light text-gray-800 shadow hover:shadow-lg">
+<div className="mx-1 mb-5 cursor-pointer rounded-full px-6 py-4 font-light text-gray-800 shadow hover:shadow-lg">
                   <button
                     className="flex gap-3 items-center justify-center"
                     onClick={handleShare}
@@ -390,11 +367,6 @@ const Product = ({ product }) => {
                   </button>
                 </div>
 
-                {/* <div className="mb-5 cursor-pointer rounded-full px-6 py-4 font-light text-gray-800 shadow hover:shadow-lg">
-                  <button className="flex h-6 w-6 items-center justify-center">
-                    <Wishlist />
-                  </button>
-                </div> */}
               </div>
             </div>
 

@@ -29,7 +29,7 @@ const VideoHero = ({ hero }) => {
   // const firstTitleStyles = first_title.reactCSSstyle;
   // ////console.log('Video Hero', firstTitleStyles);
   return (
-    <div className='pt-16 bg-slate-700'>
+    <div className=''>
       <Video src={`${hero.video.data.attributes.url}`}>
         <div className="">
           <p className="">
@@ -58,13 +58,13 @@ const VideoHero = ({ hero }) => {
             <span style={description.reactCSSstyle}> {description.title}</span>
           </p>
         </div>
-        <div className="my-2  ">
+        {button.title !== 'null' && <div className=" mt-1 ">
           <Link href={linkUrl} className="">
             <button className="hover:shadow-lg ">
               <span style={{ ...button.reactCSSstyle }}>{button.title}</span>
             </button>
           </Link>
-        </div>
+        </div>}
       </Video>
     </div>
   );

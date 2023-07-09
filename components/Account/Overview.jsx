@@ -2,7 +2,7 @@ import { Bullet } from '@/components/Icon';
 import Link from 'next/link';
 import OrdersList from './OrdersList';
 
-const Overview = ({ user, order_data, setDetailsOfPopup, setOpenPopUp }) => {
+const Overview = ({ user, order_data, setDetailsOfPopup, setOpenPopUp, openDemo,setOpenDemo }) => {
   // //console.log('order_data', order_data);
   // const order_data = _order_data.slice(0,3);
   return (
@@ -18,6 +18,8 @@ const Overview = ({ user, order_data, setDetailsOfPopup, setOpenPopUp }) => {
             orders={order_data.slice(0,3)}
             setDetailsOfPopup={setDetailsOfPopup}
             setOpenPopUp={setOpenPopUp}
+            openDemo={openDemo} 
+          setOpenDemo={setOpenDemo}
           />
         ) : (
           <div className=" mt-12">

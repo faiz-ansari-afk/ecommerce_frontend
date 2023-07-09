@@ -60,7 +60,7 @@ const contact = () => {
       <Head>
         <title>Contact - Bhiwandi Are Baba</title>
       </Head>
-      <section className="py-32 px-5 md:py-64 md:px-10 animate__animated animate__fadeIn animate__fast">
+      <section className="container mx-auto py-32 px-5 md:py-64 md:px-10 animate__animated animate__fadeIn animate__fast">
         <div>
           <h1
             className={`mb-4 text-center font-heading text-5xl font-extralight  tracking-wide text-gray-900 lg:mb-8 lg:text-8xl`}
@@ -80,7 +80,7 @@ const contact = () => {
                 <div className="h-5 w-5">
                   <Phone />
                 </div>
-                <div className="">Give us a call</div>
+                <a href="tel:7448028391" className="">Give us a call</a>
               </div>
             </div>
 
@@ -89,7 +89,7 @@ const contact = () => {
                 <div className="h-5 w-5">
                   <Email />
                 </div>
-                <div className="">Send us an e-mail</div>
+                <a href="mailto:arebabastore@gmail.com" className="">Send us an e-mail</a>
               </div>
             </div>
             <div className="flex justify-center md:justify-start">
@@ -97,14 +97,14 @@ const contact = () => {
                 <div className="h-5 w-5">
                   <Chat />
                 </div>
-                <div className="">Chat with us</div>
+                <a href="https://wa.me/+917350988348" className="">Chat with us</a>
               </div>
             </div>
           </div>
         </div>
         
         <div className="shop-location-container mt-32">
-          <h2 className="text-center tracking-widest text-7xl">Are Baba</h2>
+          <h2 className="text-center tracking-widest text-5xl md:text-7xl">Are Baba</h2>
           <h4 className="text-center tracking-wide text-3xl text-gray-400 font-extralight">
             Bhiwandi
           </h4>

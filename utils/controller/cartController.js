@@ -30,7 +30,6 @@ export async function updateCartStatus({ cart_status, cartID }) {
 
     const result = await axios(config);
     if (cart_status === 'ordered') {
-
       destroyCookie({}, 'cart_uid', {
         path: '/', // THE KEY IS TO SET THE SAME PATH
       });
@@ -41,12 +40,17 @@ export async function updateCartStatus({ cart_status, cartID }) {
     console.log('Get Cart Error', error);
   }
 }
-export const getCarts = async () => {
+export const getCarts = async ({ getByCartUID = null }) => {
+  let route = `${process.env.NEXT_PUBLIC_WEBSITE}/api/carts`;
+
+  if (getByCartUID) {
+    route = `${route}?filters[$and][0][cart_uid][$eq]=${getByCartUID}`;
+  }
   const jwt = getAuthJWT();
   try {
     const config = {
       method: 'get',
-      url: CART_ENDPOINT(),
+      url: route,
       headers: {
         Authorization: `Bearer ${jwt}`,
       },
@@ -85,21 +89,20 @@ export async function getMyCart(ctx) {
   let cart_uid = null;
   const cookie = parseCookies('cart_uid');
   cart_uid = cookie.cart_uid;
-
   if (ctx) {
     const cookie = nookies.get(ctx);
     cart_uid = cookie.cart_uid;
   }
 
-  const carts = await getCarts();
-  let myCart = carts?.find((cart) => cart.attributes.cart_uid === cart_uid);
-  if (typeof myCart === 'undefined') {
-    destroyCookie({},'cart_uid',{
-      path:'/'
-    })
+  const myCart = await getCarts({ getByCartUID: cart_uid });
+  if (!myCart) return null;
+  if (myCart && myCart.length === 0) {
+    destroyCookie({}, 'cart_uid', {
+      path: '/',
+    });
     return null;
   }
-  return myCart;
+  return myCart[0];
 }
 
 export const addToCart = async (variantOfProduct) => {
@@ -260,11 +263,10 @@ export async function deleteCartItem(productToBeDeleted) {
     if (product.id === productToBeDeleted.id) {
       //check if incoming item size and price field is available or not
       if (productToBeDeleted.size_and_price && product.size_and_price) {
-        if(
-          productToBeDeleted.size_and_price.id === product.size_and_price.id
-        ) return false
+        if (productToBeDeleted.size_and_price.id === product.size_and_price.id)
+          return false;
       } else {
-        if(productToBeDeleted.colorID === product.colorID) return false
+        if (productToBeDeleted.colorID === product.colorID) return false;
       }
     }
     return true;

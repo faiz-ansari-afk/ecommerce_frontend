@@ -57,12 +57,12 @@ const MyRequests = ({ user, myRequestedItems:_myRequestedItems }) => {
         <hr className="my-6" />
         {myRequestedItems && myRequestedItems.length > 0 ? (
           <div>
-            <p className="inline-block bg-yellow-200 text-yellow-700 px-3 py-1 rounded-lg mb-3">
+            {/* <p className="inline-block bg-yellow-200 text-yellow-700 px-3 py-1 rounded-lg mb-3">
               <span className="flex gap-2">
                 <Warning />
                 You can only edit request that is pending!
               </span>
-            </p>
+            </p> */}
             <div className="grid grid-cols-1 gap-10  lg:grid-cols-3 md:grid-cols-2">
               {myRequestedItems.map((requestedData, index) => (
                 <RequestCard

@@ -24,13 +24,18 @@ const ProductsGallery = ({ products }) => {
                 key={index}
               >
                 <Link href={`/product/${slugify(product.attributes.name)}`}>
-                  <div className=" bg-rose-400 rounded-lg ">
-                    <Image
-                      src={getCoverImageUrl(product)}
-                      fill
-                      className="rounded-lg "
-                      alt={product.attributes.name}
-                    />
+                  <div className=" bg-gray-400 rounded-lg ">
+                    <div className=" relative aspect-[2/2]">
+                      <Image
+                        src={getCoverImageUrl(product)}
+                        fill
+                        sizes="(max-width: 768px) 100vw,
+                                  (max-width: 1200px) 50vw,
+                                  33vw"
+                        className="rounded-lg "
+                        alt={product.attributes.name}
+                      />
+                    </div>
                     <div className="absolute rounded-b-lg overflow-hidden  bottom-0 px-4  bg-gray-700 text-white ">
                       <p className="line-clamp-1">{product.attributes.name} </p>
                       <p className="text-center pb-2 ">

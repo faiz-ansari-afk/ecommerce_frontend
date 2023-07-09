@@ -8,14 +8,19 @@ import { getHomepageData } from '@/utils/controller/homepageController';
 import { ClassifyHero } from '@/components/Homepage';
 import { getFilteredProducts } from '@/utils/controller/productController';
 import { Player } from '@lottiefiles/react-lottie-player';
+// import { onForegroundMessage } from '@/firebase';
+
 
 import { decodeJWT } from '@/utils/controller/sessionController';
 import { parseCookies } from 'nookies';
 import { DataContext } from '@/store/globalstate';
 import RequestHero from '@/components/RequestHero';
+import { useRouter } from 'next/router';
+
 
 // import styles from '@/components/Homepage/ProductGallery.module.css'
 export default function Home({ homepage, categories, products }) {
+  const router = useRouter();
   const [user, setUser] = useState(null);
   const { dispatch, state } = useContext(DataContext);
 
@@ -27,6 +32,7 @@ export default function Home({ homepage, categories, products }) {
 
   
 
+  
   return (
     <>
       <Head>
@@ -36,7 +42,8 @@ export default function Home({ homepage, categories, products }) {
           content="Shop local in Bhiwandi with our ecommerce website. Browse and buy from a variety of products with ease. Visit us today!"
         />
       </Head>
-      <main className="container mx-auto animate__animated animate__fadeIn animate__fast ">
+      {homepage ? <main className="container mx-auto animate__animated animate__fadeIn animate__fast ">
+        <div className="pt-16 bg-slate-700" />
         {homepage.attributes.FIRST_HERO && (
           <ClassifyHero hero={homepage.attributes.FIRST_HERO} />
         )}
@@ -124,7 +131,12 @@ export default function Home({ homepage, categories, products }) {
         <section className="mx-1 my-44 md:">
           <RequestHero />
         </section>
-      </main>
+      </main>:
+      <main className='container h-screen my-auto animate__animated animate__fadeIn animate__fast'>
+        <div className='flex justify-center items-center h-screen flex-col'>
+          <span>Loading backend...</span>
+          <button className='py-1 px-3 bg-orange-200 shadow-md hover:shadow-lg text-gray-900 rounded-full' onClick={()=>router.reload()}>Reload</button>
+        </div></main>}
     </>
   );
 }

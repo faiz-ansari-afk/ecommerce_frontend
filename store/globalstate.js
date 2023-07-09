@@ -11,7 +11,8 @@ export const DataProvider = ({ children }) => {
     openSearch:false,
     isPaymentMethodChecked:false,
     cartReload:false,
-    userLoggedInGlobal:false
+    userLoggedInGlobal:false,
+    pushNotify:false,
   };
 
   const [state, dispatch] = useReducer(reducers, {

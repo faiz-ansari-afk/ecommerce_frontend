@@ -132,7 +132,7 @@ const Login = ({ setIsLoginOpen }) => {
   };
 
   return (
-    <div className="px-1 w-full md:min-w-[400px] relative ">
+    <div className="px-1 w-full md:min-w-[400px] relative">
       {isNewUser && (
         <div
           className="h-5 w-5 ml-2"
@@ -174,6 +174,7 @@ const Login = ({ setIsLoginOpen }) => {
         autoComplete="off"
       >
         <InputField
+          labelClass='text-white'
           classes="bg-gray-700 text-gray-200 "
           autoFocus
           name="email"
@@ -193,6 +194,7 @@ const Login = ({ setIsLoginOpen }) => {
         {isExistingUser && (
           <div className="animate__animated  animate__fadeIn ">
             <InputField
+              labelClass='text-white'
               classes="bg-gray-700 text-gray-200 "
               name="password"
               type="password"
@@ -210,6 +212,7 @@ const Login = ({ setIsLoginOpen }) => {
         {isNewUser && (
           <div className="animate__animated  animate__fadeIn space-y-3">
             <InputField
+              labelClass='text-white'
               classes="bg-gray-700 text-gray-200 "
               name="username"
               type="text"
@@ -223,6 +226,7 @@ const Login = ({ setIsLoginOpen }) => {
               Username
             </InputField>
             <InputField
+              labelClass='text-white'
               classes="bg-gray-700 text-gray-200 "
               name="createpassword"
               type="password"
@@ -238,6 +242,7 @@ const Login = ({ setIsLoginOpen }) => {
               <div className="text-sm text-rose-500">{passwordError}</div>
             )}
             <InputField
+              labelClass='text-white'
               classes="bg-gray-700 text-gray-200 "
               name="confirm-password"
               type="password"

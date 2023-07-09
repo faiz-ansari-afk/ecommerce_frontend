@@ -33,6 +33,7 @@ export default async function handler(req, res) {
           sendSMSWrapper({ to, text, res });
         } else {
           if (order.notify) {
+            console.log("order💥💥💥",order.cart.cart_data.products)
             if (order.status === 'processing') {
               let text = `We are processing your Order no: ${order.id} of Rs. ${order.final_price}. Thankyou.`;
               if (order.customMessage) {

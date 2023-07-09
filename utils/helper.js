@@ -23,11 +23,11 @@ export function getRelativeDay(inputDate,status) {
     let relativeDay = '';
 
     if (diffDays === 0) {
-      relativeDay = 'Aaj';
+      relativeDay = 'Today';
     } else if (diffDays === 1) {
-      relativeDay = 'Kal';
+      relativeDay = 'Tomorrow';
     } else if (diffDays === 2) {
-      relativeDay = 'Parso';
+      relativeDay = 'Day after tomorrow';
     } else {
       relativeDay = moment(inputDate).format('dddd'); // If more than 2 days, display the day of the week
     }

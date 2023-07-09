@@ -9,6 +9,7 @@ const InputField = React.forwardRef(
       error,
       onchange,
       classes = 'border',
+      labelClass = 'text-black',
       value,
       ...rest
     },
@@ -45,10 +46,10 @@ const InputField = React.forwardRef(
             {...rest}
           />
           <label
-            className={[
-              'absolute top-0 left-0 flex items-center text-opacity-50 p-2 px-3 transition-all duration-200 ease-in-out',
-              active ? 'text-xs' : 'text-sm',
-            ].join(' ')}
+            className={`${[
+              'absolute top-0 left-0  items-center  p-2 px-3 transition-all duration-200 ease-in-out',
+              active ? 'text-xs text-opacity-50 -left-1' : 'text-sm',
+            ].join(' ')} ${labelClass}`}
             htmlFor={name}
           >
             {children}

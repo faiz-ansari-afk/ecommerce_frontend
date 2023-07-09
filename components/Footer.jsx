@@ -15,7 +15,7 @@ function Footer({ isPWAInstalled, promptInstall }) {
             </p>
             {/* <div className='flex justify-center'> */}
             <button
-              className=" block rounded-lg bg-white px-5 py-3 text-center text-sm font-medium text-black transition hover:bg-white/90 focus:outline-none focus:ring mt-4 md:mt-0"
+              className=" block rounded-lg bg-gray-200 px-5 py-3 text-center text-sm font-medium text-black transition hover:bg-white focus:outline-none focus:ring mt-4 md:mt-0"
               href="#"
               onClick={promptInstall}
             >
@@ -46,7 +46,7 @@ function Footer({ isPWAInstalled, promptInstall }) {
               </Link>
             </li>
             <li>
-              <Link href="#" className="mr-4 hover:underline md:mr-6">
+              <Link href="/faq" className="mr-4 hover:underline md:mr-6">
                 Privacy Policy
               </Link>
             </li>
@@ -66,7 +66,7 @@ function Footer({ isPWAInstalled, promptInstall }) {
         <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
           © {currentYear}{' '}
           <Link href="/" className="hover:underline">
-            Lisa Lord™
+            are baba
           </Link>
           . All Rights Reserved.
         </span>

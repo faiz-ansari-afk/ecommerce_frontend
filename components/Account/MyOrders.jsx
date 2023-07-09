@@ -3,7 +3,7 @@ import { Bullet } from '@/components/Icon';
 import { useEffect, useState } from 'react';
 import OrdersList from './OrdersList';
 
-const MyOrders = ({ user, order_data, setDetailsOfPopup, setOpenPopUp }) => {
+const MyOrders = ({ user, order_data, setDetailsOfPopup, setOpenPopUp, openDemo,setOpenDemo }) => {
   const [myOrders, setMyOrders] = useState(order_data);
 
   return (
@@ -14,6 +14,8 @@ const MyOrders = ({ user, order_data, setDetailsOfPopup, setOpenPopUp }) => {
             orders={order_data}
             setDetailsOfPopup={setDetailsOfPopup}
             setOpenPopUp={setOpenPopUp}
+            openDemo={openDemo} 
+          setOpenDemo={setOpenDemo}
           />
         ) : (
           <div className=" mt-12 mb-32 md:mx-8 lg:mx-20">

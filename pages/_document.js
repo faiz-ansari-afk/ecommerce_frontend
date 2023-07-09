@@ -30,13 +30,31 @@ export default function Document() {
 
         <link rel="shortcut icon" href="/favicon.ico" />
         
+        {/* <!-- Google tag (gtag.js) --> google firebase analytics*/}
+        {/* <script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}`}></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)}
+          gtag('js', new Date());
 
-        {/* <meta property="og:type" content="website" />
-        <meta property="og:title" content="PWA App" />
-        <meta property="og:description" content="Best PWA App in the world" />
-        <meta property="og:site_name" content="PWA App" />
-        <meta property="og:url" content="https://yourdomain.com" />
-        <meta property="og:image" content="https://yourdomain.com/icons/apple-touch-icon.png" /> */}
+          gtag('config', process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID);
+        </script> */}
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}`}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}', {
+              page_path: window.location.pathname,
+          });
+          `,
+          }}
+        />
       </Head>
       <body>
         <Main />

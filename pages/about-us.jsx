@@ -111,8 +111,8 @@ const AboutUs = ({ aboutUsData }) => {
             Experience incredible savings and convenience at our ecommerce
             store. Enjoy prices{' '}
             <span className="text-black font-bold text-xl">25%</span> lower than
-            Amazon or Flipkart, request any product you need, and pay only after
-            checking the item with our secure open box delivery—no pre-payment
+            other <b>Online Stores</b>, request any product you need, and pay only after
+            checking the item with our secure open box delivery, no pre-payment
             required.
           </p>
           </div>

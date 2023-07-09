@@ -22,9 +22,13 @@ const DetailsPopUp = ({ data, setOpenPopUp }) => {
   // console.log('deliveryGuy', deliveryGuy);
   return (
     <div
-      className={`fixed left-0 right-0 top-[20px] z-[1111]  h-[95%]  mx-2 md:mx-32 lg:mx-64  overflow-y-scroll rounded-lg border bg-white  px-2 pb-12 shadow-lg  md:px-8 animate__animated animate__zoomIn animate__faster
+      className={`fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-[1111] w-[90%] lg:w-[70%] h-[90%]   overflow-y-scroll rounded-lg border bg-white  px-2 pb-12 shadow-lg  md:px-8 animate__animated animate__zoomIn animate__faster
       `}
     >
+    {/* <div
+      className={`fixed left-0 right-0 top-[20px] z-[1111]  h-[95%]  mx-2 md:mx-32 lg:mx-64  overflow-y-scroll rounded-lg border bg-white  px-2 pb-12 shadow-lg  md:px-8 animate__animated animate__zoomIn animate__faster
+      `}
+    > */}
       <div className="relative"></div>
       <div className="flex items-center py-8">
         <h2 className="flex-grow font-[SangBleuSans]  text-4xl tracking-wider text-gray-900 md:text-5xl">
@@ -199,14 +203,14 @@ const DetailsPopUp = ({ data, setOpenPopUp }) => {
           <div className="">
             <table role="presentation">
               <tbody>
-                <tr height="30px">
-                  <td width="150px">Shipping</td>
+                <tr height="30px" className='border-3 border-b border-black'>
+                  <td width="150px">Delivery Fee</td>
                   <td>₹ {parseInt('00').toFixed(2)}</td>
                 </tr>
-                <tr height="50px" className="border-3 border-b border-black">
+                {/* <tr height="50px" className="border-3 border-b border-black">
                   <td width="150px">TAXES (included)</td>
                   <td>₹ {parseInt('00').toFixed(2)}</td>
-                </tr>
+                </tr> */}
                 <tr height="50px">
                   <td width="150px" className="font-bold">
                     TOTAL{' '}

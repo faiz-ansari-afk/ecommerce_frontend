@@ -9,6 +9,7 @@ import {
   DetailsPopUp,
   MyRequests,
   Overview,
+  NotifyDemoPopup
 } from '@/components/Account';
 import { destroyCookie } from 'nookies';
 
@@ -21,19 +22,19 @@ import { getRequest } from '@/utils/controller/requestController';
 import { useMemo } from 'react';
 
 const index = ({ user: _user, data }) => {
-  const { dispatch, state } = useContext(DataContext);
+  const { dispatch } = useContext(DataContext);
   const [user, setUser] = useState(_user);
   
   const _requestedItems = useMemo(() => data.requestedItems);
-  const [myRequestedItems, setMyRequestedItems] = useState(_requestedItems);
+  const [myRequestedItems] = useState(_requestedItems);
 
   const _orders = useMemo(() => data.orders);
-  const [myOrders, setMyOrders] = useState(_orders);
+  const [myOrders] = useState(_orders);
 
   const router = useRouter();
   const [openPopUp, setOpenPopUp] = useState(false);
   const [detailsOfPopup, setDetailsOfPopup] = useState(null);
-
+  const [openDemo,setOpenDemo] = useState(false);
   const buttonsName = [
     {
       name: 'Overview',
@@ -45,6 +46,8 @@ const index = ({ user: _user, data }) => {
           order_data={myOrders}
           setDetailsOfPopup={setDetailsOfPopup}
           setOpenPopUp={setOpenPopUp}
+          openDemo={openDemo} 
+          setOpenDemo={setOpenDemo}
         />
       ),
       topComponent: <Profile user={user} order_data={myOrders} />,
@@ -68,6 +71,8 @@ const index = ({ user: _user, data }) => {
           order_data={myOrders}
           setDetailsOfPopup={setDetailsOfPopup}
           setOpenPopUp={setOpenPopUp}
+          openDemo={openDemo} 
+          setOpenDemo={setOpenDemo}
         />
       ),
       topComponent: 'My Orders ',
@@ -103,6 +108,8 @@ const index = ({ user: _user, data }) => {
     document.body.style = 'overflow-y: auto';
     // return( ()=> setOpenPopUp(false))
   }, [openPopUp]);
+
+  
   return (
     <>
       <Head>
@@ -111,7 +118,7 @@ const index = ({ user: _user, data }) => {
       {openPopUp && (
         <DetailsPopUp data={detailsOfPopup} setOpenPopUp={setOpenPopUp} />
       )}
-
+      {openDemo && <NotifyDemoPopup  setOpenDemo={setOpenDemo} /> }
       <section className={`relative`}>
         {/* ${openPopUp ? 'bg-opacity-50 bg-rose-300':''} */}
         {openPopUp && (

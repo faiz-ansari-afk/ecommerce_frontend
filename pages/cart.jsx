@@ -110,7 +110,6 @@ const Cart = ({ cart }) => {
   }
 
   //user useEfect
-
   useEffect(() => {
     const cookies = parseCookies();
     const user = decodeJWT(cookies.jwt);
@@ -120,13 +119,10 @@ const Cart = ({ cart }) => {
       setUserLoggedIn(false);
     }
   });
-  //payment method useEffect
-  useEffect(() => {
-    if (state.isPaymentMethodChecked)
-      dispatch({ type: 'FALSE_IS_PAYMENT_METHOD_SELECTED' });
-  });
+  
 
-  if (count === 0) {
+  // if (count === 0) {
+  if (!cartDetails && !loading) {
     return (
       <>
         <Head>
@@ -147,13 +143,14 @@ const Cart = ({ cart }) => {
       </>
     );
   }
+
   return (
     <>
       <Head>
         <title>Cart</title>
       </Head>
       <section className="py-20 px-5 lg:py-32 lg:px-10 animate__animated animate__fadeIn animate__fast">
-        {count === 0 ? (
+        {/* {count === 0 ? (
           <div className="flex flex-col items-center  pt-32">
             <div>
               <h3 className="pb-32 text-3xl font-extralight text-gray-600 md:text-5xl">
@@ -161,7 +158,8 @@ const Cart = ({ cart }) => {
               </h3>
             </div>
           </div>
-        ) : loading ? (
+        ) :  */}
+        {loading ? (
           <CartSkeleton />
         ) : (
           cartDetails && (
