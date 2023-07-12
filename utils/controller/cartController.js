@@ -41,11 +41,11 @@ export async function updateCartStatus({ cart_status, cartID }) {
   }
 }
 export const getCarts = async ({ getByCartUID = null }) => {
-  let route = `${process.env.NEXT_PUBLIC_WEBSITE}/api/carts`;
+  let route = `${process.env.NEXT_PUBLIC_WEBSITE}/api/carts?filters[$and][0][cart_uid][$eq]=${getByCartUID}`;
 
-  if (getByCartUID) {
-    route = `${route}?filters[$and][0][cart_uid][$eq]=${getByCartUID}`;
-  }
+  // if (getByCartUID) {
+  //   route = `${route}`;
+  // }
   const jwt = getAuthJWT();
   try {
     const config = {
@@ -151,13 +151,10 @@ export const addToCart = async (variantOfProduct) => {
 };
 
 export async function updateCart({ variantOfProduct, quantity }) {
-  if (quantity) {
-    ////console.log('update quantity', variantOfProduct);
-  }
+ 
   const jwt = getAuthJWT();
 
   const myCart = await getMyCart();
-  ////console.log('update myCart', myCart);
   const cartID = myCart.id;
 
   const newProductDetail = {
@@ -198,18 +195,14 @@ export async function updateCart({ variantOfProduct, quantity }) {
         } = productInCart;
 
         if (size_and_price && productSizeAndPrice) {
-          // ////console.log("size_and_price matched")
           if (size_and_price.id === productSizeAndPrice.id) {
-            // ////console.log("size_and_price id matched",size_and_price.id , productSizeAndPrice.id)
             return {
               ...productInCart,
               quantity: quantity ?? productQuantity + 1,
             };
           }
         } else {
-          // ////console.log("size_and_price not matched")
           if (colorID === productColorID) {
-            // ////console.log("color id matched")
             return {
               ...productInCart,
               quantity: quantity ?? productQuantity + 1,
@@ -220,7 +213,6 @@ export async function updateCart({ variantOfProduct, quantity }) {
       })
     : [...productsInCart, newProductDetail];
 
-  ////console.log('update cat products', cartProducts);
   const cartData = JSON.stringify({
     data: {
       cart_data: {
@@ -242,10 +234,9 @@ export async function updateCart({ variantOfProduct, quantity }) {
     };
 
     const result = await axios(config);
-    ////console.log('update cart', result.data.data);
     return result.data.data;
   } catch (error) {
-    ////console.log('Updating Cart Error', error);
+   console.log('Updating Cart Error', error);
   }
 }
 
@@ -293,24 +284,19 @@ export async function deleteCartItem(productToBeDeleted) {
     };
 
     const result = await axios(config);
-    ////console.log('delete response', result.data.data);
     return result.data.data;
   } catch (error) {
-    ////console.log('deleting cart items error', error);
+    console.log('deleting cart items error', error);
   }
 }
 
 export function getCount(cart) {
   let count = 0;
-  // ////////console.log("in get count", cart)
   if (cart?.attributes?.cart_data?.products?.length > 0) {
-    //////console.log("product more than zero",cart?.attributes?.cart_data?.products)
     cart?.attributes?.cart_data?.products?.forEach(
       (product) => (count += product.quantity)
     );
-  } else {
-    // ////////console.log("product 0000000000")
-  }
+  } 
   return count;
 }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useDebugValue } from 'react';
 import { useState, useContext } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -18,7 +18,7 @@ const PaymentMethod = ({ cart, user, userAddressData }) => {
     setMethod(event.target.value);
   };
   const router = useRouter();
-  const { dispatch, state } = useContext(DataContext);
+  const { dispatch } = useContext(DataContext);
 
   const [loading, setLoading] = useState(false);
   const [termsChecked, setTermsChecked] = useState(false);
@@ -48,58 +48,50 @@ const PaymentMethod = ({ cart, user, userAddressData }) => {
     };
     if (method === 'cod') {
       setTermsError(null);
-      dispatch({ type: 'FALSE_IS_PAYMENT_METHOD_SELECTED' });
 
       const orderResponse = await createOrder({ data: orderDataCOD });
-      // ////console.log("orderResponse",orderResponse)
       if (orderResponse.id) {
-        // const message = `We have recieved your order request, 
-        //                   shortly we will process your orders. 
-        //                   Thank you for purchasing.
-        //                   order No: ${orderResponse.id}`;
-        // const sendSMS = await axios.post('/api/send-sms', {
-        //   phoneNumber:"988",
-        //   message,
-        // }); 
-        ////console.log('Order processed');
-        //change the cart status to  ordered
-        const cartResponse = await updateCartStatus({
+        //remove cart relation from user, because cart is now purchased
+        const updateCartStatusPromise = updateCartStatus({
           cart_status: 'ordered',
           cartID: cart.id,
         });
-        // ////console.log('updateCartStatus', cartResponse);
-
-        //destroying it for safety side
-        destroyCookie({}, 'cart_uid', {
-          path: '/', // THE KEY IS TO SET THE SAME PATH
-        });
-        //remove cart relation from user, because cart is now purchased
-        const removeCartFromUserData = {
+        
+        const removeCartFromUserData = JSON.stringify({
           current_cart: null,
-        };
-        const updatedUserDetails = await updateUserData({
+        });
+        const updateUserDataPromise = updateUserData({
           id: user.id,
           ctx: null,
           data: removeCartFromUserData,
         });
-        dispatch({ type: 'RELOAD_CART' });
-        setTimeout(() => {
-          setLoading(false);
-          router.replace(
-            `/ordered?phoneNumber=${userAddressData.details.phoneNumber}&orderID=${orderResponse.id}`
-          );
-        }, 700);
-      } else {
-        alert('something went wrong');
-      }
+        try {
+          await Promise.all([
+            updateCartStatusPromise,
+            updateUserDataPromise,
+          ]);
+          destroyCookie({}, 'cart_uid', {
+            path: '/', // THE KEY IS TO SET THE SAME PATH
+          });
 
-      return;
+          dispatch({ type: 'RELOAD_CART' });
+          setTimeout(() => {
+            setLoading(false);
+            router.replace(
+              `/ordered?phoneNumber=${userAddressData.details.phoneNumber}&orderID=${orderResponse.id}&userId=${user.id}`
+            );
+          }, 700);
+        } catch (error) {
+          console.error(
+            'Error updating cart or user while checking out',
+            error
+          );
+        }
+      } else {
+        alert('Something went wrong');
+      }
     }
-    alert('No pre payment is required, pay after delivery');
-    // dispatch({ type: 'TRUE_IS_PAYMENT_METHOD_SELECTED' });
     setTermsError(null);
-    // const paymentVerificationData = await makePayment({user,router,cart,dispatch});
-    // ////console.log(paymentVerificationData)
     setLoading(false);
   }
   return (
@@ -107,33 +99,7 @@ const PaymentMethod = ({ cart, user, userAddressData }) => {
       <h3 className="font-[SangbleuSans] text-3xl mb-2 font-light">
         Payment method
       </h3>
-      {/* <h4 className="my-2 text-sm">
-        All transactions are secure and encrypted.
-      </h4> */}
       <ul className="mb-12 space-y-3">
-        {/* <li
-          className={`max-w-[500px]  rounded-lg ${
-            method === 'razorpay' ? 'bg-orange-100' : ''
-          }`}
-        >
-          <div className="flex items-center rounded  pl-4 ">
-            <input
-              id="bordered-radio-2"
-              type="radio"
-              value="razorpay"
-              name="bordered-radio"
-              className="h-4 w-4 "
-              checked={method === 'razorpay'}
-              onChange={handleRadioChange}
-            />
-            <label
-              htmlFor="bordered-radio-2"
-              className="ml-2  w-full p-4 text-gray-900"
-            >
-              Razor Pay (UPI)
-            </label>
-          </div>
-        </li> */}
         <li
           className={`max-w-[500px]  rounded-lg ${
             method === 'cod' ? 'bg-orange-100' : ''

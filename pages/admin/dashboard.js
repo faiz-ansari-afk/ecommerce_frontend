@@ -64,9 +64,7 @@ export async function getServerSideProps(ctx) {
       },
     };
   }
-  // const orders = await getAllOrdersOfAllUsers();
-  // const requests = await getRequest({ filterBy: { all: true } });
-  // const users = await getAllUsers(ctx);
+  
   const [orders, requests, users] = await Promise.all([
     getAllOrdersOfAllUsers({pageSize : 300, pageNumber : 1}),
     getRequest({ filterBy: { all: true } }),

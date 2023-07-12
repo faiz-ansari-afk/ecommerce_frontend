@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Head from 'next/head';
 import { Success, Bullet } from '@/components/Icon';
 import Confetti from 'react-confetti';
+import { updateUserData } from '@/utils/controller/auth';
 
 const payment = ({ user }) => {
   const router = useRouter();

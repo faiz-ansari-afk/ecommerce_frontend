@@ -2,6 +2,7 @@ import { messaging } from '@/firebase';
 import { onMessage } from 'firebase/messaging';
 import { Literata } from 'next/font/google';
 import { useEffect, useState } from 'react';
+import Image from 'next/image'
 import NotificationToast from './NotificationToast';
 
 const literata = Literata({
@@ -42,9 +43,34 @@ const Layout = ({ children }) => {
     };
   }, [triggerNotifyTimer]);
 
+
+  //checking if user internet status
+  //  #FIXME: ?Adding below code gives hydration error
+  // const [isOnline, setIsOnline] = useState(
+  //   typeof window !== 'undefined' && window.navigator.onLine
+  // );
+
+  // useEffect(() => {
+  //   const handleOnlineStatus = () => {
+  //     setIsOnline(true);
+  //   };
+
+  //   const handleOfflineStatus = () => {
+  //     setIsOnline(false);
+  //   };
+
+  //   window.addEventListener('online', handleOnlineStatus);
+  //   window.addEventListener('offline', handleOfflineStatus);
+
+  //   return () => {
+  //     window.removeEventListener('online', handleOnlineStatus);
+  //     window.removeEventListener('offline', handleOfflineStatus);
+  //   };
+  // }, []);
+
   return (
     <>
-      <div className={`${literata.variable} font-serif`}>
+      <main className={`${literata.variable} font-serif`}>
         {children}
         {showNotification && (
           <NotificationToast
@@ -52,11 +78,10 @@ const Layout = ({ children }) => {
             imageUrl={pushData.image ? pushData.image : null}
             title={pushData.title}
             body={pushData.body}
-            buttonLink={null}
             buttonLink={link ? link : null}
           />
         )}
-      </div>
+      </main>
     </>
   );
 };

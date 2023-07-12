@@ -58,7 +58,7 @@ const VideoHero = ({ hero }) => {
             <span style={description.reactCSSstyle}> {description.title}</span>
           </p>
         </div>
-        {button.title !== 'null' && <div className=" mt-1 ">
+        {button.title === 'null' ? null : <div className=" mt-1 ">
           <Link href={linkUrl} className="">
             <button className="hover:shadow-lg ">
               <span style={{ ...button.reactCSSstyle }}>{button.title}</span>

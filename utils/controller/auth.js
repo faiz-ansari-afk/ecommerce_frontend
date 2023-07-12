@@ -22,10 +22,9 @@ export async function signIn({ email, password }) {
 
   try {
     const response = await axios(config);
-    ////////console.log('success Login seperate ❤️', response.data);
     return response.data;
   } catch (error) {
-    ////////console.log('Login Failed separate', error.response.data);
+    console.log('Login Failed', error.response.data);
     return error.response.data;
   }
 }
@@ -58,16 +57,12 @@ export async function signUp({ email, password, username }) {
 
   try {
     //registering user
-    const response = await axios(config);
-    ////////console.log(response.data);
-    ////////console.log("From signUpController")
-
-    //after registering logging in user
+    await axios(config);
     const loggingUser = await signIn(loginData);
 
     return loggingUser;
   } catch (error) {
-    //console.log('Registeration error', error.response.data);
+    console.log('Registration error', error.response.data);
     return error.response.data;
   }
 }
@@ -83,7 +78,6 @@ export async function searchUserInDatabase({ field = 'email', value }) {
         Authorization: `Bearer ${jwt}`,
       },
     });
-    // console.log('respo', response);
     if (field === 'local_role') {
       return response.data.length > 0 ? response.data : null;
     }
@@ -121,7 +115,7 @@ export async function getUser(id, ctx) {
     if (response.data.length === 0) return null;
     return response.data;
   } catch (error) {
-    //console.log('Getting current user error', error.response);
+    console.log('Error in getting logged user details', error.response);
     return null;
   }
 }
@@ -147,20 +141,22 @@ export async function getAllUsers(ctx) {
 }
 export async function updateUserData({ id, ctx, data }) {
   const jwt = getAuthJWT(ctx);
-  const url = `${strapiUrl}/api/users/${id}?populate=*`;
+  
+  const url = `${strapiUrl}/api/users/${id}?populate[current_cart][populate]=*`;
   try {
     const response = await axios({
       method: 'put',
       maxBodyLength: Infinity,
       url,
       headers: {
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${jwt}`,
       },
       data,
     });
     return response.data;
   } catch (error) {
-    //console.log(error);
+    console.log("Error updating user",error);
     return error.response.data.error;
   }
 }

@@ -33,10 +33,6 @@ import slugify from 'slugify';
 
 export const getStaticPaths = async () => {
   const products = await getData();
-  // const slugLink = getSlugText(products);
-
-  // const paths = [...slugLink].map((p) => ({ params: { slug: p.toString() } }));
-  // console.log("products",products)
   const paths = products.map((p) => ({
     params: { slug: slugify(p.attributes.name.toString()) },
   }));
@@ -49,16 +45,6 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params }) => {
   const products = await getData();
 
-  // Cannot be fixed nextjs ki taraf se
-  // const results = await getFilteredProducts({
-  //   collectionName: 'products',
-  //   attributeNames: ['name'],
-  //   attributeValues: [params.slug],
-  //   operator: '$containsi',
-  // });
-  // const originalValue = params.slug.replace(/-/g, " ");
-  // console.log('.................❤️❤️❤️.........slugs', params, results);
-  // console.log("Running Get static props")
 
   const product = products.find(
     (product) => slugify(product.attributes.name.toString()) === params.slug
@@ -80,11 +66,10 @@ const Product = ({ product }) => {
   const [showMore2, setShowMore2] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [disableBuyButton, setDisableBuyButton] = useState(
-    !product.attributes.inStock
-  );
-  // ////console.log(product)
-  const { dispatch, state } = useContext(DataContext);
+  // const [disableBuyButton, setDisableBuyButton] = useState(
+  //   !product.attributes.inStock
+  // );
+  const { dispatch } = useContext(DataContext);
   const router = useRouter();
 
   //**____________________ OPEN VARIANTS POPUP ________________________________
@@ -95,7 +80,7 @@ const Product = ({ product }) => {
   const [selectedVariantImage, setSelectedVariantImage] = useState(
     getCoverImageUrl(product)
   );
-  // const [buttonName, setButtonName] = useState('Choose Variant');
+
   const [priceBasedOnVariants, setPriceBasedOnVariants] = useState(
     product.attributes.base_price
   );
@@ -117,7 +102,6 @@ const Product = ({ product }) => {
     }
     try {
       const addToCartResponse = await addToCart(productVariant);
-      console.log("addToCartResponse",addToCartResponse)
       const count = getCount(addToCartResponse);
       dispatch({ type: 'SET_CART_ITEMS_COUNT', payload: count });
       dispatch({ type: 'RELOAD_CART' });
@@ -125,7 +109,7 @@ const Product = ({ product }) => {
       if (nameString.length > 50) {
         nameString = nameString.substring(0, 50) + '...';
       }
-      // alert(`${product.attributes.name} added to cart`);
+      
       ToastMessage({ type: 'success', message: `${nameString} added to cart` });
       router.push('/cart');
       setSelectedColorID(null);

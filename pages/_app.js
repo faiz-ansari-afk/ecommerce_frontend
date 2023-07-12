@@ -43,18 +43,8 @@ export default function App({ Component, pageProps }) {
     shadowBlur: 5,
   });
   // __________________
-  const [isOnline, setNetwork] = useState(
-    typeof window !== 'undefined' && window.navigator.onLine
-  );
-
-  useEffect(() => {
-    window.addEventListener('offline', () =>
-      setNetwork(window.navigator.onLine)
-    );
-    window.addEventListener('online', () =>
-      setNetwork(window.navigator.onLine)
-    );
-  });
+  
+  //add cart to user if user logged in
   useEffect(() => async () => {
     // let cart_uid = null;
     const cartData = await getMyCart();
@@ -68,13 +58,11 @@ export default function App({ Component, pageProps }) {
 
       //if cart already exist in user
       if (userDetails.current_cart) {
-        // ////console.log('cart found in user');
         //check cart status, if it is abandoned or ordered
         if (
           cartData.cart_status === 'ordered' ||
           cartData.cart_status === 'abandoned'
         ) {
-          // ////console.log('cart status is abandoned or ordered');
           //remove cart relation from user , #NOTE: doing this for safety side
           const removeCartFromUserData = {
             current_cart: null,
@@ -86,7 +74,6 @@ export default function App({ Component, pageProps }) {
           });
         }
       } else {
-        // ////console.log('Cart Not found in user adding now');
         await updateUserData({
           id: userDetails.id,
           ctx: null,
@@ -95,24 +82,9 @@ export default function App({ Component, pageProps }) {
       }
     }
   });
-  // check if strapi is working fine or not
-  useEffect(() => {
-    // ////console.log("running strapi effect")
-    async function checkStrapiApiStatus() {
-      try {
-        const response = await axios.post('/api/status');
-        // ////console.log(response.data.status);
-        setIsBackendLive(true);
-      } catch (error) {
-        //console.error(error);
-        setIsBackendLive(false);
-      }
-    }
-    checkStrapiApiStatus();
-  });
-  const [isBackendLive, setIsBackendLive] = useState(true);
-  // ////console.log(isBackendLive)
 
+
+  // all error that is not handle by catch function is handle by below code useEffect
   useEffect(() => {
     const unhandledRejectionHandler = (event) => {
       // Handle unhandled promise rejections
@@ -214,7 +186,6 @@ export default function App({ Component, pageProps }) {
       deferredPrompt.prompt();
       deferredPrompt.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === 'accepted') {
-          console.log('User accepted the A2HS prompt');
           window.location.reload();
         } else {
           console.log('User dismissed the A2HS prompt');
@@ -227,19 +198,28 @@ export default function App({ Component, pageProps }) {
   const [isPWAInstalled, setIsPWAInstalled] = useState(false);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(display-mode: standalone)');
-    setIsPWAInstalled(mediaQuery.matches);
+    const handleBeforeInstallPrompt = (event) => {
+      // event.preventDefault();
+      setIsPWAInstalled(true);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    };
   }, []);
+  // useEffect(() => {
+  //   const mediaQuery = window.matchMedia('(display-mode: standalone)');
+  //   setIsPWAInstalled(mediaQuery.matches);
+  // }, []);
 
 // google analytics for each page
 useEffect(() => {
   const handleRouteChange = (url) => {
-    // console.log("url",url)
     pageview(url);
   };
 
-  //When the component is mounted, subscribe to router changes
-  //and log those page views
   router.events.on("routeChangeComplete", handleRouteChange);
 
   // If the component is unmounted, unsubscribe
