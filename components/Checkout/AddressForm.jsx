@@ -258,8 +258,8 @@ const AddressForm = ({
   }, [phone]);
 
   return (
-    <form onSubmit={handleProceedCheckout}>
-      <div className="shipping address div mt-12">
+    <form onSubmit={handleProceedCheckout} >
+      <div className="shipping address div mt-12 ">
         <h2 className="text-xl">
           {user.user_data ? 'Update' : 'Fill'} shipping address
         </h2>

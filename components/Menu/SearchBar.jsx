@@ -38,7 +38,10 @@ const SearchBar = ({
     };
     //debouncing req for 1 sec
     const getData = setTimeout(() => {
-      if (searchKeyword.length > 0) {setSearchedProducts(null); fetchData();}
+      if (searchKeyword.length > 0) {
+        setSearchedProducts(null);
+        fetchData();
+      }
     }, 200);
 
     return () => clearTimeout(getData);
@@ -46,7 +49,9 @@ const SearchBar = ({
   // _________________******************************_________________________*********************________________________
 
   //**__________________________________speech to text logic__________________________________
-  const [placeholder, setPlaceholder] = useState('Search Products, Requests...');
+  const [placeholder, setPlaceholder] = useState(
+    'Search Products, Requests...'
+  );
 
   const { transcript, listening, supported, startListening, stopListening } =
     useSpeechRecognition();
@@ -84,6 +89,10 @@ const SearchBar = ({
     }
     return () => stopListening();
   }, [transcript]);
+  useEffect(()=>{
+    if(listening) setPlaceholder('Jaldi BOL kal subah PANVEL nikalna hai...');
+    else setPlaceholder('Search Products, Requests...');
+  },[listening])
   return (
     <form className="flex items-center  ">
       <label htmlFor="voice-search" className="sr-only">
@@ -128,8 +137,8 @@ const SearchBar = ({
           >
             <Menu />
           </button>
-        ) : (
-          supported && (
+        ) : supported ? (
+          !listening ? (
             <button
               type="button"
               className="absolute inset-y-0 right-0 flex items-center pr-3"
@@ -138,7 +147,7 @@ const SearchBar = ({
                   setPlaceholder('Jaldi BOL kal subah PANVEL nikalna hai...');
                   startListening();
                 } else {
-                  setPlaceholder('Search Products, Stories...');
+                  setPlaceholder('Search Products...');
                   stopListening();
                 }
               }}
@@ -157,8 +166,19 @@ const SearchBar = ({
                 ></path>
               </svg>
             </button>
+          ) : (
+            <button
+              type="button"
+              className="absolute inset-y-0 right-0 flex items-center pr-3"
+              onClick={() => {
+                stopListening();
+                setPlaceholder('Search Products...');
+              }}
+            >
+              <Menu tailwindClass="text-white" />
+            </button>
           )
-        )}
+        ) : null}
       </h1>
     </form>
   );

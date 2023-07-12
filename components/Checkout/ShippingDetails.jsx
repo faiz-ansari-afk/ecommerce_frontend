@@ -24,7 +24,7 @@ const ShippingDetails = ({
     }
   }, [userAddressData]);
   return (
-    <div className={`${accountFlag ? '' : 'mt-12'}`}>
+    <div className={`${accountFlag ? '' : 'mt-12'} animate__animated  animate__fadeIn`}>
       <h2
         className={`${
           accountFlag ? 'text-md mb-2' : 'text-3xl mb-12'

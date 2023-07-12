@@ -199,7 +199,7 @@ export default function App({ Component, pageProps }) {
 
   useEffect(() => {
     const handleBeforeInstallPrompt = (event) => {
-      // event.preventDefault();
+      event.preventDefault();
       setIsPWAInstalled(true);
     };
 
@@ -209,10 +209,10 @@ export default function App({ Component, pageProps }) {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     };
   }, []);
-  // useEffect(() => {
-  //   const mediaQuery = window.matchMedia('(display-mode: standalone)');
-  //   setIsPWAInstalled(mediaQuery.matches);
-  // }, []);
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(display-mode: standalone)');
+    setIsPWAInstalled(mediaQuery.matches);
+  }, []);
 
 // google analytics for each page
 useEffect(() => {

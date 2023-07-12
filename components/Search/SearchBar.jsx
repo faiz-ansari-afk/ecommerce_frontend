@@ -1,12 +1,11 @@
-import { useRef, useEffect, useState } from 'react';
+import {  useEffect, useState } from 'react';
 import Select from 'react-select';
 import slugify from 'slugify';
 import { useRouter } from 'next/router';
 import useSpeechRecognition from '@/utils/hooks/voiceController';
+import { Menu } from '../Icon';
 
 const SearchBar = ({
-  products,
-  setResults,
   fetchResultFromBackend,
   category,
   setCategory,
@@ -81,7 +80,7 @@ const SearchBar = ({
     }
   };
   // ?? Handling voice controller__________________
-  const [placeholder, setPlaceholder] = useState('Search Products, Stories...');
+  const [placeholder, setPlaceholder] = useState('Search Products...');
 
   const { transcript, listening, supported, startListening, stopListening } =
     useSpeechRecognition();
@@ -139,14 +138,14 @@ const SearchBar = ({
             className="absolute inset-y-0 right-0 flex items-center pr-3"
             onClick={() => {
               setSearchQuery('');
-              setPlaceholder('Search Products, Stories...');
+              setPlaceholder('Search Products...');
               stopListening();
             }}
           >
-            X
+            <Menu />
           </button>
         ) : (
-          supported && (
+          supported ? !listening ? 
             <button
               type="button"
               className="absolute inset-y-0 right-0 flex items-center pr-3"
@@ -171,7 +170,16 @@ const SearchBar = ({
                 ></path>
               </svg>
             </button>
-          )
+          : <button
+          type="button"
+          className="absolute inset-y-0 right-0 flex items-center pr-3"
+          onClick={() => {
+            stopListening();
+            setPlaceholder('Search Products...');
+          }}
+        >
+          <Menu tailwindClass="text-black" />
+        </button> : null
         )}
       </div>
       {/* <ul id="suggestions"></ul> */}

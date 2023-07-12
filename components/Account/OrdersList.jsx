@@ -29,11 +29,11 @@ const OrdersList = ({
       <PushNotifyPermission openDemo={openDemo} setOpenDemo={setOpenDemo} />
       <ul className="">
         {_orders.map((order) => {
-          const cart = order.attributes.cart.data.attributes;
           const cart_products =
             order.attributes.cart.data.attributes.cart_data.products;
           const orderCreatedAt = new Date(order.attributes.publishedAt);
-
+          const orderStrRaw = order.attributes.order_id;
+          const orderStr = orderStrRaw.split('-')[0];
           return (
             <li key={order.id} className="border-b  py-7">
               <div className="flex flex-col md:flex-row md:items-center">
@@ -48,7 +48,7 @@ const OrdersList = ({
                   </div>
                   <div className="space-y-1  grow">
                     <p className="text-xl text-gray-900">
-                      Order No. {order.id}{' '}
+                      Order No. {orderStr}{' '}
                       <span className="pl-3 text-sm font-light italic text-gray-400">
                         {order.attributes.status}
                       </span>

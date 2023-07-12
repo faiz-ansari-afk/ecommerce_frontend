@@ -7,7 +7,7 @@ import ChangePassword from './ChangePassword';
 
 function ContactInfo({ user, setIsEditContact, email, username, contact }) {
   return (
-    <div>
+    <div className="animate__animated  animate__fadeIn">
       <div className="flex">
         <p className="text-gray-500">Username:&nbsp;</p>
         <p className="pb-1 font-sans  ">{username}</p>
@@ -142,7 +142,7 @@ function EditContactInfo({
   }
 
   return (
-    <div className="w-full md:w-2/3  space-y-3">
+    <div className="w-full md:w-2/3  space-y-3 ">
       <InputField
         type="text"
         name="Username"

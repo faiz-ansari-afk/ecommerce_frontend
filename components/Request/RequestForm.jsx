@@ -241,14 +241,14 @@ const RequestForm = ({ user, setOpenForm, accountFlag = false }) => {
   // ?________________ dropdown ______
   const dropdownList = [
     { value: 'Product', label: 'Product' },
-    { value: 'Shop', label: 'Shop' },
+    // { value: 'Shop', label: 'Shop' },
   ];
 
   return (
-    <div className="">
+    <div className="animate__animated  animate__fadeIn ">
       <form
         ref={formRef}
-        className="flex flex-col space-y-4 w-full"
+        className="flex flex-col space-y-4 w-full "
         onSubmit={(e) => handleSubmit(e)}
       >
         <p className="bg-yellow-200 text-yellow-700 px-3 py-1 rounded-lg">
