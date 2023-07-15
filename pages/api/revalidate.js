@@ -6,6 +6,7 @@ export default async function handler(req, res) {
 
     const { event, model: collection, entry } = req.body;
     const { authorization } = req.headers;
+    console.log("authorization , webhookToken",authorization,webhookToken)
     if (webhookToken === authorization) {
       if (collection === 'product') {
         const path = `/product/${slugify(entry.name)}`;

@@ -9,7 +9,7 @@ import SearchBar from '@/components/Shops/SearchBar';
 import Link from 'next/link';
 
 const request = ({ requestedItem: _requestedItem, user }) => {
-  const [requestedItem, setRequestedItem] = useState(_requestedItem);
+  const [requestedItem] = useState(_requestedItem);
 
   // const [sortBy, setSortBy] = useState('All');
   // const requestedItemMemo = useMemo(() => requestedItem);
