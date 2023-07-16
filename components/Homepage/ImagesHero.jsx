@@ -63,18 +63,18 @@ const ImagesHero = ({ hero }) => {
               </h2>
             )}
           </div>
-          <div className="mb-4">
+          <div className="my-4">
             <p className="md:text-lg">
               <span style={description.reactCSSstyle}>{description.title}</span>
             </p>
           </div>
-          <div className="">
+          {button.title === 'null' ? null : <div className="">
             <Link href={linkUrl}>
               <button className="hover:shadow-lg ">
                 <span style={button.reactCSSstyle}>{button.title}</span>
               </button>
             </Link>
-          </div>
+          </div>}
         </div>
 
         <div className="">

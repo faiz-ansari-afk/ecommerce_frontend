@@ -210,7 +210,7 @@ const NavbarNew = ({ isLoginOpen }) => {
                   <Avatar heightWidth="h-7 w-7" />
                   {fullUser && (
                     <p className="text-gray-400 hover:text-white">
-                      {fullUser.username.substring(0, 6)}
+                      {fullUser.username.length > 6 ? fullUser.username.substring(0, 6)+'...': fullUser.username }
                     </p>
                   )}
                 </Link>
@@ -292,7 +292,7 @@ const NavbarNew = ({ isLoginOpen }) => {
                       <Avatar heightWidth="h-10 w-10" />
                       {fullUser && (
                         <p className="text-xl  tracking-wider">
-                          {fullUser.username.substring(0, 6)}
+                          {fullUser.username}
                         </p>
                       )}
                     </div>

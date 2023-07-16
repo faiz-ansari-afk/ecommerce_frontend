@@ -197,18 +197,18 @@ export default function App({ Component, pageProps }) {
 
   const [isPWAInstalled, setIsPWAInstalled] = useState(false);
 
-  useEffect(() => {
-    const handleBeforeInstallPrompt = (event) => {
-      event.preventDefault();
-      setIsPWAInstalled(true);
-    };
+  // useEffect(() => {
+  //   const handleBeforeInstallPrompt = (event) => {
+  //     event.preventDefault();
+  //     setIsPWAInstalled(true);
+  //   };
 
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+  //   window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
-    return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+  //   };
+  // }, []);
   useEffect(() => {
     const mediaQuery = window.matchMedia('(display-mode: standalone)');
     setIsPWAInstalled(mediaQuery.matches);

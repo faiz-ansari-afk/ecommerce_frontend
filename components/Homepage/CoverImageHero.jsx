@@ -72,13 +72,13 @@ const CoverImageHero = ({ hero }) => {
               <span style={description.reactCSSstyle}>{description.title}</span>
             </p>
           </div>
-          <div className="">
+          {button.title === 'null' ? null : <div className="">
             <Link href={linkUrl}>
               <button className={` hover:shadow-lg `}>
                 <span style={button.reactCSSstyle}>{button.title}</span>
               </button>
             </Link>
-          </div>
+          </div>}
         </div>
       </div>
     </div>

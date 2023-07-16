@@ -1,32 +1,19 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
-import Image from 'next/image';
 import { mapToModelViewCategory } from '@/utils/controller/categoryController';
 import BrowseCategories from '@/components/BrowseCategories';
 import ProductsGallery from '@/components/Homepage/ProductsGallery';
+import Feature from '@/components/Homepage/Feature';
 import { getHomepageData } from '@/utils/controller/homepageController';
 import { ClassifyHero } from '@/components/Homepage';
 import { getFilteredProducts } from '@/utils/controller/productController';
-import { Player } from '@lottiefiles/react-lottie-player';
-// import { onForegroundMessage } from '@/firebase';
 
-import { decodeJWT } from '@/utils/controller/sessionController';
-import { parseCookies } from 'nookies';
-import { DataContext } from '@/store/globalstate';
+
 import RequestHero from '@/components/RequestHero';
 import { useRouter } from 'next/router';
 
-// import styles from '@/components/Homepage/ProductGallery.module.css'
 export default function Home({ homepage, categories, products }) {
   const router = useRouter();
-  const [user, setUser] = useState(null);
-  const { dispatch, state } = useContext(DataContext);
-
-  const cookies = parseCookies();
-  useEffect(() => {
-    const user_data = decodeJWT(cookies.jwt);
-    setUser(user_data);
-  }, [cookies.jwt]);
 
   return (
     <>
@@ -45,91 +32,22 @@ export default function Home({ homepage, categories, products }) {
           )}
 
           <ProductsGallery products={products} />
-          {!user && (
-            //
-            <div className=" flex justify-center  m-2   ">
-              <div className="flex flex-col md:flex-row   border-black border rounded-lg">
-                <div className="flex justify-center">
-                  <div className="relative h-[200px] w-[200px]  flex-shrink-0">
-                    <Image
-                      src="/loginGif.gif"
-                      alt="open box logo"
-                      fill
-                      sizes="(max-width: 768px) 100vw,
-                                              (max-width: 1200px) 50vw,
-                                              33vw"
-                      className="h-full w-full object-contain  rounded-lg"
-                    />
-                  </div>
-                </div>
-                <div className="  rounded-lg m-2 p-2 text-center max-w-lg md:flex justify-center md:flex-col ">
-                  <h3 className="text-xl text-center">Welcome to Our Store</h3>
-                  <p className="md:text-lg my-2 text-gray-700">
-                    Please log in to access your account, cart, orders.
-                  </p>
-                  <div className="flex  justify-center">
-                    <button
-                      className="button-transition max-w-[200px] text-white bg-black inline-block px-9 uppercase"
-                      onClick={() => {
-                        dispatch({ type: 'TRUE_OPEN_LOGIN' });
-                      }}
-                    >
-                      Login
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-          <div className="flex flex-col  py-1 items-center md:flex-row justify-center my-12 mx-2 gap-8 md:gap-4 lg:gap-8">
-            <div className=" flex justify-center items-center gap-4  md:max-w-sm lg:max-w-lg  border-gray-300  bg-white border-t rounded-lg  p-1 lg:p-2 shadow-lg hover:scale-[1.02] transition delay-200 ease-in-out">
-              <div className="relative h-32 w-32 md:h-44 md:w-44 flex-shrink-0">
-                <Image
-                  src="/openbox.jpg"
-                  alt="open box logo"
-                  fill
-                  sizes="(max-width: 768px) 100vw,
-                                    (max-width: 1200px) 50vw,
-                                    33vw"
-                  className="h-full w-full object-contain rounded-lg"
-                />
-              </div>
-              <div className=" text-2xl leading-10 lg:text-2xl md:text-3xl text-gray-600">
-                <span className="bg-orange-300 text-black p-2">OPEN</span> BOX
-                DELIVERY
-              </div>
-            </div>
-
-            <div className=" flex justify-center items-center gap-4  md:max-w-sm lg:max-w-lg  border-gray-300  bg-white border-t rounded-lg  p-1 lg:p-2 shadow-lg hover:scale-[1.02] transition delay-200 ease-in-out">
-              <div className="relative h-32 w-32 md:h-44 md:w-44 flex-shrink-0">
-                <Image
-                  src="/cod.gif"
-                  alt="open box logo"
-                  fill
-                  sizes="(max-width: 768px) 100vw,
-                                    (max-width: 1200px) 50vw,
-                                    33vw"
-                  className="h-full w-full object-contain rounded-lg"
-                />
-              </div>
-              <div className=" text-2xl leading-10 lg:text-2xl md:text-3xl text-gray-600">
-                <span className="bg-lime-300 text-black p-2">CASH</span> ON
-                DELIVERY
-              </div>
-            </div>
-          </div>
+          <section className="py-12 md:py-24 lg:py-64 flex flex-col justify-center items-center bg-gradient-to-b from-slate-900 via-slate-300   to-white">
+            <Feature />
+          </section>
           {homepage.attributes.SECOND_HERO && (
             <ClassifyHero hero={homepage.attributes.SECOND_HERO} />
           )}
           {categories && (
-            <section className=" py-20 lg:py-24 ">
+            <section className="  ">
               <BrowseCategories categories={categories} />
             </section>
           )}
           {homepage.attributes.THIRD_HERO && (
             <ClassifyHero hero={homepage.attributes.THIRD_HERO} />
           )}
-          <section className="mx-1 my-44 md:">
+          <section className="mx-1 relative my-44 ">
+          {/* <div className="bg-black absolute  md:hidden -top-[50px] -left-[50px] animate-pulse left-0 -z-[999] rounded-full overflow-hidden w-36 h-36" /> */}
             <RequestHero />
           </section>
         </div>
