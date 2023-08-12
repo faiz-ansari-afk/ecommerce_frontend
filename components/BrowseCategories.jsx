@@ -4,7 +4,7 @@ import slugify from 'slugify';
 
 const BrowseCategories = ({ categories }) => {
   return (
-    <div className="h-screen relative bg-gradient-to-b from-slate-900 via-slate-200 md:via-white   to-white   flex flex-col justify-center">
+    <div className="h-screen relative bg-gradient-to-b from-slate-900 border via-white   to-white   flex flex-col justify-center">
       {/* <div className="absolute top-0 left-0 right-0 h-4 bg-gradient-to-t  from-transparent to-white"/> */}
       <h3 className="tracking-wider text-xl text-center uppercase font-[SangblueSans] my-3">
         Browse our categories
@@ -20,7 +20,7 @@ const BrowseCategories = ({ categories }) => {
                       key={index}
                       href={`/collections?category=${slugify(category.name)}`}
                     >
-                      <div className="h-65 relative w-56 border rounded-lg overflow-hidden flex-shrink-0  hover:shadow-lg">
+                      <div className="h-65 relative w-56 border shadow rounded-lg overflow-hidden flex-shrink-0  hover:shadow-lg">
                         <div className="absolute z-[100] inset-0 h-56 w-56  rounded-lg"></div>
                         <AutoPlaySlider
                           dataArray={category.images}

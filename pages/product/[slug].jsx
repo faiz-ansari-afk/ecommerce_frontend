@@ -227,7 +227,7 @@ const Product = ({ product }) => {
             setSelectedSizeID={setSelectedSizeID}
           />
         )}
-        <div className="md:text-right mr-1 flex gap-3">
+        <div className="md:text-right mr-1 flex gap-3 mt-1">
           <button
             className={`rounded-full py-1 px-3 flex text-gray-900   border border-black bg-white lg:px-4 lg:py-2`}
             onClick={() => {

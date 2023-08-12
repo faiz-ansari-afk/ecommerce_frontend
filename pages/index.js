@@ -32,7 +32,7 @@ export default function Home({ homepage, categories, products }) {
           )}
 
           <ProductsGallery products={products} />
-          <section className="py-12 md:py-24 lg:py-64 flex flex-col justify-center items-center bg-gradient-to-b from-slate-900 via-slate-300   to-white">
+          <section className="py-32 md:py-24 lg:py-64 flex flex-col justify-center items-center bg-gradient-to-b from-slate-900 via-slate-300   to-white">
             <Feature />
           </section>
           {homepage.attributes.SECOND_HERO && (
@@ -47,8 +47,7 @@ export default function Home({ homepage, categories, products }) {
             <ClassifyHero hero={homepage.attributes.THIRD_HERO} />
           )}
           <section className="mx-1 relative my-44 ">
-          {/* <div className="bg-black absolute  md:hidden -top-[50px] -left-[50px] animate-pulse left-0 -z-[999] rounded-full overflow-hidden w-36 h-36" /> */}
-            <RequestHero />
+              <RequestHero />
           </section>
         </div>
       ) : (

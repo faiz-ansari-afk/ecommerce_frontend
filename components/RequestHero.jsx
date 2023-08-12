@@ -25,7 +25,7 @@ const RequestHero = ({ collectionFlag = false }) => {
               </h2>
             )}
             <p className="md:text-lg mb-4">
-              T-Shirts, Bike Parts, Watches, Suits, etc, etc...
+              Burqa Design, Abaya, T-Shirts, Watches, Suits, Bike Parts, etc, etc...
             </p>
             <Link href="/request">
               <button className="px-6 py-2 bg-slate-900 text-white rounded-full hover:bg-slate-800 hover:shadow-lg">

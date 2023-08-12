@@ -38,9 +38,9 @@ const Feature = () => {
     },
   ];
   return (
-    <div>
+    <div className=''>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  py-1 items-center  justify-center mx-3 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  items-center  justify-center mx-3 gap-3">
         {feature.map((f, i) => (
           <div
             className=" flex justify-center items-center gap-4 last:md:col-span-2 lg:last:col-span-1    border-gray-300  bg-white border-t rounded-lg  p-1 lg:p-2 shadow-sm hover:shadow-md hover:scale-[1.02] transition duration-300 ease-in-out"

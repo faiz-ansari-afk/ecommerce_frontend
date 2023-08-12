@@ -4,17 +4,16 @@ import Image from 'next/image';
 import { getCoverImageUrl } from '@/utils/controller/productController';
 import styles from './ProductGallery.module.css';
 const ProductsGallery = ({ products }) => {
- 
   return (
     <div className={` relative my-auto  w-full`}>
       <div className={` my-auto  relative px-4 lg:px-12 py-44`}>
-      <div className={` ${styles.bgRipple} absolute inset-0 z-2`}></div>
+        <div className={` ${styles.bgRipple} absolute inset-0 z-2`}></div>
         <Link href={`/collections`}>
           <p className="text-center uppercase my-4 tracking-widest ">
             Our Newest collections
           </p>
         </Link>
-        <div className="flex h-64 lg:h-72 gap-6 py-6 overflow-x-auto  scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100">
+        <div className="flex h-64 lg:h-72 gap-6 py-6 overflow-x-auto px-2 md:px-4 lg:px-12  scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100">
           {products
             ? products.map((product, index) => (
                 <div
@@ -34,8 +33,8 @@ const ProductsGallery = ({ products }) => {
                           alt={product.attributes.name}
                         />
                       </div>
-                      <div className="absolute rounded-b-lg overflow-hidden  bottom-0 px-4  bg-gray-700 text-white ">
-                        <p className="line-clamp-1">
+                      <div className="absolute w-full rounded-b-lg overflow-hidden  bottom-0 px-4  bg-gray-700 text-white ">
+                        <p className="text-center line-clamp-1">
                           {product.attributes.name}{' '}
                         </p>
                         <p className="text-center pb-2 ">
