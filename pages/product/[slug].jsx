@@ -169,7 +169,7 @@ const Product = ({ product }) => {
                 sizes="(max-width: 768px) 100vw,
                 (max-width: 1200px) 50vw,
                 33vw"
-                className="h-full rounded-lg w-full object-fit"
+                className="h-full rounded-lg w-full object-contain"
               />
             )}
           </div>
@@ -275,7 +275,7 @@ const Product = ({ product }) => {
                 {mappedImages.map((image, index) => (
                   <div className="mx-3 my-4" key={image.url}>
                     <div
-                      className={`flex-shrink-0 cursor-pointer hover:scale-[1.1] rounded p-2 border relative h-24 w-24 lg:h-28 lg:w-28 ${
+                      className={`flex-shrink-0 cursor-pointer hover:scale-[1.1] rounded p-2  relative h-24 w-24 lg:h-28 lg:w-28 ${
                         selectedImage === index
                           ? 'border-2 border-black scale-[1.1]'
                           : ''
@@ -290,7 +290,7 @@ const Product = ({ product }) => {
                         sizes="(max-width: 768px) 100vw,
                         (max-width: 1200px) 50vw,
                         33vw"
-                        className="h-full w-full object-fit"
+                        className="h-full w-full object-contain"
                       />
                     </div>
                   </div>
@@ -325,7 +325,7 @@ const Product = ({ product }) => {
                   )}
                 </div>
                 <div
-                  className={`mt-4 md:mt-8 mb-1 max-w-prose text-xl font-light text-gray-600 lg:mb-2 lg:text-2xl ${
+                  className={`mt-4 md:mt-8 mb-1 max-w-prose text-xl font-light text-gray-600 lg:mb-2  ${
                     showMore ? '' : 'line-clamp-5'
                   }`}
                 >

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   PlayIcon,
   PauseIcon,
@@ -45,7 +45,17 @@ const VideoHero = ({ product_hero, category }) => {
     setIsMuted(true);
   };
   const src = `${product_hero.video.data.attributes.url}`;
-  // ////console.log(category);
+  const [videoType, setVideoType] = useState('');
+
+  useEffect(() => {
+    if (src) {
+      // Extract the video format from the URL
+      const videoFormat = src.split('.').pop();
+
+      // Set the video source and type based on the format
+      setVideoType(`video/${videoFormat}`);
+    }
+  }, [src]);
   if (product_hero.isPotrait) {
     return (
       <div className=" my-28 mx-2 md:my-32  md:mx-10 relative rounded-3xl shadow-lg">
@@ -60,17 +70,6 @@ const VideoHero = ({ product_hero, category }) => {
             <p className="md:mt-4 mt-2  max-w-2xl md:max-w-3xl text-base md:text-lg lg:text-xl text-gray-500">
               {parse(product_hero.description)}
             </p>
-            <div className=" mt-6 md:mt-8">
-              <Link
-                href={`/search?searchQuery=${encodeURI(
-                  product_hero.color_list
-                )}&category=${category}`}
-              >
-                <button className="inline-block  py-3 px-8 bg-white rounded-full shadow-lg font-medium text-black ">
-                  Get More Design
-                </button>
-              </Link>
-            </div>
           </div>
           <div className="relative  ">
             <video
@@ -82,7 +81,7 @@ const VideoHero = ({ product_hero, category }) => {
               autoPlay={true}
               preload="auto"
             >
-              <source src={src} type="video/mp4" />
+              <source src={src} type={videoType} />
             </video>
             <span className="absolute  z-20 bg-black/60"></span>
             <span className="absolute bottom-10 left-8 z-40 flex items-center space-x-1 lg:bottom-14 lg:left-14 lg:space-x-2">
@@ -115,37 +114,40 @@ const VideoHero = ({ product_hero, category }) => {
     );
   } else {
     return (
-      <div className="relative bg-gray-800 text-center mb-24">
-        <div className="relative">
+      <div className="aspect-video lg:p-16 relative  text-center mb-24">
+        <div className="aspect-video relative">
           <div className="absolute inset-0">
             <video
               className="w-full h-full object-cover"
-              src={src}
+              ref={ref}
+              // src={src}
               autoPlay
               loop
               muted
-            />
-            <div
-              className="absolute inset-0 bg-gray-900 opacity-50"
-              aria-hidden="true"
-            />
+            >
+              <source src={src} type={videoType} />
+            </video>
+            <span className="absolute bottom-10 left-8 z-40 flex items-center space-x-1 lg:bottom-14 lg:left-14 lg:space-x-2">
+              {isPaused ? (
+                <PlayIcon
+                  onClick={handlePLaying}
+                  className="h-10 w-10 cursor-pointer rounded-full stroke-2 p-2 text-gray-200 transition-colors hover:bg-gray-200/10 active:bg-gray-200/20"
+                />
+              ) : (
+                <PauseIcon
+                  onClick={handlePLaying}
+                  className="h-10 w-10 cursor-pointer rounded-full stroke-2 p-2 text-gray-200 transition-colors hover:bg-gray-200/10 active:bg-gray-200/20"
+                />
+              )}
+            </span>
           </div>
-          <div className="relative py-24">
+          <div className="relative py-24 flex flex-col justify-center items-center">
             <h1 className="text-4xl font-extrabold tracking-tight  sm:text-5xl lg:text-6xl">
               <span className="block">{parse(product_hero.title_text)}</span>
             </h1>
-            <p className="mt-6  text-xl ">{parse(product_hero.description)}</p>
-            <div className="mt-10">
-              <Link
-                href={`/search?searchQuery=${encodeURI(
-                  product_hero.color_list
-                )}&category=${category}`}
-              >
-                <button className="inline-block  py-3 px-8 bg-white rounded-full shadow-lg font-medium text-black ">
-                  Get More Design
-                </button>
-              </Link>
-            </div>
+            <p className="mt-6  text-xl max-w-2xl text-center">
+              {parse(product_hero.description)}
+            </p>
           </div>
         </div>
       </div>

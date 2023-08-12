@@ -42,8 +42,8 @@ const NavbarNew = ({ isLoginOpen }) => {
 
   const links = [
     { name: 'Products', link: '/collections' },
-    { name: 'Shops', link: '/shops' },
     { name: 'Request', link: '/request' },
+    { name: 'About Us', link: '/about-us' },
   ];
 
   //?______________________________ USER AND CART ____________________________
@@ -81,20 +81,6 @@ const NavbarNew = ({ isLoginOpen }) => {
     fetchUserDetail();
   }, [cookies.jwt, user?.id]);
 
-  //close menu when click outside
-  //   const ref = useRef(null);
-  //   useEffect(() => {
-  //     const handleClickOutside = (event) => {
-  //       if (ref.current && !ref.current.contains(event.target) && !ref.current.tagName !== 'div') {
-  //         console.log(ref.current);
-  //         // dispatch({ type: 'FALSE_OPEN_LOGIN' });
-  //         // dispatch({ type: 'FALSE_OPEN_SEARCH' });
-  //         setIsOpen(false);
-  //       }
-  //     };
-  //     document.addEventListener('click', handleClickOutside);
-  //     return () => document.removeEventListener('click', handleClickOutside);
-  //   }, []);
 
   // hide on scroll
   const [hideNavbar, setHideNavbar] = useState(false);
@@ -161,11 +147,11 @@ const NavbarNew = ({ isLoginOpen }) => {
               {links.map((link) => (
                 <li
                   className={`${
-                    router.pathname === link.link && ' bg-slate-700 rounded'
+                    router.pathname === link.link ? ' bg-slate-700 rounded text-white' : 'text-gray-400'
                   } px-3 py-2 hover:bg-slate-700 hover:rounded transition duration-300 cursor-pointer `}
                   key={link.link}
                 >
-                  <Link href={link.link}>{link.name}</Link>
+                  <Link href={link.link}>{link.name} </Link>
                 </li>
               ))}
             </ul>
@@ -210,7 +196,9 @@ const NavbarNew = ({ isLoginOpen }) => {
                   <Avatar heightWidth="h-7 w-7" />
                   {fullUser && (
                     <p className="text-gray-400 hover:text-white">
-                      {fullUser.username.length > 6 ? fullUser.username.substring(0, 6)+'...': fullUser.username }
+                      {fullUser.username.length > 6
+                        ? fullUser.username.substring(0, 6) + '...'
+                        : fullUser.username}
                     </p>
                   )}
                 </Link>

@@ -52,7 +52,7 @@ const Video = ({ src, children }) => {
       >
         <source src={src} type="video/mp4" />
       </video>
-      <span className="absolute inset-0 z-20 bg-black/60"></span>
+      {/* <span className="absolute inset-0 z-20 bg-black/60"></span> */}
       <span className="absolute bottom-1 left-1 z-40 flex items-center space-x-1 lg:bottom-14 lg:left-14 lg:space-x-2">
         {isPaused ? (
           <PlayIcon
@@ -79,7 +79,7 @@ const Video = ({ src, children }) => {
       </span>
       <div className="absolute inset-0 z-30 grid place-content-center  px-5 text-center lg:px-10">
         {/* <div className="flex flex-col inline-block "> */}
-          {children}
+        {children}
         {/* </div> */}
       </div>
     </section>

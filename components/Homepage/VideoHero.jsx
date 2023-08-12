@@ -46,7 +46,7 @@ const VideoHero = ({ hero }) => {
         </div>
         {second_title && (
           <div className="">
-            <h1 className={` `}>
+            <h1 className={`my-3 `}>
               <span style={second_title.reactCSSstyle}>
                 {second_title.title}
               </span>

@@ -13,11 +13,11 @@ const ProductsGallery = ({ products }) => {
             Our Newest collections
           </p>
         </Link>
-        <div className="flex h-64 lg:h-72 gap-6 py-6 overflow-x-auto px-2 md:px-4 lg:px-12  scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100">
+        <div className="flex h-64 lg:h-72  gap-6 py-6 overflow-x-auto px-2 md:px-4 lg:px-12  scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100">
           {products
             ? products.map((product, index) => (
                 <div
-                  className="aspect-[2/2] flex-shrink-0  hover:scale-105 transition duration-300 border relative   rounded-lg bg-slate-400 "
+                  className="aspect-[2/2]  flex-shrink-0  hover:scale-105 transition duration-300  relative   rounded-lg bg-slate-400 "
                   key={index}
                 >
                   <Link href={`/product/${slugify(product.attributes.name)}`}>
@@ -29,11 +29,11 @@ const ProductsGallery = ({ products }) => {
                           sizes="(max-width: 768px) 100vw,
                                   (max-width: 1200px) 50vw,
                                   33vw"
-                          className="rounded-lg "
+                          className="rounded-lg object-cover"
                           alt={product.attributes.name}
                         />
                       </div>
-                      <div className="absolute w-full rounded-b-lg overflow-hidden  bottom-0 px-4  bg-gray-700 text-white ">
+                      <div className="absolute w-full rounded-b-lg overflow-hidden  bottom-0 px-4  bg-gray-800  text-white  ">
                         <p className="text-center line-clamp-1">
                           {product.attributes.name}{' '}
                         </p>

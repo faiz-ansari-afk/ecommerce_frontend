@@ -1,7 +1,6 @@
-import Image from 'next/image'
-import { mapToSliderImages } from '@/utils/controller/productController'
+
 import React from 'react'
-import { AutoPlaySlider, Slider } from '@/components/Slider';
+import { AutoPlaySlider } from '@/components/Slider';
 
 function ImageSlider({ images,selectedImage, heightWidth , imageCover='object-cover lg:object-contain'}) {
   // const mappedImages = mapToSliderImages(images)
