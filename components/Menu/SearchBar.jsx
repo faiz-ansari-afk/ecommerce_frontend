@@ -1,23 +1,24 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import {
-  getFilteredProducts,
-  getAllProducts,
+  getFilteredProducts
 } from '@/utils/controller/productController';
 import useSpeechRecognition from '@/utils/hooks/voiceController';
-import { DataContext } from '@/store/globalstate';
+
 import { Menu } from '../Icon';
+import { useRouter } from 'next/router';
 
 const SearchBar = ({
   setSearchedProducts,
   setOpenSearchList,
   setQueryParam,
   setIsKeyboardOpen = null,
+  queryParam
 }) => {
   const [searchKeyword, setSearchKeyword] = useState('');
-
+  const router = useRouter();
   //____________________handle product search when user enter search keyword by keyboard_____________________
   const handleSearchBarText = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     setSearchKeyword(e.target.value);
     setQueryParam(e.target.value.trim());
     if (e.target.value.length === 0) {
@@ -119,7 +120,14 @@ const SearchBar = ({
           id="voice-search"
           className="block w-full rounded-lg  bg-slate-700 p-2.5   pl-10  text-sm text-white placeholder-gray-400 "
           placeholder={placeholder}
-          onKeyUp={(e) => handleSearchBarText(e)}
+          onKeyDown={(e) => {
+            if(e.key === 'Enter') {
+              e.preventDefault(); 
+              handleSearchBarText(e);
+              router.push(`/search?searchQuery=${queryParam}`)
+            }
+            handleSearchBarText(e);
+          }}
           onChange={(e) => setSearchKeyword(e.target.value)}
           value={searchKeyword}
         />

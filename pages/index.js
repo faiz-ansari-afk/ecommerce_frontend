@@ -11,10 +11,10 @@ import { getFilteredProducts } from '@/utils/controller/productController';
 
 import RequestHero from '@/components/RequestHero';
 import { useRouter } from 'next/router';
+import ProductGalleryNoScroll from '@/components/Homepage/ProductGalleryNoScroll';
 
-export default function Home({ homepage, categories, products }) {
+export default function Home({ homepage, categories, products, watchProducts, burqaProducts }) {
   const router = useRouter();
-
   return (
     <>
       <Head>
@@ -32,7 +32,9 @@ export default function Home({ homepage, categories, products }) {
           )}
 
           <ProductsGallery products={products} />
-          <section className="py-32 md:py-24 lg:py-64 flex flex-col justify-center items-center bg-gradient-to-b from-slate-900 via-slate-300   to-white">
+          
+          {burqaProducts && <ProductGalleryNoScroll products={burqaProducts} sectionName="Burqa" />}
+          <section className="pt-8   flex flex-col justify-center items-center bg-gradient-to-b from-slate-900 via-slate-300   to-white">
             <Feature />
           </section>
           {homepage.attributes.SECOND_HERO && (
@@ -43,6 +45,7 @@ export default function Home({ homepage, categories, products }) {
               <BrowseCategories categories={categories} />
             </section>
           )}
+          {watchProducts && <ProductGalleryNoScroll products={watchProducts} sectionName="Watches" />}
           {homepage.attributes.THIRD_HERO && (
             <ClassifyHero hero={homepage.attributes.THIRD_HERO} />
           )}
@@ -79,18 +82,39 @@ export async function getServerSideProps(ctx) {
     pageNumber: 1,
     pageSize: 15,
   });
-  let [homepage, categoriesDetails, products] = [null, null, null];
+  const watchProductsPromise =  getFilteredProducts({
+    collectionName: 'category',
+    attributeNames: ['name'],
+    attributeValues: ['Watches'],
+    operator: '$contains',
+    pagination: false,
+    pageNumber: 1,
+    pageSize:8,
+  });
+  const burqaProductsPromise =  getFilteredProducts({
+    collectionName: 'category',
+    attributeNames: ['name'],
+    attributeValues: ['Burqa'],
+    operator: '$contains',
+    pagination: false,
+    pageNumber: 1,
+    pageSize:8,
+  });
+  let [homepage, categoriesDetails, products, watchProducts, burqaProducts] = [null, null, null, null, null];
   try {
-    [homepage, categoriesDetails, products] = await Promise.all([
+    [homepage, categoriesDetails, products, watchProducts, burqaProducts] = await Promise.all([
       homepagePromise,
       categoriesDetailsPromise,
       productsPromise,
+      watchProductsPromise,
+      burqaProductsPromise
     ]);
 
     // Handle the results
     // Use homepage, categoriesDetails, and products variables here
   } catch (error) {
     // Handle errors
+    console.log("Something went wrong while loading",error)
   }
 
   return {
@@ -98,6 +122,8 @@ export async function getServerSideProps(ctx) {
       homepage: homepage || null,
       categories: categoriesDetails || null,
       products: products || null,
+      watchProducts: watchProducts || null,
+      burqaProducts: burqaProducts || null,
     },
   };
 }

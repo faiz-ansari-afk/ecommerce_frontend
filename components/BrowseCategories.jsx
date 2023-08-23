@@ -4,9 +4,8 @@ import slugify from 'slugify';
 
 const BrowseCategories = ({ categories }) => {
   return (
-    <div className="h-screen relative bg-gradient-to-b from-slate-900 border via-white   to-white   flex flex-col justify-center">
-      {/* <div className="absolute top-0 left-0 right-0 h-4 bg-gradient-to-t  from-transparent to-white"/> */}
-      <h3 className="tracking-wider text-xl text-center uppercase font-[SangblueSans] my-3">
+    <div className="relative bg-gradient-to-b from-slate-900  via-slate-200   to-white rounded-t-xl  flex flex-col justify-center pb-6 ">
+      <h3 className="tracking-wider text-gray-100 text-xl text-center uppercase font-[SangblueSans] my-3 lg:my-6">
         Browse our categories
       </h3>
       {categories ? (

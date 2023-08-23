@@ -5,11 +5,11 @@ import { getCoverImageUrl } from '@/utils/controller/productController';
 import styles from './ProductGallery.module.css';
 const ProductsGallery = ({ products }) => {
   return (
-    <div className={` relative my-auto  w-full`}>
-      <div className={` my-auto  relative px-4 lg:px-12 py-44`}>
+    <div className={` relative   w-full`}>
+      <div className={`   relative px-4 lg:px-12 pb-8 `}>
         <div className={` ${styles.bgRipple} absolute inset-0 z-2`}></div>
         <Link href={`/collections`}>
-          <p className="text-center uppercase my-4 tracking-widest ">
+          <p className="text-xl uppercase pt-8 text-center tracking-widest ">
             Our Newest collections
           </p>
         </Link>
@@ -33,7 +33,7 @@ const ProductsGallery = ({ products }) => {
                           alt={product.attributes.name}
                         />
                       </div>
-                      <div className="absolute w-full rounded-b-lg overflow-hidden  bottom-0 px-4  bg-gray-800  text-white  ">
+                      <div className="absolute w-full rounded-b-lg overflow-hidden  bottom-0 px-4  bg-slate-900  text-gray-200  ">
                         <p className="text-center line-clamp-1">
                           {product.attributes.name}{' '}
                         </p>

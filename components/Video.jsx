@@ -40,7 +40,7 @@ const Video = ({ src, children }) => {
   };
 
   return (
-    <section className="relative  aspect-video lg:h-screen lg:w-full overflow-hidden">
+    <section className="relative  aspect-video  overflow-hidden">
       <video
         ref={ref}
         loop
@@ -77,7 +77,7 @@ const Video = ({ src, children }) => {
           />
         )}
       </span>
-      <div className="absolute inset-0 z-30 grid place-content-center  px-5 text-center lg:px-10">
+      <div className="absolute  bottom-2 right-2 md:right-5 md:bottom-5 lg:bottom-10 lg:right-10 z-30 grid place-content-right   text-center lg:px-10">
         {/* <div className="flex flex-col inline-block "> */}
         {children}
         {/* </div> */}

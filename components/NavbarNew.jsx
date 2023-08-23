@@ -81,7 +81,6 @@ const NavbarNew = ({ isLoginOpen }) => {
     fetchUserDetail();
   }, [cookies.jwt, user?.id]);
 
-
   // hide on scroll
   const [hideNavbar, setHideNavbar] = useState(false);
 
@@ -147,7 +146,9 @@ const NavbarNew = ({ isLoginOpen }) => {
               {links.map((link) => (
                 <li
                   className={`${
-                    router.pathname === link.link ? ' bg-slate-700 rounded text-white' : 'text-gray-400'
+                    router.pathname === link.link
+                      ? ' bg-slate-700 rounded text-white'
+                      : 'text-gray-400'
                   } px-3 py-2 hover:bg-slate-700 hover:rounded transition duration-300 cursor-pointer `}
                   key={link.link}
                 >
@@ -163,6 +164,7 @@ const NavbarNew = ({ isLoginOpen }) => {
               setOpenSearchList={setOpenSearchList}
               setSearchedProducts={setSearchedProducts}
               setQueryParam={setQueryParam}
+              queryParam={queryParam}
             />
             {openSearchList && (
               <div className="hidden lg:block fixed top-[60px] rounded-b-lg shadow-lg shadow-white bg-slate-900 min-w-[400px] max-w-[400px] animate__animated animate__fadeIn ">

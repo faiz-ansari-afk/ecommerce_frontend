@@ -35,11 +35,11 @@ const CoverImageHero = ({ hero }) => {
   }
 
   return (
-    <div className="relative flex justify-center items-center  overflow-hidden w-full py-12">
+    <div className="relative flex justify-center items-center  overflow-hidden w-full rounded-t-lg ">
       {glassmorphism_div?.id && (
         <div style={glassmorphism_div.reactCSSstyle}></div>
       )}
-      <div className="grid  grid-cols-1 md:grid-cols-2 gap-1 md:gap-4 mx-2 md:mx-12 justify-center items-center ">
+      <div className="grid  grid-cols-1 md:grid-cols-2 gap-1 md:gap-4 mx-2 lg:m-6  lg:gap-7 justify-center items-center ">
         <div className="">
           <div className="relative bg-transparent aspect-[4/3.5]  rounded-lg   ">
             <Image
@@ -50,7 +50,7 @@ const CoverImageHero = ({ hero }) => {
               sizes="(max-width: 768px) 100vw,
                               (max-width: 1200px) 50vw,
                               33vw"
-              className={`object-cover`}
+              className={`object-cover rounded-lg`}
             />
           </div>
         </div>

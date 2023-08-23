@@ -38,8 +38,8 @@ const Feature = () => {
     },
   ];
   return (
-    <div className=''>
-      
+    <div className='pb-3 lg:pb-12'>
+      <p className='text-2xl uppercase text-gray-200 tracking-wide mx-3 text-center pb-3'>Our Services</p>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  items-center  justify-center mx-3 gap-3">
         {feature.map((f, i) => (
           <div
@@ -64,10 +64,10 @@ const Feature = () => {
         ))}
       </div>
       {!user && (
-        <div className=" flex justify-center  m-2  mt-32 ">
-          <div className="flex flex-col md:flex-row border  shadow rounded-lg">
+        <div className=" mx-3 lg:flex lg:justify-center    mt-12 ">
+          <div className="flex flex-row border  shadow rounded-lg">
             <div className="flex justify-center">
-              <div className="relative h-[200px] w-[200px]  flex-shrink-0">
+              <div className="relative h-28 w-28 md:h-[200px] md:w-[200px]  flex-shrink-0">
                 <Image
                   src="/loginGif.gif"
                   alt="open box logo"
@@ -79,12 +79,12 @@ const Feature = () => {
                 />
               </div>
             </div>
-            <div className="  rounded-lg m-2 p-2 text-center max-w-lg md:flex justify-center md:flex-col ">
-              <h3 className="text-xl text-center">Welcome to Our Store</h3>
-              <p className="md:text-lg my-2 text-gray-700">
+            <div className="  rounded-lg m-2 md:p-2  max-w-lg md:flex md:justify-center justify-start flex-col ">
+              <h3 className="text-xl text-center hidden md:block">Welcome to <span className='bg-black text-gray-100 px-2 py-1'>Are Baba</span></h3>
+              <p className="md:text-lg md:my-2 text-gray-700 text-left">
                 Please log in to access your account, cart, orders and request.
               </p>
-              <div className="flex  justify-center">
+              <div className="flex mt-1 justify-start md:justify-center">
                 <button
                   className="button-transition w-fit px-9 py-2 uppercase bg-black text-white"
                   onClick={() => {

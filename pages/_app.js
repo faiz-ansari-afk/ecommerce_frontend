@@ -9,8 +9,6 @@ import { updateUserData, getUser } from '@/utils/controller/auth';
 import { pageview } from '@/utils/googleAnalytics';
 import Router from 'next/router';
 
-
-
 import TopBarProgress from 'react-topbar-progress-indicator';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -19,8 +17,7 @@ import NavbarNew from '@/components/NavbarNew';
 import 'animate.css';
 import LoginPopup from '@/components/LoginPopup';
 import Layout from '@/components/Layout';
-
-
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 export default function App({ Component, pageProps }) {
   // progress bar handling
@@ -43,7 +40,7 @@ export default function App({ Component, pageProps }) {
     shadowBlur: 5,
   });
   // __________________
-  
+
   //add cart to user if user logged in
   useEffect(() => async () => {
     // let cart_uid = null;
@@ -82,7 +79,6 @@ export default function App({ Component, pageProps }) {
       }
     }
   });
-
 
   // all error that is not handle by catch function is handle by below code useEffect
   useEffect(() => {
@@ -214,22 +210,20 @@ export default function App({ Component, pageProps }) {
     setIsPWAInstalled(mediaQuery.matches);
   }, []);
 
-// google analytics for each page
-useEffect(() => {
-  const handleRouteChange = (url) => {
-    pageview(url);
-  };
+  // google analytics for each page
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      pageview(url);
+    };
 
-  router.events.on("routeChangeComplete", handleRouteChange);
+    router.events.on('routeChangeComplete', handleRouteChange);
 
-  // If the component is unmounted, unsubscribe
-  // from the event with the `off` method
-  return () => {
-    router.events.off("routeChangeComplete", handleRouteChange);
-  };
-}, [router.events]);
-
-
+    // If the component is unmounted, unsubscribe
+    // from the event with the `off` method
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router.events]);
 
   return (
     <>
@@ -237,8 +231,10 @@ useEffect(() => {
         {progress && <TopBarProgress />}
         <Layout>
           <NavbarNew isLoginOpen={isLoginOpen} />
-          <Component {...pageProps} />
-          {/* {true && <NotificationToast />} */}
+          <ErrorBoundary>
+            <Component {...pageProps} />
+            {/* {true && <NotificationToast />} */}
+          </ErrorBoundary>
           <LoginPopup
             isLoginOpen={isLoginOpen}
             setIsLoginOpen={setIsLoginOpen}

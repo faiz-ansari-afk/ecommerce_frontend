@@ -132,6 +132,7 @@ const SearchBar = ({
           onChange={(e) => {
             setSearchQuery(e.target.value);
           }}
+          onKeyDown={(e)=>{ if(e.key === 'Enter'){e.preventDefault(); handleSearch();}}}
         />
         {searchQuery.length > 0 ? (
           <button

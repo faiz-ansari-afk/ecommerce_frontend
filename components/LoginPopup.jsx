@@ -38,7 +38,7 @@ const LoginPopup = ({ isLoginOpen, setIsLoginOpen }) => {
       {isLoginOpen && (
         <div
           ref={ref}
-          className="fixed inset-0 flex items-center justify-center px-2 h-[550px]  md:max-w-[500px] m-auto md:h-[600px] bg-gradient-to-l from-black to-slate-700 rounded-lg  shadow-md z-[999999]"
+          className="fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2  w-[95%]  h-[70%] md:h-[50%] lg:h-[80%] lg:w-[50%]  bg-gradient-to-l from-black via-slate-800 to-slate-700 rounded-lg  shadow-md z-[999999]"
         >
           <button
             className="text-xl absolute top-0 left-0 py-2 px-4 rounded-tl-lg text-white bg-gray-600 cursor-pointer rounded-br-lg"
@@ -49,7 +49,9 @@ const LoginPopup = ({ isLoginOpen, setIsLoginOpen }) => {
           >
             x
           </button>
-          <Login setIsLoginOpen={setIsLoginOpen} />
+          <div className='flex justify-center items-center  h-full md:w-[50%] mx-auto'>
+            <Login setIsLoginOpen={setIsLoginOpen} />
+          </div>
         </div>
       )}
     </>

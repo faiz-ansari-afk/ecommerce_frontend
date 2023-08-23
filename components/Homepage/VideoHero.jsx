@@ -31,7 +31,7 @@ const VideoHero = ({ hero }) => {
   return (
     <div className=''>
       <Video src={`${hero.video.data.attributes.url}`}>
-        <div className="">
+        {/* <div className="">
           <p className="">
             <span
               className="inline-block "
@@ -43,24 +43,24 @@ const VideoHero = ({ hero }) => {
               {first_title.title}
             </span>
           </p>
-        </div>
+        </div> */}
         {second_title && (
           <div className="">
-            <h1 className={`my-3 `}>
+            <h1 className={``}>
               <span style={second_title.reactCSSstyle}>
                 {second_title.title}
               </span>
             </h1>
           </div>
         )}
-        <div className=" ">
+        {/* <div className=" ">
           <p>
             <span style={description.reactCSSstyle}> {description.title}</span>
           </p>
-        </div>
-        {button.title === 'null' ? null : <div className=" mt-1 ">
+        </div> */}
+        {button.title === 'null' ? null : <div className=" ">
           <Link href={linkUrl} className="">
-            <button className="hover:shadow-lg ">
+            <button className=" ">
               <span style={{ ...button.reactCSSstyle }}>{button.title}</span>
             </button>
           </Link>
