@@ -1,38 +1,94 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Frontend Ecommerce Project - README
 
-## Getting Started
+Welcome to the Frontend Ecommerce project built with Next.js and Strapi! This repository contains the frontend code that powers a feature-rich online shopping experience. Below, you'll find information about the project, its features, and how to get started.
 
-First, run the development server:
+## Table of Contents
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+- [Introduction](#introduction)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Admin Dashboard](#admin-dashboard)
+- [Customer Dashboard](#customer-dashboard)
+- [Contributing](#contributing)
+- [License](#license)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Introduction
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+This project is a comprehensive ecommerce solution that seamlessly integrates the frontend developed with Next.js and the backend powered by Strapi. It offers an array of features to enhance the shopping experience for users while providing convenient management tools for administrators.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## Features
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+1. **Product Management**
+   - Add products with and without sizes, including options for clothing sizes and shoe sizes.
+   
+2. **User Product Requests**
+   - Users can request products, which are subject to review by the owner.
+   - Owner can approve requested products, enabling user interaction through comments.
+   
+3. **Comment Management**
+   - Users can comment on approved requested products.
+   - Admins can moderate comments, banning or deleting inappropriate content.
+   
+4. **Cart Persistence**
+   - User carts are saved to the database, ensuring continuity across sessions.
+   
+5. **Authentication**
+   - Secure user authentication for personalized shopping experiences.
+   
+6. **Shop Management**
+   - Ability to add shops and associate products with them.
+   
+7. **Responsive Design**
+   - Fully responsive layout for mobile, tablet, and laptop users.
+   
+8. **Progressive Web App (PWA)**
+   - Users can install the app for enhanced offline and cache capabilities.
+   
+9. **Firebase Push Notifications (FCM)**
+   - Stay informed with push notifications about orders and updates.
+   
+10. **Number Verification**
+    - OTP-based number verification for enhanced security.
+   
+11. **Search and Filtering**
+    - Basic and advanced search functionalities for products.
+    - Filtering, sorting, and limiting are handled via the backend API.
+   
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+## Admin Dashboard
 
-To learn more about Next.js, take a look at the following resources:
+The admin dashboard provides different privileges based on user roles:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Admins can manage orders and assign delivery personnel.
+- Delivery personnel can update order delivery details and status.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Customer Dashboard
 
-## Deploy on Vercel
+Customers have their own dashboard with the following features:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- View and track orders.
+- Manage personal details and addresses.
+- See requested products.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+
+## Installation
+
+1. Clone this repository to your local machine.
+2. Navigate to the project directory and run `npm install` to install dependencies.
+
+## Usage
+
+1. Run `npm run dev` to start the development server.
+2. Access the application at `http://localhost:3000`.
+
+## Contributing
+
+We welcome contributions from the community! If you find a bug or have an enhancement in mind, please open an issue or submit a pull request.
+
+
+---
+
+Thank you for your interest in our Frontend Ecommerce project! If you have any questions or feedback, please don't hesitate to get in touch. Happy shopping! 🛍️
